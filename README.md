@@ -1,3 +1,5 @@
+Simple Opengl and Imgui application for windows built using CMake
+
 Windows PowerShell (Only works for x64):
 
 To build (In /build directory):
