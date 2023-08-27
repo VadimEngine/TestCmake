@@ -14,4 +14,6 @@ To clean (Remove everything in \build):
 - `.\clean-build.bat`
 
 TODO
-- add soil
+- add SOIL
+
+![alt text](./ScreenShots/Progress1.png)
