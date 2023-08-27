@@ -16,4 +16,4 @@ To clean (Remove everything in \build):
 TODO
 - add SOIL
 
-![alt text](./ScreenShots/Progress1.png)
+![alt text](./ScreenShots/Progress1.PNG)
