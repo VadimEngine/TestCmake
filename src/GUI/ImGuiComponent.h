@@ -15,7 +15,7 @@ public:
 
     virtual ~ImGuiComponent() = 0;
 
-    static void initialize(GLFWwindow* window);
+    static void initializeImGui(GLFWwindow* window);
 
     static void deinitialize();
 

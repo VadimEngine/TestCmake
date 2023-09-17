@@ -17,7 +17,7 @@ class Shader {
 
         ~Shader();
 
-        void use();
+        void bind();
 
         // utility uniform functions
         void setBool(const std::string& name, bool value) const;

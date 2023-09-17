@@ -4,8 +4,7 @@ ImGuiComponent::ImGuiComponent() {}
 
 ImGuiComponent::~ImGuiComponent() {}
 
-void ImGuiComponent::initialize(GLFWwindow* window) {
-    // do this only once?
+void ImGuiComponent::initializeImGui(GLFWwindow* window) {
     const char* glsl_version = "#version 330";
 
     IMGUI_CHECKVERSION();

@@ -1,5 +1,18 @@
 #include "Window.h"
 
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    Window* windowWrapper = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    InputHandler* inputHandler = windowWrapper->getInputHandler();
+    
+    if (action == GLFW_PRESS) {
+        inputHandler->onKeyPressed(key);
+    }
+    if (action == GLFW_RELEASE) {
+        inputHandler->onKeyReleased(key);
+    }
+    // GLFW_REPEAT
+}
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     // make sure the viewport matches the new window dimensions; note that width and 
     // height will be significantly larger than specified on retina displays.
@@ -25,7 +38,7 @@ Window::Window() {
     glfwSetWindowUserPointer(mpGLFWWindow_, this);
     glfwMakeContextCurrent(mpGLFWWindow_);
     glfwSwapInterval(1);
-    // glfwSetKeyCallback(mpGLFWWindow_, keyCallback);
+    glfwSetKeyCallback(mpGLFWWindow_, keyCallback);
     glfwSetFramebufferSizeCallback(mpGLFWWindow_, framebuffer_size_callback);
     // glfwSetWindowFocusCallback(mpGLFWWindow_, windowFocusCallback);
 
@@ -50,4 +63,8 @@ GLFWwindow* Window::getGLFWWindow() const {
 
 bool Window::isRunning() const {
     return !glfwWindowShouldClose(mpGLFWWindow_);
+}
+
+InputHandler* Window::getInputHandler() {
+    return &mInputHandler_;
 }
