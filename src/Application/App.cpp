@@ -2,12 +2,12 @@
 
 App::App() {
     initializeOpenGL();
-    ImGuiComponent::initialize(mWindow_.getGLFWWindow());
-    mpScene_ = new BasicScene();
+    ImGuiComponent::initializeImGui(mWindow_.getGLFWWindow());
+    mpScene_ = new BasicScene(this);
     mpMenuPage_ = new MenuPage();
 }
 
-App::~App() {    
+App::~App() {
     // Clean up
     ImGuiComponent::deinitialize();
     glfwTerminate();
@@ -26,6 +26,7 @@ void App::update() {
     mLastTime_ = std::chrono::high_resolution_clock::now();
     // Update application content
     mWindow_.update(dt.count());
+    mpScene_->update(dt.count());
 }
 
 void App::render() {
@@ -57,7 +58,11 @@ void App::initializeOpenGL() {
     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST); // Enable z-buffer
 
-    // Anti aliasing?
+    // Anti aliasing
     //glfwWindowHint(GLFW_SAMPLES, 4);
     //glEnable(GL_MULTISAMPLE);
+}
+
+Window* App::getWindow() {
+    return &mWindow_;
 }

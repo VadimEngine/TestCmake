@@ -20,14 +20,16 @@ public:
     void run();
 
     void update();
+
     void render();
 
     bool isRunning();
 
-    private:
+    Window* getWindow();
+
+private:
     /**
      * Initialize OpenGL
      */
     static void initializeOpenGL();
-    
 };

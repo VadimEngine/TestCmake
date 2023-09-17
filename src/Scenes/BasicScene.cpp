@@ -1,8 +1,10 @@
 #include "BasicScene.h"
+#include "App.h"
 
-BasicScene::BasicScene() {
+BasicScene::BasicScene(App* theApp)
+    : Scene(theApp), mCamera_({0,0,0}), cameraController(&mCamera_, mpApp_->getWindow()->getInputHandler()) {
 
-    mpShader_ = new Shader("src/Shaders/Simple.vert", "src/Shaders/Simple.frag");
+    mpShader_ = new Shader("src/Shaders/MVPShader.vert", "src/Shaders/MVPShader.frag");
 
     // unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
@@ -25,11 +27,21 @@ BasicScene::BasicScene() {
 }
 
 void BasicScene::update(float dt) {
-
+    cameraController.update(dt);
 }
 
 void BasicScene::render() {
-    mpShader_->use();
+    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 projection = mCamera_.getProjectionMatrix();
+    glm::mat4 view = mCamera_.getViewMatrix();
+
+    // Use Shader so uniforms are set on this shader
+    mpShader_->bind();
+    mpShader_->setMat4("model", model);
+    mpShader_->setMat4("view", view);
+    mpShader_->setMat4("projection", projection);
+    mpShader_->setVec4("uColor", { 1.0f, 0.0f, 0.0f, 1.0f });
+
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
     glDrawArrays(GL_TRIANGLES, 0, 3);
     // glBindVertexArray(0); // no need to unbind it every time 

@@ -13,7 +13,6 @@ Shader::Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath)
     try {
         vShaderFile.open(vertexSourcePath);
         fShaderFile.open(fragmentSourcePath);
-        std::cout << "Shaders opened" << std::endl;
 
         std::stringstream vShaderSteam, fShaderSteam;
 
@@ -82,7 +81,7 @@ Shader::~Shader() {
     glDeleteProgram(mProgramId_);
 }
 
-void Shader::use() {
+void Shader::bind() {
     glUseProgram(mProgramId_);
 }
 

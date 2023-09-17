@@ -2,10 +2,13 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
+class App;
 
 class Scene {
+protected:
+    App* mpApp_;
 public:
-    Scene() = default;
+    Scene(App* theApp);
 
     virtual ~Scene() = default;
     /**
