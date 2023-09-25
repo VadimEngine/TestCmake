@@ -2,26 +2,67 @@
 
 ShadedObject::ShadedObject(Shader* theShader)
 : mpShader_(theShader) {
+    glGenVertexArrays(1, &mVAO_);
+    glGenBuffers(1, &mVBO_);
 
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
+    glBindVertexArray(mVAO_);
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO_);
+    glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, mVertices_.size() * sizeof(float), mVertices_.data(), GL_STATIC_DRAW);
+    glBindVertexArray(0);
+}
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3* sizeof(float)));
-    glEnableVertexAttribArray(1);
+ShadedObject::~ShadedObject() {}
 
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0); 
+template <typename T>
+void ShadedObject::setAttributes(const std::vector<AttribDetail>& attribs) {
+    glBindVertexArray(mVAO_);
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO_);
+    // calculate stride
+    unsigned int strideSize = 0;
+    unsigned int attribElementsCount = 0;
 
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0); 
+    for (unsigned int i = 0; i < attribs.size(); i++) {
+        strideSize += attribs[i].elements * sizeof(T);
+        attribElementsCount += attribs[i].elements;
+    }
+
+    mElementsPerVertex_ = attribElementsCount;
+
+    int lastPointer = 0;
+
+    // assign attributes
+    for (unsigned int i = 0; i < attribs.size(); i++) {
+        glVertexAttribPointer(
+            i,
+            attribs[i].elements,
+            attribs[i].type,
+            attribs[i].normalized,
+            strideSize,
+            (void*)lastPointer
+        );
+        glEnableVertexAttribArray(i);
+        lastPointer += attribs[i].elements * sizeof(T);
+    }
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
+void ShadedObject::setVertices(const std::vector<float>& vertices, const std::vector<float> indices) {
+    glBindVertexArray(mVAO_);
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO_);
+    // Dynamic vs static vs stream?
+    if (vertices.empty()) {
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), nullptr, GL_DYNAMIC_DRAW);
+    } else {
+        glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_DYNAMIC_DRAW);
+    }
+
+    mVertices_ = vertices;
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 void ShadedObject::update(float dt) {}
@@ -50,8 +91,9 @@ void ShadedObject::render(const Camera& theCamera) {
     mpShader_->setMat4("projection", projection);
     // mpShader_->setVec4("uColor", { 1.0f, 0.0f, 0.0f, 1.0f });
 
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(mVAO_);
+    glDrawArrays(GL_TRIANGLES, 0,  mVertices_.size() / mElementsPerVertex_);
+
     // glDrawArraysInstanced
     glBindVertexArray(0);
 }
@@ -73,7 +115,7 @@ void ShadedObject::setScale(glm::vec3 newScale) {
 }
 
 void ShadedObject::setTexture(unsigned int texId) {
-    glBindVertexArray(VAO);
+    glBindVertexArray(mVAO_);
 
     mpShader_->bind();
     glUniform1i(glGetUniformLocation(mpShader_->getProgramId(), "texture0"), 0);
@@ -81,3 +123,7 @@ void ShadedObject::setTexture(unsigned int texId) {
     glBindTexture(GL_TEXTURE_2D, texId);
     mTexId_ = texId;
 }
+
+// instantiate template for expected types
+template void ShadedObject::setAttributes<float>(const std::vector<AttribDetail>& attribs);
+

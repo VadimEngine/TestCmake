@@ -7,7 +7,7 @@ unsigned int Texture::loadTexture(const std::string& texturePath) {
     unsigned char* textureData = SOIL_load_image(texturePath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
 
     if (textureData == nullptr) {
-        std::cout << "ERROR LOADING TEXTURE: " << texturePath << std::endl;
+        LOG_E("ERROR LOADING TEXTURE: %s", textureData);
         throw std::runtime_error("Shader program linking failed");
     }
 

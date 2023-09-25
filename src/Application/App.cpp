@@ -2,6 +2,7 @@
 
 App::App() {
     initializeOpenGL();
+    Model::loadModels();
     ImGuiComponent::initializeImGui(mWindow_.getGLFWWindow());
     mpScene_ = new BasicScene(this);
     mpMenuPage_ = new MenuPage();
@@ -50,7 +51,7 @@ void App::initializeOpenGL() {
 
     GLenum err = glewInit();
     if (GLEW_OK != err) {
-        std::cout << "Glew Init failed" << std::endl;
+        LOG_E("Glew Init failed");
         throw std::runtime_error("GLEW Init error");
     }
     // glEnable(GL_CULL_FACE);// Default is counter clockwise

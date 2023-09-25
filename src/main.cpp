@@ -1,7 +1,8 @@
 #include "App.h"
+#include "Logger.h"
 
 int main() {
-    std::cout << "Starting application" << std::endl;
+    LOG_IV("Starting Application");
 
     App theApp;
     theApp.run();

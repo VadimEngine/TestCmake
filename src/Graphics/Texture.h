@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <SOIL.h>
 #include <stdexcept>
-#include <iostream>
+#include "Logger.h"
 
 class Texture {
 public:

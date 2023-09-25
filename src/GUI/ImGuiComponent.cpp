@@ -17,12 +17,12 @@ void ImGuiComponent::initializeImGui(GLFWwindow* window) {
 
     // Setup Platform/Renderer backends
     if (!ImGui_ImplGlfw_InitForOpenGL(window, true)) {
-        std::cout << "ImGui_ImplGlfw_InitForOpenGL failed" << std::endl;
+        LOG_E("ImGui_ImplGlfw_InitForOpenGL failed");
         throw std::runtime_error("ImGui_ImplGlfw_InitForOpenGL error");
     }
 
     if (!ImGui_ImplOpenGL3_Init(glsl_version)) {
-        std::cout << "ImGui_ImplOpenGL3_Init failed" << std::endl;
+        LOG_E("ImGui_ImplOpenGL3_Init failed");
         throw std::runtime_error("ImGui_ImplOpenGL3_Init error");
     }
 }

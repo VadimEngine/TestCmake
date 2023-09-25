@@ -4,7 +4,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <iostream>
+#include "Logger.h"
 #include <glm/glm.hpp>
 
 class Shader {

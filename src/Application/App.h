@@ -2,10 +2,10 @@
 #define GLEW_STATIC
 #include <chrono>
 #include <GL/glew.h>
-#include <iostream>
 #include "MenuPage.h"
 #include "Window.h"
 #include "BasicScene.h"
+#include "Logger.h"
 
 class App {
 private:
