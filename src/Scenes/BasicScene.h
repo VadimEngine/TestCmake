@@ -3,25 +3,24 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "CameraController.h"
+#include "Texture.h"
+#include "ShadedObject.h"
 
 class App;
 
 class BasicScene : public Scene {
 public:
-
-    float vertices[9] = {
-        -0.5f, -0.5f, -5.0f,
-        0.5f, -0.5f, -5.0f,
-        0.0f,  0.5f, -5.0f
-    }; 
+    unsigned int texId;
 
     Camera mCamera_;
 
     CameraController cameraController;
 
     Shader* mpShader_;
-    
-    unsigned int VBO, VAO;
+
+    ShadedObject* mShadedObject = nullptr;
+    ShadedObject* mShadedObject2 = nullptr;
+
 
     BasicScene(App* theApp);
 

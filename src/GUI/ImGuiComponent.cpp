@@ -10,8 +10,8 @@ void ImGuiComponent::initializeImGui(GLFWwindow* window) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     //disable .ini file generations
     io.IniFilename = nullptr;
 
@@ -58,4 +58,12 @@ void ImGuiComponent::setRemove(const bool remove) {
 
 bool ImGuiComponent::isRemove() const {
     return mIsRemove_;
+}
+
+bool ImGuiComponent::mouseOnGUI() const {
+    return ImGui::GetIO().WantCaptureMouse;
+}
+
+bool ImGuiComponent::keyboardGUIFocus() const {
+    return ImGui::GetIO().WantCaptureKeyboard;
 }

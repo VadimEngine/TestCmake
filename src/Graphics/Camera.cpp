@@ -41,7 +41,6 @@ glm::mat4 Camera::getViewMatrix() const {
     return glm::lookAt(mPosition_, mPosition_ + mForward_, mUp_);
 }
 
-
 glm::vec3 Camera::getRotation() const {
     return mRotation_;
 }

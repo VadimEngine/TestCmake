@@ -28,4 +28,8 @@ public:
     void setRemove(const bool remove);
 
     bool isRemove() const;
+
+    bool mouseOnGUI() const;
+
+    bool keyboardGUIFocus() const;
 };

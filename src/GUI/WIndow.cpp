@@ -1,5 +1,19 @@
 #include "Window.h"
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+	//get width and height
+	int winHeight;
+	int winWidth;
+
+	glfwGetWindowSize(window, &winWidth, &winHeight);
+
+	GLfloat mx = ((2.0f * xpos / winWidth) - 1.0f);
+	GLfloat my = (1.0 - (2.0 * ypos / winHeight));
+	//((Window*)glfwGetWindowUserPointer(window))->getHandler()->mouseCoords = glm::vec2(mx, my);
+	//((Window*)glfwGetWindowUserPointer(window))->getHandler()->setMousePosition(glm::vec2(mx, my));
+
+}
+
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     Window* windowWrapper = static_cast<Window*>(glfwGetWindowUserPointer(window));
     InputHandler* inputHandler = windowWrapper->getInputHandler();
@@ -39,8 +53,17 @@ Window::Window() {
     glfwMakeContextCurrent(mpGLFWWindow_);
     glfwSwapInterval(1);
     glfwSetKeyCallback(mpGLFWWindow_, keyCallback);
+    // 	glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetFramebufferSizeCallback(mpGLFWWindow_, framebuffer_size_callback);
     // glfwSetWindowFocusCallback(mpGLFWWindow_, windowFocusCallback);
+    /*
+    glfwSetWindowUserPointer(window, this);
+    glfwMakeContextCurrent(window);
+    glfwSetKeyCallback(window, key_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
+    glfwSetCursorEnterCallback(window, mouse_enter_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    */
 
 }
 
