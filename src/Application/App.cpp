@@ -2,10 +2,9 @@
 
 App::App() {
     initializeOpenGL();
-    Model::loadModels();
+    Mesh::loadMeshes();
     ImGuiComponent::initializeImGui(mWindow_.getGLFWWindow());
-    mpScene_ = new BasicScene(this);
-    mpMenuPage_ = new MenuPage();
+    mpScene_ = new MenuScene(this);
 }
 
 App::~App() {
@@ -31,11 +30,9 @@ void App::update() {
 }
 
 void App::render() {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(.7f, 0.7f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     mpScene_->render();
-    mpMenuPage_->render();
-    // Render GUI
     mWindow_.render();
 }
 
@@ -43,9 +40,6 @@ bool App::isRunning() {
     return mWindow_.isRunning();
 }
 
-/**
- * Initialize OpenGL
- */
 void App::initializeOpenGL() {
    glewExperimental = true;
 
@@ -62,6 +56,18 @@ void App::initializeOpenGL() {
     // Anti aliasing
     //glfwWindowHint(GLFW_SAMPLES, 4);
     //glEnable(GL_MULTISAMPLE);
+}
+
+void App::quit() {
+    // Set window to close
+    glfwSetWindowShouldClose(mWindow_.getGLFWWindow(), true);
+}
+
+void App::setScene(Scene* newScene) {
+    if (mpScene_ != nullptr) {
+        delete mpScene_;
+    }
+    mpScene_ = newScene;
 }
 
 Window* App::getWindow() {

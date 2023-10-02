@@ -1,26 +1,27 @@
 #pragma once
-#include <GL/glew.h>
+#include "Mesh.h"
+#include "Shader.h"
 #include <vector>
-#include <unordered_map>
 #include <string>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "Logger.h"
 
 class Model {
 public:
-struct AttribDetail {
-    GLint elements;
-    GLenum type;
-    GLboolean normalized;
-};
-public:
-    // TODO have the loaded models store more info like elementsPerVetex and attributes
-    static std::unordered_map <std::string, std::vector<float>> loadedModelsByName;
+    std::vector<Mesh> mMeshes_;
 
-    static void loadModels();
+    Model();
 
-    std::vector<float> mVerticies_;
+    void addMesh(Mesh newMesh);
 
-    unsigned int mElementsPerVertex_ = 0;
+    void loadMesh(std::string meshPath);
 
-    const std::vector<AttribDetail>& attribs;
+    void render(Shader& shader);
 
+private:
+    void processNode(aiNode *node, const aiScene *scene);
+    
+    Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 };

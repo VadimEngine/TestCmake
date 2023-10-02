@@ -2,16 +2,16 @@
 #define GLEW_STATIC
 #include <chrono>
 #include <GL/glew.h>
-#include "MenuPage.h"
 #include "Window.h"
 #include "BasicScene.h"
+#include "MenuScene.h"
+#include "AssimpScene.h"
 #include "Logger.h"
 
 class App {
 private:
     std::chrono::steady_clock::time_point mLastTime_;
-    MenuPage* mpMenuPage_;
-    BasicScene* mpScene_;
+    Scene* mpScene_;
     Window mWindow_;
 public:
     App();
@@ -24,6 +24,10 @@ public:
     void render();
 
     bool isRunning();
+    
+    void quit();
+
+    void setScene(Scene* newScene);
 
     Window* getWindow();
 

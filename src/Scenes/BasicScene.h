@@ -5,21 +5,19 @@
 #include "CameraController.h"
 #include "Texture.h"
 #include "ShadedObject.h"
-
-class App;
+#include "BasicSceneGUI.h"
 
 class BasicScene : public Scene {
 public:
     unsigned int texId;
-
-    Camera mCamera_;
 
     CameraController cameraController;
 
     Shader* mpShader_;
 
     ShadedObject* mShadedObject = nullptr;
-    ShadedObject* mShadedObject2 = nullptr;
+
+    BasicSceneGUI mGui_;
 
 
     BasicScene(App* theApp);

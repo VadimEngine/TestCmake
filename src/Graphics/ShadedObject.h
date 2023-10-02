@@ -9,28 +9,16 @@
 #include "Model.h"
 
 class ShadedObject {
-public:
-    struct AttribDetail {
-        GLint elements;
-        GLenum type;
-        GLboolean normalized;
-    };
-
 private:
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
     glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
     glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
     glm::vec3 mRotationOrigin_ = {0.0f, 0.0f, 0.0f};
 
-    std::vector<float> mVertices_;
-
-    unsigned int mElementsPerVertex_ = 0;
-
+    Model* mModel_= nullptr;
     Shader* mpShader_ = nullptr;
-
-    unsigned int mVBO_, mVAO_;
-
     unsigned int mTexId_;
+
 
 public:
     // TODO set shader in setter instead? Allow making object without a shader??
@@ -38,11 +26,7 @@ public:
 
     ~ShadedObject();
 
-    // TODO this should be in model?
-    template <typename T>
-    void setAttributes(const std::vector<AttribDetail>& attribs);
-    
-    void setVertices(const std::vector<float>& vertices, const std::vector<float> indices);
+    void setModel(Model* theModel);
 
     void update(float dt);
 
@@ -57,4 +41,6 @@ public:
     void setScale(glm::vec3 newScale);
 
     void setTexture(unsigned int texId);
+
+    Shader* getShader();
 };
