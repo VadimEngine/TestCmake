@@ -19,6 +19,9 @@ void MenuGUI::buildImGui() {
     if (ImGui::Button("Assimp Scene")) {
         mpScene_->getApp()->setScene(new AssimpScene(mpScene_->getApp()));
     }
+    if (ImGui::Button("Scene 2d")) {
+        mpScene_->getApp()->setScene(new Scene2d(mpScene_->getApp()));
+    }
     if (ImGui::Button("Exit")) {
         mpScene_->getApp()->quit();
     }

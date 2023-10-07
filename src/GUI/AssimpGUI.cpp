@@ -1,3 +1,4 @@
+#include "App.h"
 #include "AssimpScene.h"
 #include "AssimpGUI.h"
 
@@ -63,6 +64,8 @@ void AssimpGUI::buildImGui() {
         mpScene_->modelScale.y = scale[1];
         mpScene_->modelScale.z = scale[2];
     }
-
+    if (ImGui::Button("Back")) {
+        mpScene_->getApp()->setScene(new MenuScene(mpScene_->getApp()));
+    }
     ImGui::End();
 };

@@ -2,6 +2,7 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include "Camera.h"
+#include "Renderer.h"
 
 class App;
 
@@ -22,7 +23,7 @@ public:
     /**
      * Draw this scene
      */
-    virtual void render() = 0;
+    virtual void render(Renderer& renderer) = 0;
 
     App* getApp();
 

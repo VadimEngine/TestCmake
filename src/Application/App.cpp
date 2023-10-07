@@ -5,6 +5,7 @@ App::App() {
     Mesh::loadMeshes();
     ImGuiComponent::initializeImGui(mWindow_.getGLFWWindow());
     mpScene_ = new MenuScene(this);
+    mRenderer_ = new Renderer();
 }
 
 App::~App() {
@@ -32,7 +33,8 @@ void App::update() {
 void App::render() {
     glClearColor(.7f, 0.7f, 0.7f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    mpScene_->render();
+    //mpScene_->render();
+    mpScene_->render(*mRenderer_);
     mWindow_.render();
 }
 
@@ -56,6 +58,8 @@ void App::initializeOpenGL() {
     // Anti aliasing
     //glfwWindowHint(GLFW_SAMPLES, 4);
     //glEnable(GL_MULTISAMPLE);
+
+    // TODO allow enable/disable vsync
 }
 
 void App::quit() {

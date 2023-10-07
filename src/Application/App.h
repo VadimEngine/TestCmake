@@ -6,13 +6,16 @@
 #include "BasicScene.h"
 #include "MenuScene.h"
 #include "AssimpScene.h"
+#include "Scene2d.h"
 #include "Logger.h"
+#include "Renderer.h"
 
 class App {
 private:
     std::chrono::steady_clock::time_point mLastTime_;
     Scene* mpScene_;
     Window mWindow_;
+    Renderer* mRenderer_ = nullptr;
 public:
     App();
     ~App();

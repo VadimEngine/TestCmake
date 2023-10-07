@@ -16,8 +16,8 @@ void ShadedObject::render(const Camera& theCamera) {
     glm::mat4 projection = theCamera.getProjectionMatrix();
     glm::mat4 view = theCamera.getViewMatrix();
 
-    glBindTexture(GL_TEXTURE_2D, mTexId_);
     mpShader_->bind();
+    glBindTexture(GL_TEXTURE_2D, mTexId_);
 
     // translation matrix for position
     glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), mPosition_);

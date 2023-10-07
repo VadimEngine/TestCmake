@@ -23,6 +23,7 @@ public:
     BasicScene(App* theApp);
 
     void update(const float dt) override;
-    
-    void render() override;
+
+    void render(Renderer& renderer) override;
+
 };

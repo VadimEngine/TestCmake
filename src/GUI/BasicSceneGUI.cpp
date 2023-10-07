@@ -1,3 +1,4 @@
+#include "App.h"
 #include "BasicScene.h"
 #include "BasicSceneGUI.h"
 
@@ -15,5 +16,8 @@ void BasicSceneGUI::buildImGui() {
     ImGui::Text("Basic Scene");
     ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
     ImGui::InputText("Input String", temp, IM_ARRAYSIZE(temp));
+    if (ImGui::Button("Back")) {
+        mpScene_->getApp()->setScene(new MenuScene(mpScene_->getApp()));
+    }
     ImGui::End();
 };

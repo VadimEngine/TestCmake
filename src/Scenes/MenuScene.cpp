@@ -8,6 +8,6 @@ MenuScene::MenuScene(App* theApp)
 
 void MenuScene::update(const float dt) {}
 
-void MenuScene::render() {
+void MenuScene::render(Renderer& renderer) {
     mpMenuPage_->render();
 }

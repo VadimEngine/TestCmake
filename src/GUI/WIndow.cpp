@@ -8,7 +8,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
     glfwGetWindowSize(window, &winWidth, &winHeight);
 
     GLfloat mx = ((2.0f * xpos / winWidth) - 1.0f);
-    GLfloat my = (1.0 - (2.0 * ypos / winHeight));
+    GLfloat my = (1.0f - (2.0f * ypos / winHeight));
     //((Window*)glfwGetWindowUserPointer(window))->getHandler()->mouseCoords = glm::vec2(mx, my);
     //((Window*)glfwGetWindowUserPointer(window))->getHandler()->setMousePosition(glm::vec2(mx, my));
 }

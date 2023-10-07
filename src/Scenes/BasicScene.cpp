@@ -1,6 +1,6 @@
 #include "BasicScene.h"
 #include "App.h"
-
+#include "BasicScene.h"
 #include <iostream>
 
 // TODO look into Batch Sprite Rendering
@@ -26,7 +26,7 @@ void BasicScene::update(float dt) {
     mShadedObject->update(dt);
 }
 
-void BasicScene::render() {
+void BasicScene::render(Renderer& renderer) {
     mpShader_->bind();
 
     // Draw normal
