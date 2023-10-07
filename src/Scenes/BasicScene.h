@@ -3,29 +3,27 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "CameraController.h"
-
-class App;
+#include "Texture.h"
+#include "ShadedObject.h"
+#include "BasicSceneGUI.h"
 
 class BasicScene : public Scene {
 public:
-
-    float vertices[9] = {
-        -0.5f, -0.5f, -5.0f,
-        0.5f, -0.5f, -5.0f,
-        0.0f,  0.5f, -5.0f
-    }; 
-
-    Camera mCamera_;
+    unsigned int texId;
 
     CameraController cameraController;
 
     Shader* mpShader_;
-    
-    unsigned int VBO, VAO;
+
+    ShadedObject* mShadedObject = nullptr;
+
+    BasicSceneGUI mGui_;
+
 
     BasicScene(App* theApp);
 
     void update(const float dt) override;
-    
-    void render() override;
+
+    void render(Renderer& renderer) override;
+
 };

@@ -33,14 +33,24 @@ void Camera::zoom(const float zoomAdjust) {
     }
 }
 
+void Camera::setMode(const CameraMode mode) {
+    mMode_ = mode;
+}
+
+
 glm::mat4 Camera::getProjectionMatrix() const {
-    return glm::perspective(glm::radians(mFOV_), (float)800 / (float)600, 0.1f, 100.0f);
+    if (mMode_ == CameraMode::PERSPECTIVE) {
+        // TODO get the width and height from somewhere instead of magic numbers
+        return glm::perspective(glm::radians(mFOV_), (float)800 / (float)600, 0.1f, 100.0f);
+    } else if (mMode_ == CameraMode::ORTHOGONAL) {
+        return glm::ortho(-2.0f, +2.0f, -1.5f, +1.5f, 0.1f, 100.0f);
+    }
+    return glm::mat4(1);
 }
 
 glm::mat4 Camera::getViewMatrix() const {
     return glm::lookAt(mPosition_, mPosition_ + mForward_, mUp_);
 }
-
 
 glm::vec3 Camera::getRotation() const {
     return mRotation_;
@@ -61,6 +71,11 @@ glm::vec3 Camera::getRight() const {
 float Camera::getFOV() const {
     return mFOV_;
 }
+
+Camera::CameraMode Camera::getMode() const {
+    return mMode_;
+}
+
 
 void Camera::updateCameraVectors() {
     // calculate the new forward vector

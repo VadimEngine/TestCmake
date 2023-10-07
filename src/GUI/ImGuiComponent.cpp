@@ -10,19 +10,19 @@ void ImGuiComponent::initializeImGui(GLFWwindow* window) {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     //disable .ini file generations
     io.IniFilename = nullptr;
 
     // Setup Platform/Renderer backends
     if (!ImGui_ImplGlfw_InitForOpenGL(window, true)) {
-        std::cout << "ImGui_ImplGlfw_InitForOpenGL failed" << std::endl;
+        LOG_E("ImGui_ImplGlfw_InitForOpenGL failed");
         throw std::runtime_error("ImGui_ImplGlfw_InitForOpenGL error");
     }
 
     if (!ImGui_ImplOpenGL3_Init(glsl_version)) {
-        std::cout << "ImGui_ImplOpenGL3_Init failed" << std::endl;
+        LOG_E("ImGui_ImplOpenGL3_Init failed");
         throw std::runtime_error("ImGui_ImplOpenGL3_Init error");
     }
 }
@@ -58,4 +58,12 @@ void ImGuiComponent::setRemove(const bool remove) {
 
 bool ImGuiComponent::isRemove() const {
     return mIsRemove_;
+}
+
+bool ImGuiComponent::mouseOnGUI() const {
+    return ImGui::GetIO().WantCaptureMouse;
+}
+
+bool ImGuiComponent::keyboardGUIFocus() const {
+    return ImGui::GetIO().WantCaptureKeyboard;
 }

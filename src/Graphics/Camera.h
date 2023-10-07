@@ -4,6 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 class Camera {
+public:
+    enum class CameraMode {PERSPECTIVE=0, ORTHOGONAL};
 private:
     glm::vec3 mWorldUp_;
     glm::vec3 mPosition_;
@@ -12,6 +14,8 @@ private:
     glm::vec3 mRight_;
     float mFOV_ = 45.0f;
     glm::vec3 mRotation_ = glm::vec3(0.0, 0.0f, 0.0f);
+    CameraMode mMode_ = CameraMode::PERSPECTIVE;
+
 public:
     Camera(glm::vec3 position);
 
@@ -19,6 +23,7 @@ public:
 
     void update(float dt);
 
+    // TODO Set positions, rotation
     void move(const glm::vec3 dir, const float step);
 
     void rotate(glm::vec3 axis, const float angle);
@@ -26,6 +31,11 @@ public:
     void setFOV(const float newFOV);
 
     void zoom(const float zoomAdjust);
+
+    /**
+     * Set the Camera mode
+     */
+    void setMode(const CameraMode mode);
 
     glm::mat4 getProjectionMatrix() const;
     /**
@@ -48,6 +58,8 @@ public:
     glm::vec3 getRight() const;
 
     float getFOV() const;
+
+    CameraMode getMode() const;
 
 private:
     void updateCameraVectors();
