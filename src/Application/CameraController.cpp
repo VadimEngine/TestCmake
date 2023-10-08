@@ -13,29 +13,29 @@ void CameraController::update(float dt) {
         mpCamera_->rotate({0,0,1}, -20.0f * dt);
     }
     if (mpInputHandler_->isKeyPressed(GLFW_KEY_W)) {
-        mpCamera_->move(mpCamera_->getForward(), .2f * dt);
+        mpCamera_->move(mpCamera_->getForward(), 1.f * dt);
     }
     if (mpInputHandler_->isKeyPressed(GLFW_KEY_S)) {
-        mpCamera_->move(mpCamera_->getForward(), -.2f * dt);
+        mpCamera_->move(mpCamera_->getForward(), -1.f * dt);
     }
     if (mpInputHandler_->isKeyPressed(GLFW_KEY_A)) {
-        mpCamera_->move(mpCamera_->getRight(), -.2f * dt);
+        mpCamera_->move(mpCamera_->getRight(), -1.f * dt);
     }
     if (mpInputHandler_->isKeyPressed(GLFW_KEY_D)) {
-        mpCamera_->move(mpCamera_->getRight(), .2f * dt);
+        mpCamera_->move(mpCamera_->getRight(), 1.f * dt);
     }
 
     if (mpInputHandler_->isKeyPressed(GLFW_KEY_LEFT)) {
-        mpCamera_->rotate({0,1,0}, 2.0f * dt);
+        mpCamera_->rotate({0,1,0}, 20.0f * dt);
     }
     if (mpInputHandler_->isKeyPressed(GLFW_KEY_RIGHT)) {
-        mpCamera_->rotate({0,1,0}, -2.0f * dt);
+        mpCamera_->rotate({0,1,0}, -20.0f * dt);
     }
     if (mpInputHandler_->isKeyPressed(GLFW_KEY_UP)) {
-        mpCamera_->rotate({1,0,0}, 2.0f * dt);
+        mpCamera_->rotate({1,0,0}, 20.0f * dt);
     }
     if (mpInputHandler_->isKeyPressed(GLFW_KEY_DOWN)) {
-        mpCamera_->rotate({1,0,0}, -2.0f * dt);
+        mpCamera_->rotate({1,0,0}, -20.0f * dt);
     }
 
     if (mpInputHandler_->isKeyPressed(GLFW_KEY_PERIOD)) {

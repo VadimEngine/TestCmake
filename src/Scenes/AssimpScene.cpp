@@ -3,11 +3,12 @@
 #include <iostream>
 
 AssimpScene::AssimpScene(App* theApp) 
-     : Scene(theApp), cameraController(getFocusCamera(), mpApp_->getWindow()->getInputHandler()), mGui_(this) {
+     : Scene(theApp), cameraController(getFocusCamera(), mpApp_->getWindow().getInputHandler()), mGui_(this) {
 
     mpShader_ =  new Shader("src/Shaders/Assimp.vert", "src/Shaders/Assimp.frag");
     myModel = new Model();
     myModel->loadMesh("res/Cube.obj");
+    mBackgroundColor_ = {.4,.4,.4,1};
 }
 
 void AssimpScene::update(const float dt) {

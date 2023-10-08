@@ -4,7 +4,7 @@
 
 Scene2dGUI::Scene2dGUI(Scene2d* theScene) 
     : mpScene_(theScene) {
-
+    bool mVsyncEnabled_ =  mpScene_->getApp()->getWindow().getGLFWSwapInterval();;
 }
 
 Scene2dGUI::~Scene2dGUI() {
@@ -17,12 +17,15 @@ void Scene2dGUI::buildImGui() {
     ImGui::Begin("Settings");
     ImGui::Text("Scene 2D");
     ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
+    if (ImGui::Checkbox("vSync", &mVsyncEnabled_)) {
+        mpScene_->getApp()->getWindow().setVSync(mVsyncEnabled_);
+    }
     ImGui::Separator();
 
     // TODO sprite position and rotation
-    // TODO camera properies (perspective and orthogonal)
-
+    // TODO not static
     static int cameraMode = static_cast<int>(mpScene_->getFocusCamera()->getMode());
+
 
     ImGui::Text("Camera");
     ImGui::Text("Camera Mode");

@@ -87,6 +87,15 @@ bool Window::isRunning() const {
     return !glfwWindowShouldClose(mpGLFWWindow_);
 }
 
+void Window::setVSync(const bool enabled) {
+    mSwapInterval_ = static_cast<int>(enabled);
+    glfwSwapInterval(mSwapInterval_);
+}
+
+int Window::getGLFWSwapInterval() {
+    return mSwapInterval_;
+}
+
 InputHandler* Window::getInputHandler() {
     return &mInputHandler_;
 }

@@ -6,7 +6,7 @@
 // TODO look into Batch Sprite Rendering
 
 BasicScene::BasicScene(App* theApp)
-    : Scene(theApp), cameraController(getFocusCamera(), mpApp_->getWindow()->getInputHandler()), mGui_(this) {
+    : Scene(theApp), cameraController(getFocusCamera(), mpApp_->getWindow().getInputHandler()), mGui_(this) {
 
     mpShader_ = new Shader("src/Shaders/MVPTexShader.vert", "src/Shaders/MVPTexShader.frag");
 

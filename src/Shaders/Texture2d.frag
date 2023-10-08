@@ -8,8 +8,8 @@ uniform sampler2D texture0;
 uniform sampler2D texture1;
 
 uniform bool uDrawSubImage = false;
-uniform vec2 uSpriteGridIndex;// = vec2(0,0);
-uniform vec2 uSheetSize;// = vec2(128,128);
+uniform vec2 uSpriteGridIndex;
+uniform vec2 uSheetSize;
 uniform vec2 uSpriteSize;// = vec2(16,16);
 
 // TODO alpha colors

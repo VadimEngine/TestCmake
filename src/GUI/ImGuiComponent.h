@@ -7,6 +7,8 @@
 #include <stdexcept>
 
 class ImGuiComponent {
+private:
+    static bool sImguiInitialized_;
 protected:
     bool mIsRemove_ = false;
 

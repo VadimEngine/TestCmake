@@ -47,19 +47,19 @@ void AssimpGUI::buildImGui() {
         mpScene_->modelScale.z
     };
     ImGui::Text("Model:");
-    if (ImGui::SliderFloat3("Position##Model", position, -10.f, 10.f, "%.2f", 0.1f)) {
+    if (ImGui::SliderFloat3("Position##Model", position, -10.f, 10.f, "%.2f")) {
         mpScene_->modelPosition.x = position[0];
         mpScene_->modelPosition.y = position[1];
         mpScene_->modelPosition.z = position[2];
     }
 
-    if (ImGui::SliderFloat3("Rotation##Model", rotation, -10.f, 10.f, "%.2f", 0.1f)) {
+    if (ImGui::SliderFloat3("Rotation##Model", rotation, -10.f, 10.f, "%.2f")) {
         mpScene_->modelRotation.x = rotation[0];
         mpScene_->modelRotation.y = rotation[1];
         mpScene_->modelRotation.z = rotation[2];
     }
 
-    if (ImGui::SliderFloat3("Scale##Model", scale, -10.f, 10.f, "%.2f", 0.1f)) {
+    if (ImGui::SliderFloat3("Scale##Model", scale, -10.f, 10.f, "%.2f")) {
         mpScene_->modelScale.x = scale[0];
         mpScene_->modelScale.y = scale[1];
         mpScene_->modelScale.z = scale[2];

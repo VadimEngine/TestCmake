@@ -12,31 +12,52 @@
 
 class App {
 private:
+    /** If OpenGL is already initalized. Used to prevent redundant initialization  */
+    static bool sOpenGLInitialized_;
+    /** Time of last update call */
     std::chrono::steady_clock::time_point mLastTime_;
-    Scene* mpScene_;
+    /** The window for this application*/
     Window mWindow_;
-    Renderer* mRenderer_ = nullptr;
+    /** The current Scene of the application*/
+    Scene* mpScene_ = nullptr;
+    /** Renderer used to*/
+    Renderer* mpRenderer_ = nullptr;
+
 public:
+    /** Default Constructor */
     App();
+    
+    /** Destructor */
     ~App();
     
+    /** Start and do the run loop */
     void run();
-
+    
+    /** Update the application components */
     void update();
-
+    
+    /** Render the application components */
     void render();
 
-    bool isRunning();
+    /** If the application is currently running */
+    bool isRunning() const;
     
+    /**
+     * Quits the application. Quit should be handled by the App and not the window to ensure
+     * proper closure of the application
+     */
     void quit();
 
+    /** Set the current Scene of the application */
     void setScene(Scene* newScene);
+    
+    /** Set Anti-Aliasing sample size. If the size is 0 then anti aliasing is disabled*/
+    void setAntiAliasing(unsigned int sampleSize);
 
-    Window* getWindow();
+    /** Get Application Window */
+    Window& getWindow();
 
 private:
-    /**
-     * Initialize OpenGL
-     */
+    /** Initialize OpenGL if not already initialized */
     static void initializeOpenGL();
 };

@@ -6,12 +6,14 @@
 #include "InputHandler.h"
 
 class Window {
+private:
     static constexpr unsigned int SCR_WIDTH = 800;
     static constexpr unsigned int SCR_HEIGHT = 600;
 
     GLFWwindow* mpGLFWWindow_ = nullptr;
 
     InputHandler mInputHandler_;
+    unsigned int mSwapInterval_ = 1;
 
 public:
     Window();
@@ -25,6 +27,11 @@ public:
     GLFWwindow* getGLFWWindow() const;
 
     bool isRunning() const;
+
+    void setVSync(const bool enabled);
+
+    int getGLFWSwapInterval();
+
 
     InputHandler* getInputHandler();
 
