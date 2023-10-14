@@ -9,7 +9,7 @@ App::App() {
     Mesh::loadMeshes();
     // Create Scene and renderer (must be called after OpenGL is initialized)
     mpRenderer_ = new Renderer();
-    mpScene_ = new MenuScene(this);
+    mScenes_.push_back(new MenuScene(*this));
 }
 
 App::~App() {
@@ -17,7 +17,6 @@ App::~App() {
     ImGuiComponent::deinitialize();
     glfwTerminate();
     delete mpRenderer_;
-    delete mpScene_;
 }
 
 void App::run() {
@@ -34,16 +33,30 @@ void App::update() {
     mLastTime_ = std::chrono::high_resolution_clock::now();
     // Update application content
     mWindow_.update(dt.count());
-    mpScene_->update(dt.count());
+    // Update list in reverse order and delete any marked for removal
+    for (auto it = mScenes_.rbegin(); it != mScenes_.rend();) {
+        if ((*it)->isRemove()) {
+            it = std::list<Scene*>::reverse_iterator(mScenes_.erase(std::next(it).base()));
+        } else {
+            (*it)->update(dt.count());
+            it++;
+        }
+    }
 }
 
 void App::render() {
     // Set background color from scene
-    glm::vec4 sceneBackgroundColor = mpScene_->getBackgroundColor();
-    glClearColor(sceneBackgroundColor.r, sceneBackgroundColor.g, sceneBackgroundColor.b, sceneBackgroundColor.a);
+    if (!mScenes_.empty()) {
+        glm::vec4 sceneBackgroundColor = mScenes_.front()->getBackgroundColor();
+        glClearColor(sceneBackgroundColor.r, sceneBackgroundColor.g, sceneBackgroundColor.b, sceneBackgroundColor.a);
+    } else {
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    }
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //mpScene_->render();
-    mpScene_->render(*mpRenderer_);
+    // Render list in reverse order
+    for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); it++) {
+       (*it)->render(*mpRenderer_);
+    }
     mWindow_.render();
 }
 
@@ -59,11 +72,7 @@ void App::quit() {
 }
 
 void App::setScene(Scene* newScene) {
-    // Delete old Scene and set the new Scene
-    if (mpScene_ != nullptr) {
-        delete mpScene_;
-    }
-    mpScene_ = newScene;
+    mScenes_.push_back(newScene);
 }
 
 Window& App::getWindow() {
@@ -93,9 +102,8 @@ void App::initializeOpenGL() {
         }
         glEnable(GL_CULL_FACE);// Default is counter clockwise
         // Enable alpha drawing
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_DEPTH_TEST); // Enable z-buffer
-
 
         sOpenGLInitialized_ = true;
     }

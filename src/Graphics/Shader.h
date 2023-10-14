@@ -10,16 +10,21 @@
 class Shader {
 public:
 private:
+    /** Program Id for this Shader*/
     GLuint mProgramId_;
 public:
-
-    // TODO loaded shaders list
-
+    /**
+     * Constructor
+     * \param vertexSourcePath Path the vertex Shader path
+     * \param fragmentSourcePath Path to fragment Shader path
+     */
     Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
 
+    /** Destructor */
     ~Shader();
 
-    void bind();
+    /** Bind the shader*/
+    void bind() const;
 
     // utility uniform functions
     void setBool(const std::string& name, bool value) const;
@@ -35,5 +40,6 @@ public:
     void setMat3(const std::string& name, const glm::mat3& mat) const;
     void setMat4(const std::string& name, const glm::mat4& mat) const;
 
+    /** Get the shader program Id*/
     GLuint getProgramId() const;
 };

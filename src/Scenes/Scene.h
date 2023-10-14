@@ -10,31 +10,57 @@ class App;
 
 class Scene {
 protected:
-    App* mpApp_;
-    Camera* mFocusCamera_;
+    /** Parent app handling this Scene*/
+    App& mApp_;
+    /** The current focused camera the scene is rendered through*/
+    Camera* mpFocusCamera_;
+    /** Background color when rendering this scene */
     glm::vec4 mBackgroundColor_ = {0.0f, 0.0f, 0.0f, 1.0f};
+    /** If this scene should be deleted */
+    bool mIsRemove_ = false;
 
 public:
-    Scene(App* theApp, glm::vec3 cameraPosition = {0,0,0} );
+    /**  
+     * Constructor
+     * \param theApp Parent app handling this Scene
+     */
+    Scene(App& theApp);
 
+    /** Destructor */
     virtual ~Scene() = default;
+    
     /**
      * Update scene content
-     * 
-     * \param dt time since last update
+     * \param dt time since last update in seconds
      */
     virtual void update(const float dt) = 0;
+    
     /**
-     * Draw this scene
+     * Render this scene
+     * \param renderer Rendering helper
      */
     virtual void render(Renderer& renderer) = 0;
 
+    /**
+     * Set the Scene background color
+     * \param newColor background color
+     */
     void setBackgroundColor(glm::vec4 newColor);
 
+    /**
+     * Get this Scene background color 
+     */
     glm::vec4 getBackgroundColor() const;
 
-    App* getApp();
+    /** Get this Scene's parent App */
+    App& getApp();
 
+    /** Get the current focused Camera */
     Camera* getFocusCamera();
 
+    /** Set this Scene to be deleted */
+    void setRemove(const bool remove);
+
+    /** If this scene is set for removal */
+    bool isRemove() const;
 };

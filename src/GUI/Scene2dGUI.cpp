@@ -2,50 +2,50 @@
 #include "Scene2d.h"
 #include "Scene2dGUI.h"
 
-Scene2dGUI::Scene2dGUI(Scene2d* theScene) 
-    : mpScene_(theScene) {
-    bool mVsyncEnabled_ =  mpScene_->getApp()->getWindow().getGLFWSwapInterval();;
+Scene2dGUI::Scene2dGUI(Scene2d& theScene) 
+    : mScene_(theScene) {
+    mVSyncEnabled_ =  mScene_.getApp().getWindow().getGLFWSwapInterval();
+    mCameraMode_ = static_cast<int>(mScene_.getFocusCamera()->getMode());
 }
 
-Scene2dGUI::~Scene2dGUI() {
-
-}
+Scene2dGUI::~Scene2dGUI() {}
 
 void Scene2dGUI::buildImGui() {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImVec2(250, 480), ImGuiCond_FirstUseEver);
     ImGui::Begin("Settings");
     ImGui::Text("Scene 2D");
+    if (ImGui::Button("Back")) {
+        mScene_.getApp().setScene(new MenuScene(mScene_.getApp()));
+        mScene_.setRemove(true);
+    }
     ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
-    if (ImGui::Checkbox("vSync", &mVsyncEnabled_)) {
-        mpScene_->getApp()->getWindow().setVSync(mVsyncEnabled_);
+
+    if (ImGui::Checkbox("vSync", &mVSyncEnabled_)) {
+        mScene_.getApp().getWindow().setVSync(mVSyncEnabled_);
     }
     ImGui::Separator();
-
     // TODO sprite position and rotation
-    // TODO not static
-    static int cameraMode = static_cast<int>(mpScene_->getFocusCamera()->getMode());
-
 
     ImGui::Text("Camera");
     ImGui::Text("Camera Mode");
-    if (ImGui::RadioButton("Perspective", &cameraMode, 0)) {
-        mpScene_->getFocusCamera()->setMode(static_cast<Camera::CameraMode>(cameraMode));
+    if (ImGui::RadioButton("Perspective", &mCameraMode_, 0)) {
+        mScene_.getFocusCamera()->setMode(static_cast<Camera::CameraMode>(mCameraMode_));
     }
     ImGui::SameLine();
-    if (ImGui::RadioButton("Orthogonal", &cameraMode, 1)) {
-        mpScene_->getFocusCamera()->setMode(static_cast<Camera::CameraMode>(cameraMode));
+    if (ImGui::RadioButton("Orthogonal", &mCameraMode_, 1)) {
+        mScene_.getFocusCamera()->setMode(static_cast<Camera::CameraMode>(mCameraMode_));
     }
 
     ImGui::Text("Camera Movement");
-    glm::vec3 camPosition = mpScene_->getFocusCamera()->getPosition();
+    glm::vec3 camPosition = mScene_.getFocusCamera()->getPosition();
     ImGui::Text(
         "Position: %.2f %.2f %.2f",
         camPosition.x,
         camPosition.y,
         camPosition.z
     );
-    glm::vec3 camForward = mpScene_->getFocusCamera()->getForward();
+    glm::vec3 camForward = mScene_.getFocusCamera()->getForward();
     ImGui::Text(
         "Direction: %.2f %.2f %.2f",
         camForward.x,
@@ -54,7 +54,7 @@ void Scene2dGUI::buildImGui() {
     );
     ImGui::Text(
         "FOV: %.2f",
-        mpScene_->getFocusCamera()->getFOV()
+        mScene_.getFocusCamera()->getFOV()
     );
 
     ImGui::Separator();
@@ -95,8 +95,5 @@ void Scene2dGUI::buildImGui() {
         mpScene_->mSprite2d_.mScale_.z = scale[2];
     }
     */
-    if (ImGui::Button("Back")) {
-        mpScene_->getApp()->setScene(new MenuScene(mpScene_->getApp()));
-    }
     ImGui::End();
 }

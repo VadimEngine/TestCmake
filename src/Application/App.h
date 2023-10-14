@@ -18,8 +18,8 @@ private:
     std::chrono::steady_clock::time_point mLastTime_;
     /** The window for this application*/
     Window mWindow_;
-    /** The current Scene of the application*/
-    Scene* mpScene_ = nullptr;
+    /** The current Scenes of the application. List to allow controlled scene deleting */
+    std::list<Scene*> mScenes_;
     /** Renderer used to*/
     Renderer* mpRenderer_ = nullptr;
 
@@ -48,10 +48,16 @@ public:
      */
     void quit();
 
-    /** Set the current Scene of the application */
+    /**
+     *  Set the current Scene of the application
+     * \param newScene The new Scene
+     */
     void setScene(Scene* newScene);
     
-    /** Set Anti-Aliasing sample size. If the size is 0 then anti aliasing is disabled*/
+    /** 
+     * Set Anti-Aliasing sample size. If the size is 0 then anti aliasing is disabled
+     * \param sampleSize Anti aliasing sample size (if 0 then anti aliasing is disabled)
+     */
     void setAntiAliasing(unsigned int sampleSize);
 
     /** Get Application Window */

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-# set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 project(Sandbox)
 
 # Add an option for the build mode (x64 or Win32)
@@ -20,6 +20,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/Graphics
     ${CMAKE_SOURCE_DIR}/src/GUI
     ${CMAKE_SOURCE_DIR}/src/Scenes
+    ${CMAKE_SOURCE_DIR}/src/Entities
 )
 
 # Collect all .cpp and .h files from the src directory

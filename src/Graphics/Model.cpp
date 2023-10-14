@@ -1,22 +1,20 @@
 #include "Model.h"
-#include <iostream>
 
-Model::Model() {
-
-}
+Model::Model() {}
 
 void Model::addMesh(Mesh newMesh){
     mMeshes_.push_back(newMesh);
 }
 
-void Model::loadMesh(std::string meshPath) {
+void Model::loadMesh(const std::string& meshPath) {
     Assimp::Importer import;
     const aiScene *scene = import.ReadFile(meshPath, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
 
-    if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
         LOG_E("ERROR::ASSIMP::%s", import.GetErrorString());
         return;
     }
+    // Process the Assimp node and add to mMeshes_
     processNode(scene->mRootNode, scene);
 }
 
@@ -42,7 +40,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
     std::vector<Mesh::Vertex> vertices;
     std::vector<unsigned int> indices;
 
-  for(unsigned int i = 0; i < mesh->mNumVertices; i++) {
+    for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
         Mesh::Vertex vertex;
         glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
         // positions
@@ -96,11 +94,11 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene) {
         aiFace face = mesh->mFaces[i];
         // retrieve all indices of the face and store them in the indices vector
         for(unsigned int j = 0; j < face.mNumIndices; j++) {
-            indices.push_back(face.mIndices[j]);        
+            indices.push_back(face.mIndices[j]);
         }
     }
 
-    // TODO material/texture stuff
+    // TODO material/texture logic
 
     return Mesh(vertices, indices);
 }

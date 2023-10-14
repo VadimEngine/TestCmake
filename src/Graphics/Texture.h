@@ -8,5 +8,6 @@
 
 class Texture {
 public:
+    /** Load a texture from a file and return the OpenGL Texture Id */
     static unsigned int loadTexture(const std::string& texturePath);
 };

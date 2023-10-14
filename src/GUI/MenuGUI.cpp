@@ -2,8 +2,8 @@
 #include "MenuGUI.h"
 #include "MenuScene.h"
 
-MenuGUI::MenuGUI(MenuScene* theScene) 
-    : mpScene_(theScene) {}
+MenuGUI::MenuGUI(MenuScene& theScene) 
+    : mScene_(theScene) {}
 
 MenuGUI::~MenuGUI() {}
 
@@ -14,16 +14,21 @@ void MenuGUI::buildImGui() {
     ImGui::Text("OpenGL Menu");
 
     if (ImGui::Button("Basic Scene")) {
-        mpScene_->getApp()->setScene(new BasicScene(mpScene_->getApp()));
+        mScene_.getApp().setScene(new BasicScene(mScene_.getApp()));
+        mScene_.setRemove(true);
     }
     if (ImGui::Button("Assimp Scene")) {
-        mpScene_->getApp()->setScene(new AssimpScene(mpScene_->getApp()));
+        mScene_.getApp().setScene(new AssimpScene(mScene_.getApp()));
+        mScene_.setRemove(true);
     }
     if (ImGui::Button("Scene 2d")) {
-        mpScene_->getApp()->setScene(new Scene2d(mpScene_->getApp()));
+        mScene_.getApp().setScene(new Scene2d(mScene_.getApp()));
+        mScene_.setRemove(true);
+
     }
     if (ImGui::Button("Exit")) {
-        mpScene_->getApp()->quit();
+        mScene_.getApp().quit();
+        mScene_.setRemove(true);
     }
 
     ImGui::End();

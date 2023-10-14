@@ -8,28 +8,50 @@
 #include "AssimpGUI.h"
 #include "Mesh.h"
 #include "Model.h"
+#include "Entity.h"
+#include "ModelRenderable.h"
 
+// Forward Declare App
 class App;
 
 class AssimpScene : public Scene {
-public:
-    unsigned int texId;
-
+private:
+    /** The shader to draw the model in this scene */
     Shader* mpShader_ = nullptr;
 
-    Model* myModel = nullptr;
+    /** Assimp model in this Scene*/
+    Model mModel_;
 
-    CameraController cameraController;
-
+    /** Camera Controller */
+    CameraController mCameraController_;
+    
+    /** GUI for this Scene*/
     AssimpGUI mGui_;
+    
+    /** Entities this Scene is Rendering*/
+    std::vector<Entity*> mEntities_;
 
-    glm::vec3 modelPosition = {0,0,0};
-    glm::vec3 modelRotation = {0,0,0};
-    glm::vec3 modelScale = {1,1,1};
+public:
+    /**
+     * Constructor
+     * \param theApp The App holding this Scene
+     */
+    AssimpScene(App& theApp);
 
-    AssimpScene(App* theApp);
+    /** Destructor */
+    ~AssimpScene();
 
+    /** 
+     * Update the Scene
+     * \param dt Time since last update in seconds
+     */
     void update(const float dt) override;
 
+    /**
+     * Render this scene
+     * \param renderer Rendering helper
+     */
     void render(Renderer& renderer) override;
+
+    std::vector<Entity*>& getEntities();
 };

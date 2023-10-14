@@ -1,13 +1,15 @@
 #include "MenuScene.h"
 #include "App.h"
 
-MenuScene::MenuScene(App* theApp)
-    : Scene(theApp) {
-    mpMenuPage_ = new MenuGUI(this);
+MenuScene::MenuScene(App& theApp)
+    : Scene(theApp), mGui_(*this) {}
+
+MenuScene::~MenuScene() {
+    delete mpFocusCamera_;
 }
 
 void MenuScene::update(const float dt) {}
 
 void MenuScene::render(Renderer& renderer) {
-    mpMenuPage_->render();
+    mGui_.render();
 }

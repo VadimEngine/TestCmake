@@ -15,13 +15,13 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     Window* windowWrapper = static_cast<Window*>(glfwGetWindowUserPointer(window));
-    InputHandler* inputHandler = windowWrapper->getInputHandler();
+    InputHandler& inputHandler = windowWrapper->getInputHandler();
     
     if (action == GLFW_PRESS) {
-        inputHandler->onKeyPressed(key);
+        inputHandler.onKeyPressed(key);
     }
     if (action == GLFW_RELEASE) {
-        inputHandler->onKeyReleased(key);
+        inputHandler.onKeyReleased(key);
     }
     // GLFW_REPEAT
 }
@@ -63,10 +63,10 @@ Window::Window() {
     glfwSetCursorEnterCallback(window, mouse_enter_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     */
-
 }
 
 Window::~Window() {
+    glfwDestroyWindow(mpGLFWWindow_);
     glfwTerminate();
 }
 
@@ -96,6 +96,6 @@ int Window::getGLFWSwapInterval() {
     return mSwapInterval_;
 }
 
-InputHandler* Window::getInputHandler() {
-    return &mInputHandler_;
+InputHandler& Window::getInputHandler() {
+    return mInputHandler_;
 }

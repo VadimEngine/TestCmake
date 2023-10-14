@@ -1,39 +1,10 @@
 #include "Mesh.h"
 
-std::unordered_map<std::string, Mesh> Mesh::loadedMeshByName;
+std::unordered_map<std::string, const Mesh> Mesh::sLoadedMeshByName_;
 
 void Mesh::loadMeshes() {
     // TODO make these const?
-    loadedMeshByName.emplace("Cube", Mesh(
-        std::vector<Vertex>{
-            {{ -1.f, -1.f, 1.f},{0,0,0},{0,0},{0,0,0},{0,0,0}}, //0
-            {{ 1.f, -1.f, 1.f},{0,0,0},{0,0},{0,0,0},{0,0,0}}, //1
-            {{ 1.f, 1.f, 1.f},{0,0,0},{0,0},{0,0,0},{0,0,0}}, //2
-            {{ -1.f, 1.f, 1.f},{0,0,0},{0,0},{0,0,0},{0,0,0}}, //3
-
-            {{ -1.f, -1.f, -1.f},{0,0,0},{0,0},{-1,0,0},{0,0,0}}, //4
-            {{ 1.f, -1.f, -1.f},{0,0,0},{0,0},{0,0,0},{0,0,0}}, //5
-            {{ 1.f, 1.f, -1.f},{0,0,0},{0,0},{0,0,0},{0,0,0}}, //6
-            {{ -1.f, 1.f, -1.f},{0,0,0},{0,0},{0,0,0},{0,0,0}}, //7
-
-        },
-        std::vector<unsigned int>{
-            4,5,6,
-            6,7,4,
-            0,1,3,
-            2,3,0,
-            3,7,4,
-            4,0,3,
-            2,6,5,
-            5,1,2,
-            4,5,1,
-            1,0,4,
-            7,6,2,
-            2,3,7
-        }
-    ));
-
-    loadedMeshByName.emplace("Cube2", Mesh(
+    sLoadedMeshByName_.emplace("Cube", Mesh(
         std::vector<Vertex>{
             {{-1.f, -1.f, -1.0f}, {0.0f,  0.0f, -1.0f},  {0.0f,  0.0f},{0,0,0},{0,0,0}},
             {{1.f, -1.f, -1.f}, {0.0f,  0.0f, -1.0f},  {1.0f,  0.0f},{0,0,0},{0,0,0}},
@@ -92,7 +63,7 @@ void Mesh::loadMeshes() {
             33,34,35
         }
     ));
-    loadedMeshByName.emplace("Plane", Mesh(
+    sLoadedMeshByName_.emplace("Plane", Mesh(
         std::vector<Vertex>{
             {{-1.f, -1.f, 0.0f}, {0.0f,  0.0f, -1.0f},  {0.0f,  0.0f},{0,0,0},{0,0,0}},
             {{1.f, -1.f, 0.0f}, {0.0f,  0.0f, -1.0f},  {1.0f,  0.0f},{0,0,0},{0,0,0}},
@@ -106,6 +77,14 @@ void Mesh::loadMeshes() {
             3,4,5,
         }
     ));
+}
+
+const std::optional<Mesh> Mesh::getLoadedMesh(const std::string& meshName) {
+    if (sLoadedMeshByName_.find(meshName) != sLoadedMeshByName_.end()) {
+        return sLoadedMeshByName_.find("Cube")->second;
+    } else {
+        return {};
+    }
 }
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices) {
@@ -129,9 +108,7 @@ void Mesh::buildOpenGLproperties() {
     glBindVertexArray(mVAO);
     // load data into vertex buffers
     glBindBuffer(GL_ARRAY_BUFFER, mVBO_);
-    // A great thing about structs is that their memory layout is sequential for all its items.
-    // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
-    // again translates to 3/2 floats which translates to a byte array.
+    // bind vertices
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);  
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO_);
