@@ -6,20 +6,42 @@
 #include <sstream>
 #include "Logger.h"
 #include <glm/glm.hpp>
+#include <optional>
+#include "unordered_map"
 
 class Shader {
-public:
 private:
+    /** Map to hold loaded Textures */
+    static std::unordered_map<std::string, const Shader*> sLoadedShaderByName_;
+public:
+    /** Load the preset list of Shaders */
+    static void loadShaders();
+
+    /** 
+     * Get a loaded Shader if it exists
+     * \param textureName Name of the loaded Shader
+     */
+    static const Shader* getLoadedShader(const std::string& shaderName);
+
+    /** Delete the loaded shaders */
+    static void releaseShaders();
+
+private:
+    /** Program Id for this Shader*/
     GLuint mProgramId_;
 public:
-
-    // TODO loaded shaders list
-
+    /**
+     * Constructor
+     * \param vertexSourcePath Path the vertex Shader path
+     * \param fragmentSourcePath Path to fragment Shader path
+     */
     Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
 
+    /** Destructor */
     ~Shader();
 
-    void bind();
+    /** Bind the shader*/
+    void bind() const;
 
     // utility uniform functions
     void setBool(const std::string& name, bool value) const;
@@ -35,5 +57,6 @@ public:
     void setMat3(const std::string& name, const glm::mat3& mat) const;
     void setMat4(const std::string& name, const glm::mat4& mat) const;
 
+    /** Get the shader program Id*/
     GLuint getProgramId() const;
 };

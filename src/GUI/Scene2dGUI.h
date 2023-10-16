@@ -2,29 +2,44 @@
 #include "ImGuiComponent.h"
 #include <vector>
 
+// Forward declare Scene
 class Scene2d;
 
 class Scene2dGUI : public ImGuiComponent {
 private:
-    Scene2d* mpScene_ = nullptr;
+    /** The Scene this GUI is for */
+    Scene2d& mScene_;
+    
+    /** If the GUI is set to enable VSync */
+    bool mVSyncEnabled_;
 
-    // TODO move this to 1 place or make static since this is always the same
-    std::vector<float> mVertices_ = {
-        // position     // uv
-        0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+    /** The Camera Mode this GUI applies*/
+    int mCameraMode_;
 
-        0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 0.0f, 1.0f, 0.0f
-    };
+    /** The Entity index selected from the Entity List */
+    int mSelectedEntityIndex_ = 0;
+
+    /** The Renderable index selected from the Entity List */
+    int mSelectedRenderableIndex_ = 0;
+
 
 public:
-    Scene2dGUI(Scene2d* theScene);
+    /** 
+     * Constructor
+     * \param theScene The scene this gui is for
+     */
+    Scene2dGUI(Scene2d& theScene);
 
+    /** Destructor */
     ~Scene2dGUI();
 
+    /** Build the GUI ImGui components every frame */
     void buildImGui() override;
 
+  private:
+    /** Build the section to list/control the camera of this scene */
+    void buildCameraSection();
+
+    /** Build the section to list/control the Entities of the Scene*/
+    void buildEntitySection();  
 };

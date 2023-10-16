@@ -26,6 +26,14 @@ void Camera::setFOV(const float newFOV) {
     mFOV_ = newFOV;
 }
 
+void Camera::setPosition(glm::vec3 newPosition) {
+    mPosition_ = newPosition;
+}
+
+void Camera::setRotation(glm::vec3 newRotation) {
+    mRotation_ = newRotation;
+}
+
 void Camera::zoom(const float zoomAdjust) {
     mFOV_ += zoomAdjust;
     if (mFOV_ < 0) {
@@ -37,10 +45,11 @@ void Camera::setMode(const CameraMode mode) {
     mMode_ = mode;
 }
 
-
 glm::mat4 Camera::getProjectionMatrix() const {
     if (mMode_ == CameraMode::PERSPECTIVE) {
         // TODO get the width and height from somewhere instead of magic numbers
+        // If camera is used by renderer, the renderer can have screen size saved and pass them here as parameters
+        // could do glfwGetWindowSize(mpApp_->getWindow()->getGLFWWindow(), &windowWidth, &windowHeight);
         return glm::perspective(glm::radians(mFOV_), (float)800 / (float)600, 0.1f, 100.0f);
     } else if (mMode_ == CameraMode::ORTHOGONAL) {
         return glm::ortho(-2.0f, +2.0f, -1.5f, +1.5f, 0.1f, 100.0f);
@@ -76,6 +85,29 @@ Camera::CameraMode Camera::getMode() const {
     return mMode_;
 }
 
+void Camera::setMoveSpeed(float newSpeed) {
+    mMoveSpeed_ = newSpeed;
+}
+
+void Camera::setRotationSpeed(float newSpeed) {
+    mRotationSpeed_ = newSpeed;
+}
+
+void Camera::setZoomSpeed(float newSpeed) {
+    mZoomSpeed_ = newSpeed;
+}
+
+float Camera::getMoveSpeed() const {
+    return mMoveSpeed_;
+}
+
+float Camera::getRotationSpeed() const {
+    return mRotationSpeed_;
+}
+
+float Camera::getZoomSpeed() const {
+    return mZoomSpeed_;
+}
 
 void Camera::updateCameraVectors() {
     // calculate the new forward vector

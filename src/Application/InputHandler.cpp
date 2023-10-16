@@ -1,6 +1,6 @@
 #include "InputHandler.h"
 
-//EVENT
+// EVENT
 
 InputHandler::Event::Event(Type type, unsigned char code)
     : type(type), code(code) {
@@ -22,7 +22,9 @@ unsigned char InputHandler::Event::getCode() const {
     return code;
 }
 
-//END OF EVENT
+// END OF EVENT
+
+// Input Handler
 
 InputHandler::InputHandler() {}
 
@@ -46,3 +48,5 @@ void InputHandler::clearKeys() {
         mKeyPressed_[i] = false;
     }
 }
+
+// End of Input Handler

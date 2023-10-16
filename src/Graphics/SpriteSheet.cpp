@@ -4,12 +4,12 @@ SpriteSheet::Sprite::Sprite(SpriteSheet* theSpriteSheet, glm::ivec2 theGridIndex
     : parentSpriteSheet(theSpriteSheet), gridIndex(theGridIndex), spriteSize(theSpriteSize) {}
 
 SpriteSheet::Sprite::Sprite(SpriteSheet* theSpriteSheet, glm::ivec2 theGridIndex) 
-    : parentSpriteSheet(theSpriteSheet), gridIndex(theGridIndex), spriteSize(parentSpriteSheet->getDefaultSpriteSize()) {
-
-}
+    : parentSpriteSheet(theSpriteSheet), gridIndex(theGridIndex), spriteSize(parentSpriteSheet->getDefaultSpriteSize()) {}
 
 SpriteSheet::SpriteSheet(unsigned int textureId, glm::ivec2 sheetSize, glm::ivec2 defaultSpiteSize) 
     : mTextureId_(textureId), mSheetSize_(sheetSize), mDefaultSpriteSize_(defaultSpiteSize) {}
+
+SpriteSheet::~SpriteSheet() {}
 
 unsigned int SpriteSheet::getTextureId() {
     return mTextureId_;
