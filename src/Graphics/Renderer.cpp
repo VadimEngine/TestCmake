@@ -1,19 +1,19 @@
 #include "Renderer.h"
 
 Renderer::Renderer()
-    : mSpriteShader_("src/Shaders/Texture2d.vert", "src/Shaders/Texture2d.frag") {
+    : mSpriteShader_(Shader::getLoadedShader("Texture2d")) {
     // initialize sprite renderer
     GLuint VBO;
-    // TODO look into this. Should some vert position be negative?
+
     GLfloat vertices[] = {
         // position     // uv
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+        -.5f, -.5f, 0.0f, 0.0f, 0.0f,
+        .5f, -.5f, 0.0f, 1.0f, 0.0f,
+        -.5f, .5f, 0.0f, 0.0f, 1.0f,
 
-        1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-        1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-        0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+        .5f, -.5f, 0.0f, 1.0f, 0.0f,
+        .5f, .5f, 0.0f, 1.0f, 1.0f,
+        -.5f, .5f, 0.0f, 0.0f, 1.0f,
     };
 
     glGenVertexArrays(1, &mTextureQuadVAO_);
@@ -34,36 +34,42 @@ Renderer::Renderer()
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+
+    // Bind the uniform "theTexture" to GL_TEXTURE0
+    mSpriteShader_->bind();
+    mSpriteShader_->setInt("theTexture", 0);
 }
 
 Renderer::~Renderer() {}
 
-void Renderer::drawSprite(unsigned int textureId, Camera& theCamera, glm::mat4 modelMat) const {
-    mSpriteShader_.bind();
+void Renderer::drawSprite(unsigned int textureId, Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const {
+    mSpriteShader_->bind();
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureId);
 
-    mSpriteShader_.setMat4("model", modelMat);
-    mSpriteShader_.setMat4("view", theCamera.getViewMatrix());
-    mSpriteShader_.setMat4("projection", theCamera.getProjectionMatrix());
+    mSpriteShader_->setMat4("model", modelMat);
+    mSpriteShader_->setMat4("view", theCamera.getViewMatrix());
+    mSpriteShader_->setMat4("projection", theCamera.getProjectionMatrix());
     // Draw the whole texture
-    mSpriteShader_.setBool("uDrawSubImage", false);
+    mSpriteShader_->setBool("uDrawSubImage", false);
+    mSpriteShader_->setVec4("uColor", theColor);
 
     glBindVertexArray(mTextureQuadVAO_);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Renderer::drawSprite(SpriteSheet::Sprite& theSprite, const Camera& theCamera, const glm::mat4& modelMat) const {
-    mSpriteShader_.bind();
+void Renderer::drawSprite(SpriteSheet::Sprite& theSprite, const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const {
+    mSpriteShader_->bind();
 
     glBindTexture(GL_TEXTURE_2D, theSprite.parentSpriteSheet->getTextureId());
-    mSpriteShader_.setMat4("model", modelMat);
-    mSpriteShader_.setMat4("view", theCamera.getViewMatrix());
-    mSpriteShader_.setMat4("projection", theCamera.getProjectionMatrix());
-    // mpShader_->setVec4("uColor", { 1.0f, 0.0f, 0.0f, 1.0f });
-    mSpriteShader_.setBool("uDrawSubImage", true);
-    mSpriteShader_.setVec2("uSpriteGridIndex", theSprite.gridIndex);
-    mSpriteShader_.setVec2("uSheetSize", theSprite.parentSpriteSheet->getSheetSize());
-    mSpriteShader_.setVec2("uSpriteSize", theSprite.spriteSize);
+    mSpriteShader_->setMat4("model", modelMat);
+    mSpriteShader_->setMat4("view", theCamera.getViewMatrix());
+    mSpriteShader_->setMat4("projection", theCamera.getProjectionMatrix());
+    mSpriteShader_->setBool("uDrawSubImage", true);
+    mSpriteShader_->setVec2("uSpriteGridIndex", theSprite.gridIndex);
+    mSpriteShader_->setVec2("uSheetSize", theSprite.parentSpriteSheet->getSheetSize());
+    mSpriteShader_->setVec2("uSpriteSize", theSprite.spriteSize);
+    mSpriteShader_->setVec4("uColor", theColor);
 
     glBindVertexArray(mTextureQuadVAO_);
     glDrawArrays(GL_TRIANGLES, 0, 6);

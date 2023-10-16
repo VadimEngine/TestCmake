@@ -1,6 +1,6 @@
 #include "ModelRenderable.h"
 
-ModelRenderable::ModelRenderable(Model* pModel, Shader* pShader)
+ModelRenderable::ModelRenderable(const Model* pModel, const Shader* pShader)
     : mpModel_(pModel), mpShader_(pShader) {}
 
 ModelRenderable::~ModelRenderable() {}
@@ -20,6 +20,14 @@ void ModelRenderable::render(const Renderer& theRenderer, const Camera& theCamer
     glm::mat4 localModelMat  = translationMatrix * rotationMatrix * scaleMatrix;
     
     mpShader_->bind();
+    
+    // Bind all textures to the Texture Units
+    for (const auto& [slot, texId] : mTextureIdByUnit_) {
+        glActiveTexture(GL_TEXTURE0 + slot);
+        glBindTexture(GL_TEXTURE_2D, texId);
+    }
+
+    mpShader_->setVec4("uColor", mColor_);
     mpShader_->setMat4("model", parentModelMat * localModelMat);
     mpShader_->setMat4("view", theCamera.getViewMatrix());
     mpShader_->setMat4("projection",  theCamera.getProjectionMatrix());
@@ -38,6 +46,14 @@ void ModelRenderable::render(const Renderer& theRenderer, const Camera& theCamer
     }
 }
 
+const Model* ModelRenderable::getModel() const {
+    return mpModel_;
+}
+
+const Shader* ModelRenderable::getShader() const {
+    return mpShader_;
+}
+
 void ModelRenderable::setModel(Model* pModel) {
     mpModel_ = pModel;
 }
@@ -46,14 +62,10 @@ void ModelRenderable::setShader(Shader* pShader) {
     mpShader_ = pShader;
 }
 
+void ModelRenderable::setTexture(unsigned int textureUnit, unsigned int textureId) {
+    mTextureIdByUnit_[textureUnit] = textureId;
+}
+
 void ModelRenderable::setWireframeRendering(const bool enable) {
     drawWireframe_ = enable;
-}
-
-Model* ModelRenderable::getModel() const {
-    return mpModel_;
-}
-
-Shader* ModelRenderable::getShader() const {
-    return mpShader_;
 }

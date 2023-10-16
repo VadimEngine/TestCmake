@@ -1,5 +1,47 @@
 #include "Shader.h"
 
+std::unordered_map<std::string, const Shader*> Shader::sLoadedShaderByName_;
+
+void Shader::loadShaders() {
+    sLoadedShaderByName_.emplace(
+        "MVPTexShader", 
+        new Shader(
+            "src/Shaders/MVPTexShader.vert", 
+            "src/Shaders/MVPTexShader.frag"
+        )
+    );
+    sLoadedShaderByName_.emplace(
+        "Assimp", 
+        new Shader(
+            "src/Shaders/Assimp.vert", 
+            "src/Shaders/Assimp.frag"
+        )
+    );
+    sLoadedShaderByName_.emplace(
+        "Texture2d", 
+        new Shader(
+            "src/Shaders/Texture2d.vert", 
+            "src/Shaders/Texture2d.frag"
+        )
+    );
+}
+
+const Shader* Shader::getLoadedShader(const std::string& shaderName) {
+    auto it = sLoadedShaderByName_.find(shaderName);
+    if (it != sLoadedShaderByName_.end()) {
+        return it->second;
+    } else {
+        return nullptr;
+    }
+}
+
+void Shader::releaseShaders() {
+    for (const auto& entry : sLoadedShaderByName_) {
+        delete entry.second;
+    }
+    sLoadedShaderByName_.clear();
+}
+
 Shader::Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath) {
     std::string vertexCode;
     std::string fragmentCode;
@@ -48,7 +90,7 @@ Shader::Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath)
     glShaderSource(fragment, 1, &fShaderCode, NULL);
     glCompileShader(fragment);
 
-    glGetShaderiv(fragment, GL_COMPILE, &success);
+    glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(fragment, 512, NULL, infoLog);
         LOG_E("SHADER::FRAGMENT::COMPILATION_FAILED\n %s", infoLog);

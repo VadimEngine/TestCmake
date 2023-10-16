@@ -20,6 +20,10 @@ glm::vec3 IRenderable::getScale() const {
     return mScale_;
 }
 
+glm::vec4 IRenderable::getColor() const {
+    return mColor_;
+}
+
 void IRenderable::setPosition(const glm::vec3& newPosition) {
     mPosition_ = newPosition;
 }
@@ -30,4 +34,8 @@ void IRenderable::setRotation(const glm::vec3& newRotation) {
 
 void IRenderable::setScale(const glm::vec3& newScale) {
     mScale_ = newScale;
+}
+
+void IRenderable::setColor(const glm::vec4& newColor) {
+    mColor_ = newColor;
 }

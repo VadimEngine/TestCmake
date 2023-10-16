@@ -4,13 +4,13 @@ out vec4 FragColor;
 
 in vec2 TexCoord;
 
-uniform sampler2D texture0;
-uniform sampler2D texture1;
+uniform sampler2D theTexture;
 
 uniform bool uDrawSubImage = false;
 uniform vec2 uSpriteGridIndex;
 uniform vec2 uSheetSize;
 uniform vec2 uSpriteSize;
+uniform vec4 uColor = vec4(1.0,1.0,1.0,1.0);
 
 // TODO alpha colors
 
@@ -23,14 +23,14 @@ void main() {
         // Calculate the texture coordinates for the current sprite
         vec2 spriteCoords = spriteStep * uSpriteGridIndex +  vec2(TexCoord.x, 1-TexCoord.y) / (uSheetSize / uSpriteSize);
 
-        texColor = texture(texture0, vec2(spriteCoords.x, spriteCoords.y));
+        texColor = texture(theTexture, vec2(spriteCoords.x, spriteCoords.y));
     } else {
-        texColor = texture(texture0, vec2(TexCoord.x, 1- TexCoord.y));
+        texColor = texture(theTexture, vec2(TexCoord.x, 1- TexCoord.y));
     }
 
     if (texColor.rgb == vec3(1.0, 0.0, 1.0) || texColor.rgb == vec3(0.8, 0.0, 0.8)) {
         discard; // Discard fragment if spritesheet background color
     }
 
-    FragColor = texColor;
+    FragColor = texColor * uColor;
 }

@@ -7,7 +7,6 @@
 
 class IRenderable {
 protected:
-
     /** Renderable Position */
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
     
@@ -20,8 +19,10 @@ protected:
     /** If this Renderable is enabled (should be rendered)*/
     bool mEnabled_ = true;
 
-public:
+    /** Color applied to this renderable*/
+    glm::vec4 mColor_ = {1.0f, 1.0f, 1.0f, 1.0f};
 
+public:
     /**
      * Rendering this renderable component
      * \param theRenderer Helping Object for rendering
@@ -47,6 +48,9 @@ public:
     /** Get this Renderable's scale */
     glm::vec3 getScale() const;
 
+    /** Get the color applied to this Renderable */
+    glm::vec4 getColor() const;
+
     /**
      * Set this Renderable's position
      * \param newPosition New position vector
@@ -54,8 +58,8 @@ public:
     void setPosition(const glm::vec3& newPosition);
 
     /**
-     * Set this Renderable's rotation
-     * \param newRotation New position vector
+     * Set this Renderable's rotation (In degrees)
+     * \param newRotation New Rotation vector
      */
     void setRotation(const glm::vec3& newRotation);
 
@@ -64,4 +68,10 @@ public:
      * \param newScale New scale vector
      */
     void setScale(const glm::vec3& newScale);
+
+    /**
+     * Set the color of this renderable
+     * \param newColor Color of this Renderable
+     */
+    void setColor(const glm::vec4& newColor);
 };

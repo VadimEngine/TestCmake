@@ -2,10 +2,13 @@
 
 bool App::sOpenGLInitialized_ = false;
 
-App::App() {
+App::App() 
+ : mWindow_("OpenGL Application") {
     // Initialize OpenGL, imgui and load resources
     initializeOpenGL();
     ImGuiComponent::initializeImGui(mWindow_.getGLFWWindow());
+    Texture::loadTextures();
+    Shader::loadShaders();
     Mesh::loadMeshes();
     // Create Scene and renderer (must be called after OpenGL is initialized)
     mpRenderer_ = new Renderer();
@@ -17,6 +20,8 @@ App::~App() {
     ImGuiComponent::deinitialize();
     glfwTerminate();
     delete mpRenderer_;
+    Shader::releaseShaders();
+    Mesh::releaseMeshes();
 }
 
 void App::run() {
@@ -80,7 +85,7 @@ Window& App::getWindow() {
 }
 
 void App::setAntiAliasing(unsigned int sampleSize) {
-    // Set samplesize
+    // Set sample size
     glfwWindowHint(GLFW_SAMPLES, sampleSize);
     // Enable/disable anti-aliasing based on sample size
     if (sampleSize != 0) {
@@ -101,8 +106,7 @@ void App::initializeOpenGL() {
             throw std::runtime_error("GLEW Init error");
         }
         glEnable(GL_CULL_FACE);// Default is counter clockwise
-        // Enable alpha drawing
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Enable alpha drawing
         glEnable(GL_DEPTH_TEST); // Enable z-buffer
 
         sOpenGLInitialized_ = true;

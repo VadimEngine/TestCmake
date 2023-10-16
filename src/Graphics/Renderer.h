@@ -8,10 +8,10 @@
 
 class Renderer {
 private:
-    /* VAO for a texture quad**/
+    /* VAO for a texture quad **/
     unsigned int mTextureQuadVAO_;
     /** Shader for drawing sprites/textures */
-    Shader mSpriteShader_;
+    const Shader* mSpriteShader_;
 public:
     /** Constructor */
     Renderer();
@@ -25,7 +25,7 @@ public:
      * \param theCamera Camera to render the Sprite relative to
      * \param modelMat Model matrix to transform the sprite by
      */
-    void drawSprite(unsigned int textureId, Camera& theCamera, glm::mat4 modelMat) const;
+    void drawSprite(unsigned int textureId, Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor = {1,1,1,1}) const;
 
     /**
      * Draw the given Sprite from a sprite sheet with the applied camera and model transforms
@@ -33,7 +33,7 @@ public:
      * \param theCamera Camera to render the Sprite relative to
      * \param modelMat Model matrix to transform the sprite by
      */
-    void drawSprite(SpriteSheet::Sprite& theSprite, const Camera& theCamera, const glm::mat4& modelMat) const;
+    void drawSprite(SpriteSheet::Sprite& theSprite, const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor = {1,1,1,1}) const;
 
     // draw line (coords, color, thickness)
     // draw text

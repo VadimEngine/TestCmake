@@ -85,6 +85,30 @@ Camera::CameraMode Camera::getMode() const {
     return mMode_;
 }
 
+void Camera::setMoveSpeed(float newSpeed) {
+    mMoveSpeed_ = newSpeed;
+}
+
+void Camera::setRotationSpeed(float newSpeed) {
+    mRotationSpeed_ = newSpeed;
+}
+
+void Camera::setZoomSpeed(float newSpeed) {
+    mZoomSpeed_ = newSpeed;
+}
+
+float Camera::getMoveSpeed() const {
+    return mMoveSpeed_;
+}
+
+float Camera::getRotationSpeed() const {
+    return mRotationSpeed_;
+}
+
+float Camera::getZoomSpeed() const {
+    return mZoomSpeed_;
+}
+
 void Camera::updateCameraVectors() {
     // calculate the new forward vector
     glm::vec4 forward = {0,0,-1,0};

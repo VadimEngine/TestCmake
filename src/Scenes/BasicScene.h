@@ -22,6 +22,31 @@ private:
 
     /** Entities rendered in this Scene */
     std::vector<Entity*> mEntities_;
+
+    /** Sprite Sheet used for this Scene*/
+    SpriteSheet mSpriteSheet_;
+
+    /** First Sprite used in this Scene*/
+    SpriteSheet::Sprite mSprite_;
+
+    /** Cube Model */
+    Model mCubeModel_;
+    
+    /** Plane Model*/
+    Model mPlaneModel_;
+
+    /** Solid colored Cube Renderable */
+    ModelRenderable mSolidCubeRenderable_;
+
+    /** Sprite Renderable */
+    SpriteRenderable mSpriteRenderable_;
+
+    /** Textured Cube Renderable */
+    ModelRenderable mTextureCubeRenderable_;
+
+    /** Solid plane Renderable used for floors */
+    ModelRenderable mFloorRenderable_;
+
 public:
     /**  
      * Constructor
@@ -44,5 +69,6 @@ public:
      */
     void render(Renderer& renderer) override;
 
+    /** get the entities in this scene*/
     std::vector<Entity*>& getEntities();
 };

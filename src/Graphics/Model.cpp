@@ -18,7 +18,7 @@ void Model::loadMesh(const std::string& meshPath) {
     processNode(scene->mRootNode, scene);
 }
 
-void Model::render(Shader& shader) {
+void Model::render(const Shader& shader) const {
     for (unsigned int i = 0; i < mMeshes_.size(); i++) {
         mMeshes_[i].render(shader);
     }

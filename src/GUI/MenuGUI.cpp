@@ -17,10 +17,6 @@ void MenuGUI::buildImGui() {
         mScene_.getApp().setScene(new BasicScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
-    if (ImGui::Button("Assimp Scene")) {
-        mScene_.getApp().setScene(new AssimpScene(mScene_.getApp()));
-        mScene_.setRemove(true);
-    }
     if (ImGui::Button("Scene 2d")) {
         mScene_.getApp().setScene(new Scene2d(mScene_.getApp()));
         mScene_.setRemove(true);

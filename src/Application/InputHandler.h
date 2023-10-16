@@ -48,7 +48,6 @@ public:
     /** Check if a key is marked as pressed */
     bool isKeyPressed(int keyCode) const;
 
-    // when losing focus
     /**
      * Set all tracked keys as not pressed. Used when losing focus on application 
      */

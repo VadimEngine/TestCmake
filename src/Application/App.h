@@ -5,7 +5,6 @@
 #include "Window.h"
 #include "BasicScene.h"
 #include "MenuScene.h"
-#include "AssimpScene.h"
 #include "Scene2d.h"
 #include "Logger.h"
 #include "Renderer.h"
@@ -56,7 +55,7 @@ public:
     
     /** 
      * Set Anti-Aliasing sample size. If the size is 0 then anti aliasing is disabled
-     * \param sampleSize Anti aliasing sample size (if 0 then anti aliasing is disabled)
+     * \param sampleSize Anti aliasing sample size
      */
     void setAntiAliasing(unsigned int sampleSize);
 

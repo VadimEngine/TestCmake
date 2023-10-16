@@ -10,6 +10,7 @@
 
 class Entity {
 private:
+    // TODO have entity own the renderable and delete them?
     /** List of all rendering components*/
     std::vector<IRenderable*> mRenderableComponents_;
 
@@ -21,8 +22,8 @@ private:
     
     /** Entity Scale */
     glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
-public:
 
+public:
     /** Constructor */
     Entity();
 

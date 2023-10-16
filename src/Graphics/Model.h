@@ -9,6 +9,8 @@
 #include "Logger.h"
 
 class Model {
+    // TODO map of loaded models?
+
 private:
     /** Meshes this model is made up of */
     std::vector<Mesh> mMeshes_;
@@ -31,7 +33,7 @@ public:
      * Draw the Model meshes
      * \param shader Shader to draw the meshes with
      */
-    void render(Shader& shader);
+    void render(const Shader& shader) const;
 
 private:
     /**

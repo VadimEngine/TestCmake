@@ -9,6 +9,9 @@ private:
     /** The Scene this GUI is for */
     BasicScene& mScene_;
 
+    /** If the GUI is set to enable VSync */
+    bool mVSyncEnabled_;
+
     /** The Camera Mode this GUI applies*/
     int mCameraMode_;
 
@@ -30,4 +33,11 @@ public:
 
     /** Build the GUI ImGui components every frame */
     void buildImGui() override;
+
+private:
+    /** Build the section to list/control the camera of this scene */
+    void buildCameraSection();
+
+    /** Build the section to list/control the Entities of the Scene*/
+    void buildEntitySection();
 };

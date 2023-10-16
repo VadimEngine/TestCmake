@@ -11,7 +11,7 @@ void Entity::render(Renderer& theRenderer, Camera& theCamera) {
     
     // translation matrix for position
     glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), mPosition_);
-    //rotation matrix
+    // rotation matrix
     glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1), glm::radians(mRotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
     rotationMatrix = glm::rotate(rotationMatrix, glm::radians(mRotation_.y), glm::vec3(0.0f, 1.0f, 0.0f));
     rotationMatrix = glm::rotate(rotationMatrix, glm::radians(mRotation_.z), glm::vec3(0.0f, 0.0f, 1.0f));

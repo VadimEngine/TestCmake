@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <stdexcept>
 #include "InputHandler.h"
+#include <string>
 
 class Window {
 private:
@@ -20,7 +21,7 @@ private:
 
 public:
     /** Constructor */
-    Window();
+    Window(const std::string& windowLbl = "");
 
     /** Destructor */
     ~Window();
@@ -51,5 +52,4 @@ public:
 
     /** Get the input handler listening to this Window's inputs */
     InputHandler& getInputHandler();
-
 };

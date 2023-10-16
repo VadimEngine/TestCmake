@@ -4,7 +4,8 @@
 
 BasicSceneGUI::BasicSceneGUI(BasicScene& theScene)
     : mScene_(theScene) {
-        mCameraMode_ = static_cast<int>(mScene_.getFocusCamera()->getMode());
+    mVSyncEnabled_ =  mScene_.getApp().getWindow().getGLFWSwapInterval();
+    mCameraMode_ = static_cast<int>(mScene_.getFocusCamera()->getMode());
 }
 
 BasicSceneGUI::~BasicSceneGUI() {}
@@ -19,8 +20,21 @@ void BasicSceneGUI::buildImGui() {
     }
     ImGui::Text("Basic Scene");
     ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
+    if (ImGui::Checkbox("vSync", &mVSyncEnabled_)) {
+        mScene_.getApp().getWindow().setVSync(mVSyncEnabled_);
+    }
+    ImGui::Separator();
+    // Camera control
+    buildCameraSection();
+    ImGui::Separator();
+    // Entity control
+    buildEntitySection();
+    ImGui::End();
+}
 
+void BasicSceneGUI::buildCameraSection(){
     ImGui::Text("Camera");
+
     ImGui::Text("Camera Mode");
     
     if (ImGui::RadioButton("Perspective", &mCameraMode_, 0)) {
@@ -50,10 +64,10 @@ void BasicSceneGUI::buildImGui() {
         "FOV: %.2f",
         mScene_.getFocusCamera()->getFOV()
     );
+}
 
-    ImGui::Separator();
-
-    ImGui::Text("Entity");
+void BasicSceneGUI::buildEntitySection() {
+    ImGui::Text("Entities");
 
     if (ImGui::BeginListBox("##Entities")) {
         for (unsigned int i = 0; i < mScene_.getEntities().size(); i++) {
@@ -66,6 +80,7 @@ void BasicSceneGUI::buildImGui() {
     }
 
     if (mSelectedEntityIndex_ < mScene_.getEntities().size()) {
+        // Display selected Entity details/controls
         Entity* selectedEntity = mScene_.getEntities()[mSelectedEntityIndex_]; 
 
         float entityPosition[3] = {
@@ -108,6 +123,7 @@ void BasicSceneGUI::buildImGui() {
             });
         }
 
+        // List Renderable components for the selected Entity
         ImGui::Text("Renderable Components");
 
         if (ImGui::BeginListBox("##Renderables")) {
@@ -121,8 +137,15 @@ void BasicSceneGUI::buildImGui() {
         }
 
         if (mSelectedRenderableIndex_ < selectedEntity->getRenderableComponents().size()) {
+            // Display selected Renderable details/controls
             IRenderable* selectedRenderable = selectedEntity->getRenderableComponents()[mSelectedRenderableIndex_];
 
+            float renderableColor[4] = {
+                selectedRenderable->getColor().r,
+                selectedRenderable->getColor().g,
+                selectedRenderable->getColor().b,
+                selectedRenderable->getColor().a
+            };
             float renderablePosition[3] = {
                 selectedRenderable->getPosition().x,
                 selectedRenderable->getPosition().y,
@@ -143,6 +166,23 @@ void BasicSceneGUI::buildImGui() {
 
             if  (ImGui::Checkbox("Enabled", &isEnabled)) {
                 selectedRenderable->setEnabled(isEnabled);
+            }
+
+            if (ImGui::ColorEdit4("Color##Renderable", renderableColor)) {
+                selectedRenderable->setColor({
+                    renderableColor[0],
+                    renderableColor[1],
+                    renderableColor[2],
+                    renderableColor[3]
+                });
+            }
+
+            if (ImGui::SliderFloat3("Color##Renderable", renderablePosition, -10.f, 10.f, "%.2f")) {
+                selectedRenderable->setPosition({
+                    renderablePosition[0],
+                    renderablePosition[1],
+                    renderablePosition[2]
+                });
             }
 
             if (ImGui::SliderFloat3("Position##Renderable", renderablePosition, -10.f, 10.f, "%.2f")) {
@@ -170,6 +210,4 @@ void BasicSceneGUI::buildImGui() {
             }
         }
     }
-
-    ImGui::End();
-};
+}

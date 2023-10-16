@@ -11,6 +11,7 @@ private:
     Camera* mpCamera_ = nullptr;
     /** Input handler to get input from */
     InputHandler& mInputHandler_;
+
 public:
     /**
      * Constructor.

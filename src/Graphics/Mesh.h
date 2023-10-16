@@ -10,15 +10,10 @@
 class Mesh {
 public:
     struct Vertex {
-        // position
         glm::vec3 position;
-        // normal
         glm::vec3 normal;
-        // texCoords
         glm::vec2 texCoord;
-        // tangent
         glm::vec3 tangent;
-        // bitangent
         glm::vec3 bitangent;
     };
 
@@ -29,17 +24,20 @@ public:
     };
 private:
     /** Map to hold loaded Meshes */
-    static std::unordered_map<std::string, const Mesh> sLoadedMeshByName_;
+    static std::unordered_map<std::string, const Mesh*> sLoadedMeshByName_;
 
 public:
     /** Load the preset list of Meshes */
     static void loadMeshes();
     
+    /** Delete the loaded Meshes*/
+    static void releaseMeshes();
+
     /** 
      * Get a loaded mesh if it exists
      * \param meshName Name of the loaded mesh
      */
-    static const std::optional<Mesh> getLoadedMesh(const std::string& meshName);
+    static const Mesh* getLoadedMesh(const std::string& meshName);
 
     /** Vertices of this mesh */
     std::vector<Vertex> vertices;
@@ -61,12 +59,12 @@ public:
      * Render the mesh with the given shader. TODO use textures
      * \param theShader Shader that will be used to draw. Textures will be bound to the shader before rendering
      */
-    void render(Shader& theShader);
+    void render(const Shader& theShader) const;
 
 private:
     /** Vertex Buffer Object and Element Buffer Object for this Mesh*/
     unsigned int mVBO_, mEBO_;
 
-    /** Initializes the Opengl properties for this mesh*/
+    /** Initializes the OpenGl properties for this mesh*/
     void buildOpenGLproperties();
 };

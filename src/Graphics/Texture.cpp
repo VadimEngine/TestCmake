@@ -1,6 +1,24 @@
 #include "Texture.h"
 
+std::unordered_map<std::string, unsigned int> Texture::sLoadedTextureIdByName_;
+
+
+/** Load the preset list of Meshes */
+void Texture::loadTextures() {
+    sLoadedTextureIdByName_["SpriteSheet"] = loadTexture("res/Sprites.png");
+    sLoadedTextureIdByName_["SampleTexture"] = loadTexture("res/V.png");
+}    
+
+const std::optional<unsigned int> Texture::getLoadedTexture(const std::string& textureName) {
+    if (sLoadedTextureIdByName_.find(textureName) != sLoadedTextureIdByName_.end()) {
+        return sLoadedTextureIdByName_.find(textureName)->second;
+    } else {
+        return {};
+    }
+}
+
 unsigned int Texture::loadTexture(const std::string& texturePath) {
+    // TODO return option if path fails
     unsigned textureId;
     int width, height;
     int channels;

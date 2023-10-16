@@ -24,6 +24,12 @@ private:
     glm::vec3 mRotation_ = glm::vec3(0.0, 0.0f, 0.0f);
     /** The camera's mode */
     CameraMode mMode_ = CameraMode::PERSPECTIVE;
+    /** Speed the camera moves */
+    float mMoveSpeed_ = 20.f;
+    /** Speed the camera rotates */
+    float mRotationSpeed_ = 40.f;
+    /** Speed the camera Zooms (adjust the FOV) */
+    float mZoomSpeed_ = 2.f;
 
 public:
     /** Constructor */
@@ -47,7 +53,7 @@ public:
 
     /**
      *  Rotate the camera from current rotation in the given axis and step
-     * \param dir Axis to rotate around
+     * \param axis Axis to rotate around
      * \param angle Amount to rotate 
      */
     void rotate(glm::vec3 axis, const float angle);
@@ -105,6 +111,39 @@ public:
 
     /** Get the Cameras mode */
     CameraMode getMode() const;
+
+    /**
+     * Set the camera movement speed
+     * \param mode New Camera mode
+     */
+    void setMoveSpeed(float newSpeed);
+
+    /**
+     * Set the camera rotation speed
+     * \param mode New Camera mode
+     */
+    void setRotationSpeed(float newSpeed);
+    
+    /**
+     * Set the camera zoom speed
+     * \param mode New Camera mode
+     */
+    void setZoomSpeed(float newSpeed);
+    
+    /**
+     * Get the Camera movement speed
+     */
+    float getMoveSpeed() const;
+
+    /**
+     * Get the Camera rotation speed
+     */
+    float getRotationSpeed() const;
+
+    /**
+     * Get the Camera zoom speed
+     */
+    float getZoomSpeed() const;
 
 private:
     /** Update the forward, Right and Up vector based on the camera's rotation*/
