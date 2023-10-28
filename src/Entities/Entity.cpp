@@ -2,9 +2,23 @@
 
 Entity::Entity() {}
 
-Entity::~Entity() {}
+Entity::~Entity() {
+    // Delete Renderables
+    for (auto& it: mRenderableComponents_) {
+        delete it;
+    }
+    // Delete Physics Components
+    for (auto& it: mPhysicsComponents_) {
+        delete it.second;
+    }
+}
 
-void Entity::update(float dt) {}
+void Entity::update(float dt) {
+    for (auto& it: mPhysicsComponents_) {
+        it.second->update(dt);
+    }
+    mPosition_ += mVelocity_ * dt;
+}
 
 void Entity::render(Renderer& theRenderer, Camera& theCamera) {
     glm::mat4 model = glm::mat4(1.0f);
@@ -18,18 +32,18 @@ void Entity::render(Renderer& theRenderer, Camera& theCamera) {
     // scale matrix
     glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), mScale_);
 
-    for (const IRenderable* eachRenderable : mRenderableComponents_) {
+    for (const BaseRenderable* eachRenderable : mRenderableComponents_) {
         if (eachRenderable->isEnabled()) {
             eachRenderable->render(theRenderer, theCamera, translationMatrix * rotationMatrix * scaleMatrix);
         }
     }
 }
 
-std::vector<IRenderable*>& Entity::getRenderableComponents() {
+std::vector<BaseRenderable*>& Entity::getRenderableComponents() {
     return mRenderableComponents_;
 }
 
-void Entity::addRenderable(IRenderable* newRenderable) {
+void Entity::addRenderable(BaseRenderable* newRenderable) {
     mRenderableComponents_.push_back(newRenderable);
 }
 
@@ -45,6 +59,10 @@ glm::vec3 Entity::getScale() const {
     return mScale_;
 }
 
+glm::vec3 Entity::getVelocity() const {
+    return mVelocity_;
+}
+
 void Entity::setPosition(const glm::vec3& newPosition) {
     mPosition_ = newPosition;
 }
@@ -56,3 +74,27 @@ void Entity::setRotation(const glm::vec3& newRotation) {
 void Entity::setScale(const glm::vec3& newScale) {
     mScale_ = newScale;
 }
+
+void Entity::setVelocity(const glm::vec3& newVelocity) {
+    mVelocity_ = newVelocity;
+}
+
+template<typename T>
+void Entity::addPhysicsComponent() {
+    T* component = new T(*this);
+    mPhysicsComponents_[component->getType()] = component;
+}
+
+template<typename T>
+T* Entity::getPhysicsComponent() {
+    // Use a temporary Component to get the seeking type
+    auto it = mPhysicsComponents_.find(T(*this).getType());
+    if (it != mPhysicsComponents_.end()) {
+        return dynamic_cast<T*>(it->second);
+    }
+    return nullptr;
+}
+
+// Explicit instantiate template for expected types
+template void Entity::addPhysicsComponent<RigidBodyComponent>();
+template RigidBodyComponent* Entity::getPhysicsComponent<RigidBodyComponent>();

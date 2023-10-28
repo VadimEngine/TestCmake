@@ -25,12 +25,6 @@ private:
     
     /** Second Sprite used in this Scene*/
     SpriteSheet::Sprite mSprite2_;
-    
-    /** First sprite renderable for this scene*/
-    SpriteRenderable mSpriteRenderable1_;
-
-    /** Second sprite renderable for this scene*/
-    SpriteRenderable mSpriteRenderable2_;
 
 public:
     /**  

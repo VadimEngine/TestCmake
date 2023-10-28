@@ -4,12 +4,12 @@
 #include <stdarg.h>
 
 #define PRINT_GLOBAL
-
 // Print info
+
 #ifdef PRINT_GLOBAL
 #define LOG_I(...)                      \
 {                                       \
-    printf("Info: %s", __FILE__);       \
+    printf("Info: ");                   \
     printf( __VA_ARGS__);               \
     printf("\n");                       \
 }                                       \

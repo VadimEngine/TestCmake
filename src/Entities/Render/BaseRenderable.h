@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class IRenderable {
+class BaseRenderable {
 protected:
     /** Renderable Position */
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
@@ -23,6 +23,8 @@ protected:
     glm::vec4 mColor_ = {1.0f, 1.0f, 1.0f, 1.0f};
 
 public:
+    /** Virtual Destructor*/
+    virtual ~BaseRenderable() = default;
     /**
      * Rendering this renderable component
      * \param theRenderer Helping Object for rendering
@@ -36,7 +38,7 @@ public:
      */
     void setEnabled(const bool isEnabled);
 
-    /** Get is this Renderable is enabled */
+    /** Get if this Renderable is enabled */
     bool isEnabled() const;
     
     /** Get this Renderable's position */

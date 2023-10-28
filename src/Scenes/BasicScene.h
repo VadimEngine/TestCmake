@@ -35,18 +35,6 @@ private:
     /** Plane Model*/
     Model mPlaneModel_;
 
-    /** Solid colored Cube Renderable */
-    ModelRenderable mSolidCubeRenderable_;
-
-    /** Sprite Renderable */
-    SpriteRenderable mSpriteRenderable_;
-
-    /** Textured Cube Renderable */
-    ModelRenderable mTextureCubeRenderable_;
-
-    /** Solid plane Renderable used for floors */
-    ModelRenderable mFloorRenderable_;
-
 public:
     /**  
      * Constructor

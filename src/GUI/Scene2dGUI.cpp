@@ -18,7 +18,7 @@ void Scene2dGUI::buildImGui() {
         mScene_.getApp().setScene(new MenuScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
-    ImGui::Text("Basic Scene");
+    ImGui::Text("Scene 2d");
     ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
     if (ImGui::Checkbox("vSync", &mVSyncEnabled_)) {
         mScene_.getApp().getWindow().setVSync(mVSyncEnabled_);
@@ -138,7 +138,7 @@ void Scene2dGUI::buildEntitySection() {
 
         if (mSelectedRenderableIndex_ < selectedEntity->getRenderableComponents().size()) {
             // Display selected Renderable details/controls
-            IRenderable* selectedRenderable = selectedEntity->getRenderableComponents()[mSelectedRenderableIndex_];
+            BaseRenderable* selectedRenderable = selectedEntity->getRenderableComponents()[mSelectedRenderableIndex_];
 
             float renderableColor[4] = {
                 selectedRenderable->getColor().r,

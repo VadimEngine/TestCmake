@@ -5,6 +5,8 @@
 #include "Window.h"
 #include "BasicScene.h"
 #include "MenuScene.h"
+#include "PhysicsScene.h"
+#include "PongScene.h"
 #include "Scene2d.h"
 #include "Logger.h"
 #include "Renderer.h"

@@ -1,9 +1,9 @@
 #pragma once
-#include "IRenderable.h"
+#include "BaseRenderable.h"
 #include "Model.h"
 #include <unordered_map>
 
-class ModelRenderable : public IRenderable {
+class ModelRenderable : public BaseRenderable {
 private:
     /**The Model of this Model Renderable */
     const Model* mpModel_ = nullptr;

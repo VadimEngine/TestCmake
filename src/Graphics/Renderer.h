@@ -11,7 +11,7 @@ private:
     /* VAO for a texture quad **/
     unsigned int mTextureQuadVAO_;
     /** Shader for drawing sprites/textures */
-    const Shader* mSpriteShader_;
+    const Shader& mSpriteShader_;
 public:
     /** Constructor */
     Renderer();

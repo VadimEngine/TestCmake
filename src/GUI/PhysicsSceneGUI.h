@@ -1,14 +1,13 @@
 #pragma once
 #include "ImGuiComponent.h"
-#include <vector>
 
 // Forward declare Scene
-class Scene2d;
+class PhysicsScene;
 
-class Scene2dGUI : public ImGuiComponent {
+class PhysicsSceneGUI : public ImGuiComponent {
 private:
     /** The Scene this GUI is for */
-    Scene2d& mScene_;
+    PhysicsScene& mScene_;
 
     /** If the GUI is set to enable VSync */
     bool mVSyncEnabled_;
@@ -22,23 +21,25 @@ private:
     /** The Renderable index selected from the Entity List */
     int mSelectedRenderableIndex_ = 0;
 
+    bool mSceneRunning_ = true;
+
 public:
     /** 
      * Constructor
      * \param theScene The scene this gui is for
      */
-    Scene2dGUI(Scene2d& theScene);
+    PhysicsSceneGUI(PhysicsScene& theScene);
 
     /** Destructor */
-    ~Scene2dGUI();
+    ~PhysicsSceneGUI();
 
     /** Build the GUI ImGui components every frame */
     void buildImGui() override;
-
-  private:
+    
+private:
     /** Build the section to list/control the camera of this scene */
     void buildCameraSection();
 
     /** Build the section to list/control the Entities of the Scene*/
-    void buildEntitySection();  
+    void buildEntitySection();
 };

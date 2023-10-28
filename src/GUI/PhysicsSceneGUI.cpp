@@ -1,16 +1,16 @@
 #include "App.h"
-#include "BasicScene.h"
-#include "BasicSceneGUI.h"
+#include "PhysicsScene.h"
+#include "PhysicsSceneGUI.h"
 
-BasicSceneGUI::BasicSceneGUI(BasicScene& theScene)
+PhysicsSceneGUI::PhysicsSceneGUI(PhysicsScene& theScene)
     : mScene_(theScene) {
     mVSyncEnabled_ =  mScene_.getApp().getWindow().getGLFWSwapInterval();
     mCameraMode_ = static_cast<int>(mScene_.getFocusCamera()->getMode());
 }
 
-BasicSceneGUI::~BasicSceneGUI() {}
+PhysicsSceneGUI::~PhysicsSceneGUI() {}
 
-void BasicSceneGUI::buildImGui() {
+void PhysicsSceneGUI::buildImGui() {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImVec2(250, 480), ImGuiCond_FirstUseEver);
     ImGui::Begin("Settings");
@@ -18,12 +18,17 @@ void BasicSceneGUI::buildImGui() {
         mScene_.getApp().setScene(new MenuScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
-    ImGui::Text("Basic Scene");
+    ImGui::Text("Physics Scene");
     ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
     if (ImGui::Checkbox("vSync", &mVSyncEnabled_)) {
         mScene_.getApp().getWindow().setVSync(mVSyncEnabled_);
     }
     ImGui::Separator();
+
+    if (ImGui::Checkbox("Running", &mSceneRunning_)) {
+        mScene_.setRunning(mSceneRunning_);
+    }
+
     // Camera control
     buildCameraSection();
     ImGui::Separator();
@@ -32,7 +37,7 @@ void BasicSceneGUI::buildImGui() {
     ImGui::End();
 }
 
-void BasicSceneGUI::buildCameraSection(){
+void PhysicsSceneGUI::buildCameraSection(){
     ImGui::Text("Camera");
 
     ImGui::Text("Camera Mode");
@@ -66,7 +71,7 @@ void BasicSceneGUI::buildCameraSection(){
     );
 }
 
-void BasicSceneGUI::buildEntitySection() {
+void PhysicsSceneGUI::buildEntitySection() {
     ImGui::Text("Entities");
 
     if (ImGui::BeginListBox("##Entities")) {
@@ -98,6 +103,13 @@ void BasicSceneGUI::buildEntitySection() {
             selectedEntity->getScale().y,
             selectedEntity->getScale().z
         };
+        float entityVelocity[3] = {
+            selectedEntity->getVelocity().x,
+            selectedEntity->getVelocity().y,
+            selectedEntity->getVelocity().z
+        };
+
+        bool isAttractive = selectedEntity->getPhysicsComponent<RigidBodyComponent>()->isAttractive();
 
         if (ImGui::SliderFloat3("Position##Entity", entityPosition, -10.f, 10.f, "%.2f")) {
             selectedEntity->setPosition({
@@ -123,17 +135,15 @@ void BasicSceneGUI::buildEntitySection() {
             });
         }
 
-        // List Renderable components for the selected Entity
-        ImGui::Text("Renderable Components");
-
-        if (ImGui::BeginListBox("##Renderables")) {
-            for (unsigned int i = 0; i <selectedEntity->getRenderableComponents().size(); i++) {
-                std::string tempName = "Renderable " + std::to_string(i);
-                if (ImGui::Selectable(tempName.c_str(), i == mSelectedRenderableIndex_)) {
-                    mSelectedRenderableIndex_ = i;
-                }
-            }
-            ImGui::EndListBox();
+        if (ImGui::SliderFloat3("Velocity##Entity", entityVelocity, -10.f, 10.f, "%.2f")) {
+            selectedEntity->setVelocity({
+                entityVelocity[0],
+                entityVelocity[1],
+                entityVelocity[2]
+            });
+        }
+        if (ImGui::Checkbox("Attractive###Entity", &isAttractive)) {
+            selectedEntity->getPhysicsComponent<RigidBodyComponent>()->setAttractive(isAttractive);
         }
 
         if (mSelectedRenderableIndex_ < selectedEntity->getRenderableComponents().size()) {
@@ -146,27 +156,6 @@ void BasicSceneGUI::buildEntitySection() {
                 selectedRenderable->getColor().b,
                 selectedRenderable->getColor().a
             };
-            float renderablePosition[3] = {
-                selectedRenderable->getPosition().x,
-                selectedRenderable->getPosition().y,
-                selectedRenderable->getPosition().z
-            };
-            float renderableRotation[3] = {
-                selectedRenderable->getRotation().x,
-                selectedRenderable->getRotation().y,
-                selectedRenderable->getRotation().z
-            };
-            float renderableScale[3] = {
-                selectedRenderable->getScale().x,
-                selectedRenderable->getScale().y,
-                selectedRenderable->getScale().z
-            };
-
-            bool isEnabled = selectedRenderable->isEnabled();
-
-            if  (ImGui::Checkbox("Enabled", &isEnabled)) {
-                selectedRenderable->setEnabled(isEnabled);
-            }
 
             if (ImGui::ColorEdit4("Color##Renderable", renderableColor)) {
                 selectedRenderable->setColor({
@@ -176,38 +165,13 @@ void BasicSceneGUI::buildEntitySection() {
                     renderableColor[3]
                 });
             }
-
-            if (ImGui::SliderFloat3("Color##Renderable", renderablePosition, -10.f, 10.f, "%.2f")) {
-                selectedRenderable->setPosition({
-                    renderablePosition[0],
-                    renderablePosition[1],
-                    renderablePosition[2]
-                });
-            }
-
-            if (ImGui::SliderFloat3("Position##Renderable", renderablePosition, -10.f, 10.f, "%.2f")) {
-                selectedRenderable->setPosition({
-                    renderablePosition[0],
-                    renderablePosition[1],
-                    renderablePosition[2]
-                });
-            }
-
-            if (ImGui::SliderFloat3("Rotation##Renderable", renderableRotation, -10.f, 10.f, "%.2f")) {
-                selectedRenderable->setRotation({
-                    renderableRotation[0],
-                    renderableRotation[1],
-                    renderableRotation[2]
-                });
-            }
-
-            if (ImGui::SliderFloat3("Scale##Renderable", renderableScale, -10.f, 10.f, "%.2f")) {
-                selectedRenderable->setScale({
-                    renderableScale[0],
-                    renderableScale[1],
-                    renderableScale[2]
-                });
-            }
         }
+        if (ImGui::Button("Remove Entity")) {
+            mScene_.getEntities().erase(mScene_.getEntities().begin() + mSelectedEntityIndex_);
+        }
+    }
+
+    if (ImGui::Button("Add Entity")) {
+        mScene_.addEntity();
     }
 }

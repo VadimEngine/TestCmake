@@ -66,6 +66,7 @@ void Mesh::loadMeshes() {
     ));
     sLoadedMeshByName_.emplace("Plane", new Mesh(
         std::vector<Vertex>{
+            // Position, normal, UV, tangent, bitangent
             {{-1.f, -1.f, 0.0f}, {0.0f,  0.0f, -1.0f},  {0.0f,  0.0f},{0,0,0},{0,0,0}},
             {{1.f, -1.f, 0.0f}, {0.0f,  0.0f, -1.0f},  {1.0f,  0.0f},{0,0,0},{0,0,0}},
             {{1.f,  1.f, 0.0f}, {0.0f,  0.0f, -1.0f},  {1.0f,  1.0f},{0,0,0},{0,0,0}},
@@ -77,6 +78,44 @@ void Mesh::loadMeshes() {
             0,1,2,
             3,4,5,
         }
+    ));
+    // Add circular plane
+    int segments = 16; // Adjust the number of segments for a smoother or more detailed circle
+
+    std::vector<Vertex> vertices;
+    std::vector<unsigned int> indices;
+
+    float radius = 1.0f;
+    float x, y, z;
+    for (int i = 0; i < segments; ++i) {
+        float theta = 2.0f * 3.1415926f * float(i) / float(segments);
+        x = radius * cosf(theta);
+        y = radius * sinf(theta);
+        z = 0.0f;
+
+        // UV coordinates
+        float u = 0.5f * (x / radius + 1.0f);
+        float v = 0.5f * (y / radius + 1.0f);
+
+        // normal is always (0, 0, 1) for a plane
+        vertices.push_back({{x, y, z}, {0.0f, 0.0f, 1.0f}, {u, v}, {0, 0, 0}, {0, 0, 0}});
+    }
+
+    // Triangulating the circle
+    for (int i = 0; i < segments - 2; ++i) {
+        indices.push_back(0);
+        indices.push_back(i + 1);
+        indices.push_back(i + 2);
+    }
+
+    // Closing the circle
+    indices.push_back(0);
+    indices.push_back(segments - 1);
+    indices.push_back(1);
+
+    sLoadedMeshByName_.emplace("CircularPlane", new Mesh(
+        vertices,
+        indices
     ));
 }
 

@@ -20,7 +20,6 @@ App::~App() {
     ImGuiComponent::deinitialize();
     glfwTerminate();
     delete mpRenderer_;
-    Shader::releaseShaders();
     Mesh::releaseMeshes();
 }
 
