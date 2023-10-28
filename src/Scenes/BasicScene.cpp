@@ -3,9 +3,7 @@
 
 BasicScene::BasicScene(App& theApp)
     : Scene(theApp), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()), mGui_(*this), 
-    mSpriteSheet_(Texture::getLoadedTexture("SpriteSheet").value(), {512, 512}, {16,16}), mSprite_(&mSpriteSheet_, glm::ivec2(0, 0)),
-    mSolidCubeRenderable_(&mCubeModel_, Shader::getLoadedShader("Assimp")), mSpriteRenderable_(&mSprite_), mTextureCubeRenderable_(&mCubeModel_, Shader::getLoadedShader("MVPTexShader")),
-    mFloorRenderable_(&mPlaneModel_, Shader::getLoadedShader("Assimp")) {
+    mSpriteSheet_(Texture::getLoadedTexture("SpriteSheet").value(), {512, 512}, {16,16}), mSprite_(&mSpriteSheet_, glm::ivec2(0, 0)) {
 
     mBackgroundColor_ = {.4,.4,.4,1.f};
     getFocusCamera()->setPosition({0,.1,5});
@@ -16,36 +14,41 @@ BasicScene::BasicScene(App& theApp)
     // First Entity
     Entity* theEntity1 = new Entity();
     // Solid cube properties
-    mSolidCubeRenderable_.setWireframeRendering(true);
-    mSolidCubeRenderable_.setColor({.3f, .3f, .3f, 1.0f});
+    ModelRenderable* solidCubeRenderable = new ModelRenderable(&mCubeModel_, Shader::getLoadedShader("Assimp"));
+    solidCubeRenderable->setWireframeRendering(true);
+    solidCubeRenderable->setColor({.3f, .3f, .3f, 1.0f});
     // Add Cube to Entity
-    theEntity1->addRenderable(&mSolidCubeRenderable_);
+    theEntity1->addRenderable(solidCubeRenderable);
     // Set sprite properties
-    mSpriteRenderable_.setColor({.3f, 0.f, 0.f, 1.0f});
-    mSpriteRenderable_.setPosition({0.f, 1.f, 0.f});
+    SpriteRenderable* spriteRenderable = new SpriteRenderable(&mSprite_);
+    spriteRenderable->setColor({.3f, 0.f, 0.f, 1.0f});
+    spriteRenderable->setPosition({0.f, 1.f, 0.f});
     // Add sprite to Entity 
-    theEntity1->addRenderable(&mSpriteRenderable_);
+    theEntity1->addRenderable(spriteRenderable);
     // First entity properties
     theEntity1->setPosition({0.f, 1.f, 0.f});
     mEntities_.push_back(theEntity1);
 
     // Second Entity
     Entity* theEntity2 = new Entity();
-    theEntity2->addRenderable(&mTextureCubeRenderable_);
+    ModelRenderable* textureCubeRenderable = new ModelRenderable(&mCubeModel_, Shader::getLoadedShader("MVPTexShader"));
     // Texture cube properties
-    mTextureCubeRenderable_.setTexture(0, Texture::getLoadedTexture("SampleTexture").value());
+    textureCubeRenderable->setTexture(0, Texture::getLoadedTexture("SampleTexture").value());
+    theEntity2->addRenderable(textureCubeRenderable);
     // Second Entity properties
     theEntity2->setPosition({3.f, 1.f, 0.f});
     mEntities_.push_back(theEntity2);
 
     // Third Entity (Floor)
     Entity* floorEntity = new Entity();
+    ModelRenderable* floorRenderable = new ModelRenderable(&mPlaneModel_, Shader::getLoadedShader("Assimp"));
+
     // Plane Renderable properties
-    mFloorRenderable_.setRotation({-90, 0, 0});
-    mFloorRenderable_.setScale({10, 10, 0});
-    mFloorRenderable_.setColor({0.f, 0.f, 0.f, 1.0f});
+    floorRenderable->setRotation({-90, 0, 0});
+    floorRenderable->setScale({10, 10, 0});
+    floorRenderable->setColor({0.f, 0.f, 0.f, 1.0f});
     // Add renderable to floor entity
-    floorEntity->addRenderable(&mFloorRenderable_);
+    floorEntity->addRenderable(floorRenderable);
     mEntities_.push_back(floorEntity);
 }
 

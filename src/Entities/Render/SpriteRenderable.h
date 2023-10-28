@@ -1,8 +1,9 @@
 #pragma once
-#include "IRenderable.h"
+#include "BaseRenderable.h"
 #include "SpriteSheet.h"
 
-class SpriteRenderable : public IRenderable {
+// TODO maybe remove since this can just be a plane mesh renderable
+class SpriteRenderable : public BaseRenderable {
 private:
     /** The Sprite for this Renderable. */
     SpriteSheet::Sprite* mpSprite_;

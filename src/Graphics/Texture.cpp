@@ -2,7 +2,6 @@
 
 std::unordered_map<std::string, unsigned int> Texture::sLoadedTextureIdByName_;
 
-
 /** Load the preset list of Meshes */
 void Texture::loadTextures() {
     sLoadedTextureIdByName_["SpriteSheet"] = loadTexture("res/Sprites.png");
@@ -13,7 +12,7 @@ const std::optional<unsigned int> Texture::getLoadedTexture(const std::string& t
     if (sLoadedTextureIdByName_.find(textureName) != sLoadedTextureIdByName_.end()) {
         return sLoadedTextureIdByName_.find(textureName)->second;
     } else {
-        return {};
+        return std::nullopt;
     }
 }
 

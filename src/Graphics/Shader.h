@@ -11,8 +11,9 @@
 
 class Shader {
 private:
-    /** Map to hold loaded Textures */
-    static std::unordered_map<std::string, const Shader*> sLoadedShaderByName_;
+    /** Map to hold loaded Shaders */
+    static std::unordered_map<std::string, const Shader> sLoadedShaderByName_;
+
 public:
     /** Load the preset list of Shaders */
     static void loadShaders();
@@ -22,9 +23,6 @@ public:
      * \param textureName Name of the loaded Shader
      */
     static const Shader* getLoadedShader(const std::string& shaderName);
-
-    /** Delete the loaded shaders */
-    static void releaseShaders();
 
 private:
     /** Program Id for this Shader*/

@@ -20,7 +20,14 @@ void MenuGUI::buildImGui() {
     if (ImGui::Button("Scene 2d")) {
         mScene_.getApp().setScene(new Scene2d(mScene_.getApp()));
         mScene_.setRemove(true);
-
+    }
+    if (ImGui::Button("Physics Scene")) {
+        mScene_.getApp().setScene(new PhysicsScene(mScene_.getApp()));
+        mScene_.setRemove(true);
+    }
+    if (ImGui::Button("Pong Scene")) {
+        mScene_.getApp().setScene(new PongScene(mScene_.getApp()));
+        mScene_.setRemove(true);
     }
     if (ImGui::Button("Exit")) {
         mScene_.getApp().quit();

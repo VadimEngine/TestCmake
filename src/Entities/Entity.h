@@ -1,5 +1,6 @@
 #pragma once
-#include "IRenderable.h"
+#include "BaseRenderable.h"
+#include "PhysicsComponentBase.h"
 #include <vector>
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
@@ -7,12 +8,13 @@
 #include "Camera.h"
 #include "Shader.h"
 #include <utility>
+#include <unordered_map>
+#include "RigidBodyComponent.h"
 
 class Entity {
 private:
-    // TODO have entity own the renderable and delete them?
     /** List of all rendering components*/
-    std::vector<IRenderable*> mRenderableComponents_;
+    std::vector<BaseRenderable*> mRenderableComponents_;
 
     /** Entity Position */
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
@@ -22,6 +24,12 @@ private:
     
     /** Entity Scale */
     glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
+
+    /** Velocity*/
+    glm::vec3 mVelocity_ = {0.0f, 0.0f, 0.0f};
+
+    /** Physics components attached to this Entity*/
+    std::unordered_map<PhysicsComponentBase::ComponentType, PhysicsComponentBase*> mPhysicsComponents_;
 
 public:
     /** Constructor */
@@ -41,7 +49,7 @@ public:
     void render(Renderer& theRenderer, Camera& theCamera);
 
     /** Get the list of renderable component */
-    std::vector<IRenderable*>& getRenderableComponents();
+    std::vector<BaseRenderable*>& getRenderableComponents();
 
     /** Get this Entity's position */
     glm::vec3 getPosition() const;
@@ -52,11 +60,14 @@ public:
     /** Get this Entity's scale */
     glm::vec3 getScale() const;
 
+    /** Get the velocity of this Entity*/
+    glm::vec3 getVelocity() const;
+
     /**
-     * Add a Renderable for this Entity
+     * Add a Renderable for this Entity. Renderables are owned by the entity and deleted when the Entity is deleted
      * \param newPosition New position vector
      */
-    void addRenderable(IRenderable* newRenderable); 
+    void addRenderable(BaseRenderable* newRenderable); 
 
     /**
      * Set this Entity's position
@@ -75,4 +86,18 @@ public:
      * \param newScale New scale vector
      */
     void setScale(const glm::vec3& newScale);
+
+    /**
+     * Set the velocity of this Entity
+     * \param newVelocity New velocity vector
+     */
+    void setVelocity(const glm::vec3& newVelocity);
+
+    /** Add a physics component of the specified class */
+    template<typename T>
+    void addPhysicsComponent();
+
+    /** Get a pointer to the physics component of the specified class if it exists */
+    template<typename T>
+    T* getPhysicsComponent();
 };

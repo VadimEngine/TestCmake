@@ -9,13 +9,13 @@ Scene2d::Scene2d(App& theApp)
     mpFocusCamera_->setPosition({0,0,5});
 
     Entity* theEntity1 = new Entity();
-    mSpriteRenderable1_.setSprite(&mSprite1_);
-    theEntity1->addRenderable(&mSpriteRenderable1_);
+    SpriteRenderable* sprite1Renderable1 = new SpriteRenderable(&mSprite1_);
+    theEntity1->addRenderable(sprite1Renderable1);
     mEntities_.push_back(theEntity1);
 
     Entity* theEntity2 = new Entity();
-    mSpriteRenderable1_.setSprite(&mSprite2_);
-    theEntity2->addRenderable(&mSpriteRenderable1_);
+    SpriteRenderable* sprite1Renderable2 = new SpriteRenderable(&mSprite2_);
+    theEntity2->addRenderable(sprite1Renderable2);
     theEntity2->setPosition({1.f, 0.f, 0.f});
     mEntities_.push_back(theEntity2);
 }
