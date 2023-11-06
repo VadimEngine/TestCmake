@@ -46,3 +46,15 @@ Scene 2d is testing scene for making a 2d application. It consists of sprites th
 ![alt text](./ScreenShots/PhysicsScene.png)
 
 Physics 2d is testing scene for developing and experimenting with physics properties. It consists of 2d entities that can collide with each other.
+
+### Games Scene
+
+![alt text](./ScreenShots/GamesScene.png)
+
+Games Scene is a scene to hold that multiple mini-games that are made using this engine
+
+### Pong Scene
+
+![alt text](./ScreenShots/PongScene.png)
+
+Pong Scene is a mini game that consists of 2 paddles and a ball. Scoring is tracked when the ball hits the other sides and the game can be replayed.
