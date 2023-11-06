@@ -1,23 +1,26 @@
 #pragma once
 #include "Scene.h"
-#include "Entity.h"
 #include "PongSceneGUI.h"
+#include <Pong/PongGame.h>
 
 // Forward Declare App
 class App;
 
 class PongScene : public Scene {
 private:
-        /** GUI for this Scene*/
+    /** GUI for this Scene*/
     PongSceneGUI mGui_;
+    /** Game logic handler */
+    Pong::PongGame mGame_;
 
-    /** Entities rendered in this Scene */
-    std::vector<Entity*> mEntities_;
 public:
-
-
+    /**  
+     * Constructor
+     * \param theApp Parent app handling this Scene
+     */
     PongScene(App& theApp);
 
+    /** Destructor */
     ~PongScene();
 
     /** 
@@ -32,7 +35,15 @@ public:
      */
     void render(Renderer& renderer) override;
 
-    /** get the entities in this scene*/
-    std::vector<Entity*>& getEntities();
+    /** 
+     * On keyboard key press handler
+     * \param newColor key code for pressed key
+     */
+    void onKeyPress(unsigned int code) override;
 
+    /** 
+     * On keyboard key release handler
+     * \param newColor key code for released key
+     */
+    void onKeyRelease(unsigned int code) override;
 };

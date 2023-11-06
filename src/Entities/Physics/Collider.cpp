@@ -40,7 +40,7 @@ std::optional<glm::vec3> Collider::getCollisionNormal(Collider* otherCollider) c
 
         glm::vec3 posDiff = circleCenter - glm::vec3{closestX, closestY, 0};
 
-        if (abs(posDiff.x) <= this->getWidthDiv2() && abs(posDiff.y) <= this->getHeightDiv2()) {
+        if (abs(posDiff.x) <= otherCollider->getWidthDiv2() && abs(posDiff.y) <= otherCollider->getHeightDiv2()) {
             // To get vector from A to B you do B - A
             // find normal pointing from Circle to Rectangle (from other pointing to this)
             float diffX = closestX - circleCenter.x;

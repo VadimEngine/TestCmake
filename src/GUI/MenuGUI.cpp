@@ -11,7 +11,7 @@ void MenuGUI::buildImGui() {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImVec2(250, 480), ImGuiCond_FirstUseEver);
     ImGui::Begin("Menu", NULL,  ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar);
-    ImGui::Text("OpenGL Menu");
+    ImGui::Text("OpenGL Sandbox");
 
     if (ImGui::Button("Basic Scene")) {
         mScene_.getApp().setScene(new BasicScene(mScene_.getApp()));
@@ -25,8 +25,8 @@ void MenuGUI::buildImGui() {
         mScene_.getApp().setScene(new PhysicsScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
-    if (ImGui::Button("Pong Scene")) {
-        mScene_.getApp().setScene(new PongScene(mScene_.getApp()));
+    if (ImGui::Button("Games")) {
+        mScene_.getApp().setScene(new GamesScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
     if (ImGui::Button("Exit")) {

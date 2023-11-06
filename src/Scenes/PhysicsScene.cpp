@@ -4,10 +4,10 @@
 PhysicsScene::PhysicsScene(App& theApp)
     : Scene(theApp), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()), mGui_(*this) {
     mBackgroundColor_ = {.4,.4,.4,1.f};
-    getFocusCamera()->setPosition({0,.1,5});
+    getFocusCamera()->setPosition({0,0,5});
 
     mCircleModel_.addMesh(*(Mesh::getLoadedMesh("CircularPlane")));
-    mRectModel_.addMesh(*(Mesh::getLoadedMesh("Plane")));
+    mRectModel_.addMesh(*(Mesh::getLoadedMesh("RectPlane")));
 
     Entity* theEntity1 = new Entity();
     theEntity1->addRenderable(new ModelRenderable(&mCircleModel_, Shader::getLoadedShader("Assimp")));
@@ -31,7 +31,12 @@ PhysicsScene::PhysicsScene(App& theApp)
     mEntities_.push_back(theEntity3);
 }
 
-PhysicsScene::~PhysicsScene() {}
+PhysicsScene::~PhysicsScene() {
+    delete mpFocusCamera_;
+    for (auto& eachEntity : mEntities_) {
+        delete eachEntity;
+    }
+}
 
 void PhysicsScene::update(const float dt) {
     mCameraController_.update(dt);

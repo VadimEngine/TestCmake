@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include "InputHandler.h"
 #include <string>
+#include <glm/vec2.hpp>
 
 class Window {
 private:
@@ -21,7 +22,7 @@ private:
 
 public:
     /** Constructor */
-    Window(const std::string& windowLbl = "");
+    Window(const std::string& windowLbl = "", int width = SCR_WIDTH, int height = SCR_HEIGHT);
 
     /** Destructor */
     ~Window();
@@ -49,6 +50,9 @@ public:
 
     /** Get the GLFW swap interaval */
     int getGLFWSwapInterval();
+
+    /** Get the screen dimension of this window*/
+    glm::vec2 getWindowDimensions();
 
     /** Get the input handler listening to this Window's inputs */
     InputHandler& getInputHandler();

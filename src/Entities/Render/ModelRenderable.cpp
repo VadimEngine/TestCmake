@@ -30,10 +30,10 @@ void ModelRenderable::render(const Renderer& theRenderer, const Camera& theCamer
     mpShader_->setVec4("uColor", mColor_);
     mpShader_->setMat4("model", parentModelMat * localModelMat);
     mpShader_->setMat4("view", theCamera.getViewMatrix());
-    mpShader_->setMat4("projection",  theCamera.getProjectionMatrix());
+    mpShader_->setMat4("projection", theCamera.getProjectionMatrix());
     mpModel_->render(*mpShader_);
 
-    if (drawWireframe_) {
+    if (renderWireframe_) {
         // Enable wire frame
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         mpShader_->setBool("wireframeMode",true);
@@ -67,5 +67,5 @@ void ModelRenderable::setTexture(unsigned int textureUnit, unsigned int textureI
 }
 
 void ModelRenderable::setWireframeRendering(const bool enable) {
-    drawWireframe_ = enable;
+    renderWireframe_ = enable;
 }

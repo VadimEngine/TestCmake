@@ -26,6 +26,10 @@ void Camera::setFOV(const float newFOV) {
     mFOV_ = newFOV;
 }
 
+void Camera::setAspectRatio(float newAspect) {
+    mAspectRatio_ = newAspect;
+}
+
 void Camera::setPosition(glm::vec3 newPosition) {
     mPosition_ = newPosition;
 }
@@ -50,7 +54,7 @@ glm::mat4 Camera::getProjectionMatrix() const {
         // TODO get the width and height from somewhere instead of magic numbers
         // If camera is used by renderer, the renderer can have screen size saved and pass them here as parameters
         // could do glfwGetWindowSize(mpApp_->getWindow()->getGLFWWindow(), &windowWidth, &windowHeight);
-        return glm::perspective(glm::radians(mFOV_), (float)800 / (float)600, 0.1f, 100.0f);
+        return glm::perspective(glm::radians(mFOV_), mAspectRatio_, 0.1f, 100.0f);
     } else if (mMode_ == CameraMode::ORTHOGONAL) {
         return glm::ortho(-2.0f, +2.0f, -1.5f, +1.5f, 0.1f, 100.0f);
     }

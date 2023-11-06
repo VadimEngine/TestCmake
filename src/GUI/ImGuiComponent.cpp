@@ -65,10 +65,10 @@ bool ImGuiComponent::isRemove() const {
     return mIsRemove_;
 }
 
-bool ImGuiComponent::mouseOnGUI() const {
+bool ImGuiComponent::mouseOnGUI() {
     return ImGui::GetIO().WantCaptureMouse;
 }
 
-bool ImGuiComponent::keyboardGUIFocus() const {
+bool ImGuiComponent::keyboardGUIFocus() {
     return ImGui::GetIO().WantCaptureKeyboard;
 }

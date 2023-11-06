@@ -11,6 +11,10 @@ private:
 
     /** If the GUI is set to enable VSync */
     bool mVSyncEnabled_;
+
+    /** Volume this gui applies */
+    float mVolume_;
+
 public:
     /** 
      * Constructor

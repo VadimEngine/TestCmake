@@ -60,7 +60,7 @@ public:
      * Do collision actions on the Entity/RigidBody if there is a collision 
      * \param otherCollider Other Collider that may be colliding with this Collider
      */
-    void handleIfCollision(RigidBodyComponent* other);
+    bool handleIfCollision(RigidBodyComponent* other);
 
     /**
      * Do attraction actions on the Entity/RigidBody if there is an attraction 

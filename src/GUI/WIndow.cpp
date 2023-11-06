@@ -32,7 +32,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
-Window::Window(const std::string& windowLbl) {
+Window::Window(const std::string& windowLbl, int width, int height) {
     if (!glfwInit()) {
         throw std::runtime_error("glfwInit failed");
     }
@@ -43,7 +43,7 @@ Window::Window(const std::string& windowLbl) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
     //glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    mpGLFWWindow_ = glfwCreateWindow(640, 480, windowLbl.c_str(), NULL, NULL);
+    mpGLFWWindow_ = glfwCreateWindow(width, height, windowLbl.c_str(), NULL, NULL);
     if (mpGLFWWindow_ == nullptr) {
         glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window");
@@ -94,6 +94,13 @@ void Window::setVSync(const bool enabled) {
 
 int Window::getGLFWSwapInterval() {
     return mSwapInterval_;
+}
+
+glm::vec2 Window::getWindowDimensions() {
+    int winWidth;
+    int winHeight;
+    glfwGetWindowSize(mpGLFWWindow_, &winWidth, &winHeight);
+    return {winWidth, winHeight};
 }
 
 InputHandler& Window::getInputHandler() {

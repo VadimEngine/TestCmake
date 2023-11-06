@@ -2,23 +2,25 @@
 #include "App.h"
 
 PongScene::PongScene(App& theApp)
-    : Scene(theApp), mGui_(*this) {}
+    : Scene(theApp), mGui_(*this), mGame_(mApp_) {
+    getFocusCamera()->setPosition({0,0,10});
+}
 
-PongScene::~PongScene() {}
+PongScene::~PongScene() {
+    delete mpFocusCamera_;
+}
 
 void PongScene::update(const float dt) {
-    for (int i = 0; i < mEntities_.size(); i++) {
-        mEntities_[i]->update(dt);
-    }
+    mGame_.update(dt);
 }
 
 void PongScene::render(Renderer& renderer) {
-    for (int i = 0; i < mEntities_.size(); i++) {
-        mEntities_[i]->render(renderer, *getFocusCamera());
-    }
+    mGame_.render(renderer, *getFocusCamera());
     mGui_.render();
 }
 
-std::vector<Entity*>& PongScene::getEntities() {
-    return mEntities_;
+void PongScene::onKeyPress(unsigned int code) {
+    mGame_.onKeyPress(code);
 }
+
+void PongScene::onKeyRelease(unsigned int code) {}

@@ -2,23 +2,19 @@
 
 // EVENT
 
-InputHandler::Event::Event(Type type, unsigned char code)
+InputHandler::KeyEvent::KeyEvent(Type type, unsigned int code)
     : type(type), code(code) {
 }
 
-bool InputHandler::Event::isPress() const {
+bool InputHandler::KeyEvent::isPress() const {
     return type == Type::PRESS;
 }
 
-bool InputHandler::Event::isRelease() const {
+bool InputHandler::KeyEvent::isRelease() const {
     return type == Type::RELEASE;
 }
 
-bool InputHandler::Event::isInvalid() const {
-    return type == Type::INVALID;
-}
-
-unsigned char InputHandler::Event::getCode() const {
+unsigned int InputHandler::KeyEvent::getCode() const {
     return code;
 }
 
@@ -31,21 +27,38 @@ InputHandler::InputHandler() {}
 InputHandler::~InputHandler() {}
 
 void InputHandler::onKeyPressed(int keyCode) {
-    mKeyPressed_[keyCode] = true;
+    keyStates[keyCode] = true;
+    keyQueue.push(InputHandler::KeyEvent(InputHandler::KeyEvent::Type::PRESS, keyCode));
+    trimBuffer();
 }
 
 void InputHandler::onKeyReleased(int keyCode) {
-    mKeyPressed_[keyCode] = false;
+    keyStates[keyCode] = false;
+    keyQueue.push(InputHandler::KeyEvent(InputHandler::KeyEvent::Type::RELEASE, keyCode));
+    trimBuffer();
 }
 
 bool InputHandler::isKeyPressed(int keyCode) const {
-    return mKeyPressed_[keyCode];
+    return keyStates[keyCode];
 }
 
-// when losing focus
 void InputHandler::clearKeys() {
-    for (int i = 0; i < 1024; i++) {
-        mKeyPressed_[i] = false;
+    keyStates.reset();
+}
+
+std::optional<InputHandler::KeyEvent> InputHandler::getKeyEvent() {
+    if (keyQueue.size() > 0) {
+        InputHandler::KeyEvent e = keyQueue.front();
+        keyQueue.pop();
+        return e;
+    } else {
+        return std::nullopt;
+    }
+}
+
+void InputHandler::trimBuffer() {
+    while (keyQueue.size() > maxKeyQueueSize) {
+        keyQueue.pop();
     }
 }
 

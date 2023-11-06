@@ -20,6 +20,8 @@ private:
     glm::vec3 mRight_;
     /** Camera FOV in degrees */
     float mFOV_ = 45.0f;
+    /** Aspect ratio for perspective matrix */
+    float mAspectRatio_ = 1.f;
     /** Camera rotation vector (TODO try quaternions) */
     glm::vec3 mRotation_ = glm::vec3(0.0, 0.0f, 0.0f);
     /** The camera's mode */
@@ -63,6 +65,12 @@ public:
      * \param newFOV New FOV in degrees
      */
     void setFOV(const float newFOV);
+
+    /**
+     * Set the Camera Aspect Ratio
+     * \param newAspect New Camera Aspect ratio
+     */
+    void setAspectRatio(float newAspect);
 
     /**
      * Set the Camera Position 

@@ -64,7 +64,7 @@ void Mesh::loadMeshes() {
             33,34,35
         }
     ));
-    sLoadedMeshByName_.emplace("Plane", new Mesh(
+    sLoadedMeshByName_.emplace("RectPlane", new Mesh(
         std::vector<Vertex>{
             // Position, normal, UV, tangent, bitangent
             {{-1.f, -1.f, 0.0f}, {0.0f,  0.0f, -1.0f},  {0.0f,  0.0f},{0,0,0},{0,0,0}},

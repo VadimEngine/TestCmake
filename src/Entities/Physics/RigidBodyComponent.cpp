@@ -28,10 +28,11 @@ Collider& RigidBodyComponent::getCollider() {
     return mCollider_;
 }
 
-void RigidBodyComponent::handleIfCollision(RigidBodyComponent* other) {
+bool RigidBodyComponent::handleIfCollision(RigidBodyComponent* other) {
     std::optional<glm::vec3> thisCollisionNormal = mCollider_.getCollisionNormal(&(other->getCollider()));
 
     if (thisCollisionNormal.has_value()) {
+        bool collision = false;
         Entity& thisEntity = mEntity_;
         Entity& otherEntity = other->getEntity();
 
@@ -39,13 +40,18 @@ void RigidBodyComponent::handleIfCollision(RigidBodyComponent* other) {
             thisEntity.setVelocity(
                 glm::reflect(thisEntity.getVelocity(), glm::normalize( thisCollisionNormal.value()))
             );
+            collision = true;
         }
 
         if (other->mMobile_) {
             otherEntity.setVelocity(
                 glm::reflect(otherEntity.getVelocity(), glm::normalize( -thisCollisionNormal.value()))
             );
+            collision = true;
         }
+        return collision;
+    } else {
+        return false;
     }
 }
 

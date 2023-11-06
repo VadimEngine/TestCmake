@@ -3,7 +3,7 @@
 bool App::sOpenGLInitialized_ = false;
 
 App::App() 
- : mWindow_("OpenGL Application") {
+ : mWindow_("OpenGL Application", 800, 600) {
     // Initialize OpenGL, imgui and load resources
     initializeOpenGL();
     ImGuiComponent::initializeImGui(mWindow_.getGLFWWindow());
@@ -11,7 +11,7 @@ App::App()
     Shader::loadShaders();
     Mesh::loadMeshes();
     // Create Scene and renderer (must be called after OpenGL is initialized)
-    mpRenderer_ = new Renderer();
+    mpRenderer_ = new Renderer(800, 600);
     mScenes_.push_back(new MenuScene(*this));
 }
 
@@ -21,6 +21,9 @@ App::~App() {
     glfwTerminate();
     delete mpRenderer_;
     Mesh::releaseMeshes();
+    // Play "0" audio to clear audio buffer
+    mAudioManger_.playSound(0);
+    AudioManager::freeLoadedAudios();
 }
 
 void App::run() {
@@ -44,6 +47,18 @@ void App::update() {
         } else {
             (*it)->update(dt.count());
             it++;
+        }
+    }
+    // Propagate key events to the scenes
+    InputHandler& handler = getWindow().getInputHandler();
+
+    while (const auto keyEvent = handler.getKeyEvent()) {
+        for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); it++) {
+            if (keyEvent.value().isPress()) {
+                (*it)->onKeyPress(keyEvent.value().getCode());
+            } else if (keyEvent.value().isRelease()) {
+                (*it)->onKeyRelease(keyEvent.value().getCode());
+            }
         }
     }
 }
@@ -107,7 +122,14 @@ void App::initializeOpenGL() {
         glEnable(GL_CULL_FACE);// Default is counter clockwise
         //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Enable alpha drawing
         glEnable(GL_DEPTH_TEST); // Enable z-buffer
+        // Needed for text rendering
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         sOpenGLInitialized_ = true;
     }
+}
+
+AudioManager& App::getAudioManger() {
+    return mAudioManger_;
 }

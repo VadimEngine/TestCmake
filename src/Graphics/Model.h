@@ -17,11 +17,15 @@ private:
 public:
     /** Constructor */
     Model();
+
+    /** Destructor */
+    ~Model();
+
     /** 
      * Add a mesh to the model
      * \param newMesh Mesh to add
      */
-    void addMesh(Mesh newMesh);
+    void addMesh(const Mesh& newMesh);
 
     /**
      * Load and add a mesh to the model
@@ -31,7 +35,7 @@ public:
 
     /**
      * Draw the Model meshes
-     * \param shader Shader to draw the meshes with
+     * \param shader Shader to render the meshes with
      */
     void render(const Shader& shader) const;
 

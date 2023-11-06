@@ -1,31 +1,37 @@
 #pragma once
+#include <queue>
+#include <bitset>
+#include <optional>
+#include <GLFW/glfw3.h>
 
 // TODO make child keyboardInput/mouseInput class?
 class InputHandler {
 
 public:
-    // TODO use this class in a input queue 
-    class Event {
+    class KeyEvent {
     public:
         enum class Type {
-            PRESS, RELEASE, INVALID
+            PRESS, RELEASE
         };
     private:
         Type type;
-        unsigned char code;
+        unsigned int code;
     public:
-        Event(Type type, unsigned char code);
+        KeyEvent(Type type, unsigned int code);
         bool isPress() const;
         bool isRelease() const;
-        bool isInvalid() const;
-        unsigned char getCode() const;
+        unsigned int getCode() const;
     };
 private:
-    /**
-     * Array of currently pressed keys
-     * Maybe use a bitset
-     */
-    bool mKeyPressed_[1024] = {0};
+    /** Number of key codes to check status of*/
+    static constexpr unsigned int nKeys = 512;
+    /** Max number of key events in the event queue */
+    static constexpr unsigned int maxKeyQueueSize = 16;
+
+	/** Bit set to track which keys are currently pressed*/
+    std::bitset<nKeys> keyStates;
+    /** Queue of key events to use for single updates on a key event */
+    std::queue<KeyEvent> keyQueue;
 public:
     /** Constructor */
     InputHandler();
@@ -52,5 +58,10 @@ public:
      * Set all tracked keys as not pressed. Used when losing focus on application 
      */
     void clearKeys();
-};
 
+    std::optional<KeyEvent> getKeyEvent();
+
+private:
+    /** Helper method to keep keyBuffer within the size limit */
+    void trimBuffer();
+};

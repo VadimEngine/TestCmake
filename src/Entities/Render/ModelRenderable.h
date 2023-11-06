@@ -8,14 +8,14 @@ private:
     /**The Model of this Model Renderable */
     const Model* mpModel_ = nullptr;
     
-    /** The Shader used to draw this model */
+    /** The Shader used to render this model */
     const Shader* mpShader_ = nullptr;
 
     /** Map of texture ids and the uniform name for the shader*/
     std::unordered_map<unsigned int, unsigned int> mTextureIdByUnit_;
 
-    /** If the wire frames are also drawn*/
-    bool drawWireframe_ = false;
+    /** If the wire frames are also rendered */
+    bool renderWireframe_ = false;
 
 public:
     /**
@@ -43,7 +43,7 @@ public:
     const Shader* getShader() const;
 
     /**
-     * Set the model this Renderable will draw 
+     * Set the model this Renderable will render 
      * \param pModel the Model
      */
     void setModel(Model* pModel);
