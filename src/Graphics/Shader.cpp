@@ -12,6 +12,9 @@ void Shader::loadShaders() {
     sLoadedShaderByName_.emplace(
         std::piecewise_construct, std::forward_as_tuple("Texture2d"), std::forward_as_tuple("src/Shaders/Texture2d.vert", "src/Shaders/Texture2d.frag")
     );
+    sLoadedShaderByName_.emplace(
+        std::piecewise_construct, std::forward_as_tuple("Text"), std::forward_as_tuple("src/Shaders/Text.vert", "src/Shaders/Text.frag")
+    );
 }
 
 const Shader* Shader::getLoadedShader(const std::string& shaderName) {

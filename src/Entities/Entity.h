@@ -12,7 +12,7 @@
 #include "RigidBodyComponent.h"
 
 class Entity {
-private:
+protected:
     /** List of all rendering components*/
     std::vector<BaseRenderable*> mRenderableComponents_;
 
@@ -36,10 +36,10 @@ public:
     Entity();
 
     /** Destructor */
-    ~Entity();
+    virtual ~Entity();
 
     /** Update this Entity*/
-    void update(float dt);
+    virtual void update(float dt);
 
     /**
      * Render all renderable components of this Entity

@@ -2,7 +2,9 @@
 
 Model::Model() {}
 
-void Model::addMesh(Mesh newMesh){
+Model::~Model() {}
+
+void Model::addMesh(const Mesh& newMesh){
     mMeshes_.push_back(newMesh);
 }
 

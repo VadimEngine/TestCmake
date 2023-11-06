@@ -2,14 +2,14 @@
 #include "App.h"
 
 BasicScene::BasicScene(App& theApp)
-    : Scene(theApp), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()), mGui_(*this), 
+    : Scene(theApp), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()), mGui_(*this),
     mSpriteSheet_(Texture::getLoadedTexture("SpriteSheet").value(), {512, 512}, {16,16}), mSprite_(&mSpriteSheet_, glm::ivec2(0, 0)) {
 
     mBackgroundColor_ = {.4,.4,.4,1.f};
     getFocusCamera()->setPosition({0,.1,5});
 
     mCubeModel_.addMesh(*(Mesh::getLoadedMesh("Cube")));
-    mPlaneModel_.addMesh(*(Mesh::getLoadedMesh("Plane")));
+    mPlaneModel_.addMesh(*(Mesh::getLoadedMesh("RectPlane")));
     
     // First Entity
     Entity* theEntity1 = new Entity();

@@ -63,4 +63,16 @@ public:
 
     /** If this scene is set for removal */
     bool isRemove() const;
+
+    /** 
+     * On keyboard key press handler
+     * \param code key code for pressed key
+     */
+    virtual void onKeyPress(unsigned int code);
+
+    /** 
+     * On keyboard key release handler
+     * \param code key code for released key
+     */
+    virtual void onKeyRelease(unsigned int code);
 };

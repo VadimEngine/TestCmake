@@ -4,12 +4,14 @@
 #include <GL/glew.h>
 #include "Window.h"
 #include "BasicScene.h"
+#include "GamesScene.h"
 #include "MenuScene.h"
 #include "PhysicsScene.h"
 #include "PongScene.h"
 #include "Scene2d.h"
 #include "Logger.h"
 #include "Renderer.h"
+#include "AudioManager.h"
 
 class App {
 private:
@@ -23,6 +25,8 @@ private:
     std::list<Scene*> mScenes_;
     /** Renderer used to*/
     Renderer* mpRenderer_ = nullptr;
+    /** Audio manager */
+    AudioManager mAudioManger_;
 
 public:
     /** Default Constructor */
@@ -63,6 +67,9 @@ public:
 
     /** Get Application Window */
     Window& getWindow();
+
+    /** Get the audio manager for this application */
+    AudioManager& getAudioManger();
 
 private:
     /** Initialize OpenGL if not already initialized */

@@ -30,7 +30,7 @@ public:
     /** Deinitialize imgui. Used upon application closure */
     static void deinitialize();
 
-    /** Begin the Imgui draw protocol */
+    /** Begin the Imgui render protocol */
     static void startRender();
 
     /** Build the imgui component for every frame*/
@@ -52,8 +52,8 @@ public:
     bool isRemove() const;
 
     /** If the mouse is currently on a GUI*/
-    bool mouseOnGUI() const;
+    static bool mouseOnGUI();
 
     /** If the keyboard is focusing on a GUI component */
-    bool keyboardGUIFocus() const;
+    static bool keyboardGUIFocus();
 };

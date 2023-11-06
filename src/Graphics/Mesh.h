@@ -10,6 +10,7 @@
 
 class Mesh {
 public:
+    /** Mesh Vertex info*/
     struct Vertex {
         glm::vec3 position;
         glm::vec3 normal;
@@ -17,7 +18,7 @@ public:
         glm::vec3 tangent;
         glm::vec3 bitangent;
     };
-
+    /** Mesh Texture info*/
     struct Texture {
         unsigned int id;
         std::string type;
@@ -42,7 +43,7 @@ public:
 
     /** Vertices of this mesh */
     std::vector<Vertex> vertices;
-    /** Order to draw the vertices in*/
+    /** Order to render the vertices in */
     std::vector<unsigned int> indices;
     /** Textures TODO use this*/
     std::vector<Texture> textures;

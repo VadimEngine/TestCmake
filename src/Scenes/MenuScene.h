@@ -2,8 +2,12 @@
 #include "Scene.h"
 #include "MenuGUI.h"
 
+// Forward Declare App
+class App;
+
 class MenuScene : public Scene {
 private:
+    /** GUI for this scene*/
     MenuGUI mGui_;
 public:
     /**  

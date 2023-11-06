@@ -18,7 +18,7 @@ void SpriteRenderable::render(const Renderer& theRenderer, const Camera& theCame
     glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), mScale_);
 
     glm::mat4 localModelMat  = translationMatrix * rotationMatrix * scaleMatrix;
-    theRenderer.drawSprite(*mpSprite_, theCamera, parentModelMat * localModelMat, mColor_);
+    theRenderer.renderSprite(*mpSprite_, theCamera, parentModelMat * localModelMat, mColor_);
 }
 
 void SpriteRenderable::setSprite(SpriteSheet::Sprite* pSprite) {

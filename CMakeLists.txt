@@ -8,15 +8,21 @@ set_property(CACHE BUILD_MODE PROPERTY STRINGS "x64" "Win32")
 
 # Add the include directories
 include_directories(
-    ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/include
-    ${CMAKE_SOURCE_DIR}/ThirdParty/GLEW/include
-    ${CMAKE_SOURCE_DIR}/ThirdParty/imgui
-    ${CMAKE_SOURCE_DIR}/ThirdParty/GLM
-    ${CMAKE_SOURCE_DIR}/ThirdParty/SOIL/include
-    ${CMAKE_SOURCE_DIR}/ThirdParty/assimp/include
-    ${CMAKE_SOURCE_DIR}/ThirdParty/assimp/contrib
+    ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/include # Openel windows
+    ${CMAKE_SOURCE_DIR}/ThirdParty/GLEW/include # OpenGL api
+    ${CMAKE_SOURCE_DIR}/ThirdParty/imgui # GUI components
+    ${CMAKE_SOURCE_DIR}/ThirdParty/GLM # Graphics Mathimatics
+    ${CMAKE_SOURCE_DIR}/ThirdParty/SOIL/include # Image file loading
+    ${CMAKE_SOURCE_DIR}/ThirdParty/assimp/include # 3d model file loading
+    ${CMAKE_SOURCE_DIR}/ThirdParty/assimp/contrib # 3d model file loading
+    ${CMAKE_SOURCE_DIR}/ThirdParty/openAL/include # Audio
+    ${CMAKE_SOURCE_DIR}/ThirdParty/sndfile/include # Audio file loading
+    ${CMAKE_SOURCE_DIR}/ThirdParty/freetype/include # Font/Text Rendering
+
 
     ${CMAKE_SOURCE_DIR}/src/Application
+    ${CMAKE_SOURCE_DIR}/src/Application/Games
+    ${CMAKE_SOURCE_DIR}/src/Audio
     ${CMAKE_SOURCE_DIR}/src/Graphics
     ${CMAKE_SOURCE_DIR}/src/GUI
     ${CMAKE_SOURCE_DIR}/src/Scenes
@@ -53,4 +59,10 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     opengl32.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/assimp/lib/assimp-vc142-mtd.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/assimp/lib/zlibstaticd.lib
+    ${CMAKE_SOURCE_DIR}/ThirdParty/openAL/lib/${BUILD_MODE}/al-excommon.lib
+    ${CMAKE_SOURCE_DIR}/ThirdParty/openAL/lib/${BUILD_MODE}/OpenAL32.lib
+    winmm.lib
+    ${CMAKE_SOURCE_DIR}/ThirdParty/sndfile/lib/${BUILD_MODE}/sndfile.lib
+    ${CMAKE_SOURCE_DIR}/ThirdParty/freetype/lib/${BUILD_MODE}/freetype.lib
+
 )
