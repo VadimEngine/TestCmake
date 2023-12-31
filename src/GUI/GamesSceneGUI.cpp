@@ -12,8 +12,12 @@ void GamesSceneGUI::buildImGui() {
     ImGui::SetNextWindowPos(ImVec2(0, 0));
     ImGui::SetNextWindowSize(ImVec2(250, 480), ImGuiCond_FirstUseEver);
     ImGui::Begin("Games");
-    if (ImGui::Button("Pong Scene")) {
-        mScene_.getApp().setScene(new PongScene(mScene_.getApp()));
+    if (ImGui::Button("Pong")) {
+        mScene_.getApp().setScene(new Pong::PongScene(mScene_.getApp()));
+        mScene_.setRemove(true);
+    }
+    if (ImGui::Button("Turn-Based Strategy")) {
+        mScene_.getApp().setScene(new TurnStrategy::TurnStrategyScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
     if (ImGui::Button("Back")) {

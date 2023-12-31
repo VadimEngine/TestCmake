@@ -10,11 +10,14 @@
 #include <utility>
 #include <unordered_map>
 #include "RigidBodyComponent.h"
+#include "Collider2.h"
 
 class Entity {
 protected:
     /** List of all rendering components*/
     std::vector<BaseRenderable*> mRenderableComponents_;
+
+    Collider2* mCollider_ = nullptr;
 
     /** Entity Position */
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
@@ -46,7 +49,9 @@ public:
      * \param theRenderer Helping Object for rendering
      * \param theCamera Camera to render relative to
      */
-    void render(Renderer& theRenderer, Camera& theCamera);
+    virtual void render(const Renderer& theRenderer, const Camera& theCamera) const;
+
+    virtual void renderHighlight(const Renderer& theRenderer, const Camera& theCamera) const;
 
     /** Get the list of renderable component */
     std::vector<BaseRenderable*>& getRenderableComponents();
@@ -92,6 +97,10 @@ public:
      * \param newVelocity New velocity vector
      */
     void setVelocity(const glm::vec3& newVelocity);
+
+    void setCollider2(Collider2* newCollider);
+
+    Collider2* getCollider() const;
 
     /** Add a physics component of the specified class */
     template<typename T>

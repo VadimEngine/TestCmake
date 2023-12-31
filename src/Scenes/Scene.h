@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Renderer.h"
 #include <glm/vec4.hpp>
+#include "InputHandler.h"
 
 // Forward declare App
 class App;
@@ -75,4 +76,21 @@ public:
      * \param code key code for released key
      */
     virtual void onKeyRelease(unsigned int code);
+
+    /** 
+     * On Mouse button press handler
+     * \param mousePos Mouse Position at time of the event
+     * \param mouseEvent Mouse event details
+     */
+    virtual void onMousePress(const InputHandler::MouseEvent& mouseEvent);
+
+    /** 
+     * On Mouse Button release handler
+     * \param mousePos Mouse Position at time of the event
+     * \param mouseEvent Mouse event details
+     */
+    virtual void onMouseRelease(const InputHandler::MouseEvent& mouseEvent);
+
+    virtual void onMouseWheel(const InputHandler::MouseEvent& mouseEvent);
+
 };

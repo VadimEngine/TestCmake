@@ -15,6 +15,15 @@ void Shader::loadShaders() {
     sLoadedShaderByName_.emplace(
         std::piecewise_construct, std::forward_as_tuple("Text"), std::forward_as_tuple("src/Shaders/Text.vert", "src/Shaders/Text.frag")
     );
+    sLoadedShaderByName_.emplace(
+        std::piecewise_construct, std::forward_as_tuple("Text2"), std::forward_as_tuple("src/Shaders/Text2.vert", "src/Shaders/Text2.frag")
+    );
+    sLoadedShaderByName_.emplace(
+        std::piecewise_construct, std::forward_as_tuple("Simple"), std::forward_as_tuple("src/Shaders/Simple.vert", "src/Shaders/Simple.frag")
+    );
+    sLoadedShaderByName_.emplace(
+        std::piecewise_construct, std::forward_as_tuple("MVPShader"), std::forward_as_tuple("src/Shaders/MVPShader.vert", "src/Shaders/MVPShader.frag")
+    );
 }
 
 const Shader* Shader::getLoadedShader(const std::string& shaderName) {

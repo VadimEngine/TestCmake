@@ -29,8 +29,18 @@ private:
     const Shader& mSpriteShader_;
     /** Shader for rendering Texts */
     const Shader& mTextShader_;
+
+    const Shader& mTextShader2_;
+
     /** Map of character font information */
     std::unordered_map<GLchar, Character> mCharacterFrontInfo_;
+
+
+    unsigned int mRectVAO_;
+
+    unsigned int mLineVAO_;
+    unsigned int mLineVBO_;
+
 public:
     /** Constructor */
     Renderer(float screenWidth, float screenHeight);
@@ -63,17 +73,24 @@ public:
      */
     void renderText(const std::string& text, glm::vec2 position, float scale, const glm::vec3& color);
 
+    void renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, float scale, const glm::vec3& color) const;
+
+
     /**
      * Render text centered at the given location. TODO scale.x scale.y
      * \param text The sprite to render
      * \param position Screen position to render (not normalized)
      * \param scale Scale of the text
-     * \param color Color of the rendered text
+     * \param color Color of the rendered text 
      */
-    void renderTextCentered(const std::string& text, glm::vec2 position, float scale, const glm::vec3& color);
+    void renderTextCentered(const std::string& text, glm::vec2 position, float scale, const glm::vec4& color);
 
     // Render line (coords, color, thickness)
     // Render shapes square/circle/triangle (hollow/color/thickness)
+
+    void renderRectangleSimple(const Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const;
+
+    void renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const;
 
 private:
     /** Load font and shaders for rendering Text */

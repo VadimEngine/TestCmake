@@ -26,6 +26,10 @@ unsigned int Texture::loadTexture(const std::string& texturePath) {
 
     if (textureData == nullptr) {
         LOG_E("ERROR LOADING TEXTURE: %s", textureData);
+        const char* errorMessage = SOIL_last_result();
+        if (errorMessage != nullptr) {
+            LOG_E("SOIL error: %s", errorMessage)
+        }
         throw std::runtime_error("Shader program linking failed");
     }
 

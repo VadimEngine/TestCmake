@@ -114,6 +114,9 @@ public:
     /** Get the Camera's Right vector */
     glm::vec3 getRight() const;
 
+    /** Get the Camera's Up vector */
+    glm::vec3 getUp() const;
+
     /** Get the Camera FOV in degrees */
     float getFOV() const;
 

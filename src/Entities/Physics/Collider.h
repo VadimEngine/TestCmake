@@ -6,6 +6,7 @@
 // Forward Declare RigidBody
 class RigidBodyComponent;
 
+// TODO remove this class (Replace with Collider2)
 class Collider {
 
 // TODO maybe local position, scale and rotation?
@@ -18,7 +19,8 @@ private:
     /** Description of the shape of this collider */
     Shape mShape_;
 
-    /** The rigid body this collider is tied to  */
+    /** The rigid body this collider is tied to */
+    // TODO remove this since a collider should be applyable without a rigidbody
     RigidBodyComponent& mRigidBody_;
 
     /** Dimensions of this Collider */

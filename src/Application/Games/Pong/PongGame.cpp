@@ -54,16 +54,16 @@ namespace Pong {
         glm::vec2 windowDimension = mApp_.getWindow().getWindowDimensions();
 
         if (currentState == GameState::INITIAL) {
-            renderer.renderTextCentered(initalMsg, {windowDimension.x/2.f, 400.0f}, .5f, {1.f, 1.f, 1.f});
+            renderer.renderTextCentered(initalMsg, {windowDimension.x/2.f, 400.0f}, .5f, {1.f, 1.f, 1.f, 1.f});
         } else if (currentState == GameState::PLAYING) {
-            std::string playMesg = std::to_string(leftScore) + ":" + std::to_string(rightScore);
-            renderer.renderTextCentered(playMesg,  {windowDimension.x/2.f, 400.0f}, .5f, {1.f, 1.f, 1.f});
+            std::string playMsg = std::to_string(leftScore) + ":" + std::to_string(rightScore);
+            renderer.renderTextCentered(playMsg,  {windowDimension.x/2.f, 400.0f}, .5f, {1.f, 1.f, 1.f, 1.f});
         } else if (currentState == GameState::PAUSE) {
-            renderer.renderTextCentered(pauseMsg, {windowDimension.x/2.f, 400.f}, .5f, {1.f, 1.f, 1.f});
+            renderer.renderTextCentered(pauseMsg, {windowDimension.x/2.f, 400.f}, .5f, {1.f, 1.f, 1.f, 1.f});
         } else if (currentState == GameState::END) {
-            renderer.renderTextCentered(endMsg,  {windowDimension.x/2.f, 400.0f}, .5f, {1.f, 1.f, 1.f});
-            std::string playMesg = std::to_string(leftScore) + ":" + std::to_string(rightScore);
-            renderer.renderTextCentered(playMesg, {windowDimension.x/2.f, 350.0f}, .5f, {1.f, 1.f, 1.f});
+            renderer.renderTextCentered(endMsg,  {windowDimension.x/2.f, 400.0f}, .5f, {1.f, 1.f, 1.f, 1.f});
+            std::string playMsg = std::to_string(leftScore) + ":" + std::to_string(rightScore);
+            renderer.renderTextCentered(playMsg, {windowDimension.x/2.f, 350.0f}, .5f, {1.f, 1.f, 1.f, 1.f});
         }
     }
 

@@ -48,11 +48,11 @@ public:
      */
     void setVSync(const bool enabled);
 
-    /** Get the GLFW swap interaval */
+    /** Get the GLFW swap interval */
     int getGLFWSwapInterval();
 
     /** Get the screen dimension of this window*/
-    glm::vec2 getWindowDimensions();
+    glm::ivec2 getWindowDimensions();
 
     /** Get the input handler listening to this Window's inputs */
     InputHandler& getInputHandler();
