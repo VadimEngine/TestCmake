@@ -3,8 +3,8 @@
 #include <bitset>
 #include <optional>
 #include <GLFW/glfw3.h>
+#include <glm/vec2.hpp>
 
-// TODO make child keyboardInput/mouseInput class?
 class InputHandler {
 
 public:
@@ -14,24 +14,58 @@ public:
             PRESS, RELEASE
         };
     private:
-        Type type;
-        unsigned int code;
+        Type mType_;
+        unsigned int mCode_;
     public:
         KeyEvent(Type type, unsigned int code);
-        bool isPress() const;
-        bool isRelease() const;
+        Type getType() const;
         unsigned int getCode() const;
     };
+
+    class MouseEvent {
+    public:
+        enum class Type {
+            PRESS,
+            RELEASE,
+            SCROLL_UP,
+            SCROLL_DOWN,
+            MOVE,
+            ENTER,
+            LEAVE,
+        };
+        enum class Button {
+            LEFT=0, MIDDLE, RIGHT, NUM_BUTTONS, NONE
+        };
+    private:
+        Type mType_;
+        Button button;
+        glm::ivec2 mPosition_;
+    public:
+        MouseEvent(Type type, Button button, const glm::ivec2& position);
+        Type getType() const;
+        Button getButton() const;
+        glm::ivec2 getPosition() const;
+    };
+
 private:
     /** Number of key codes to check status of*/
-    static constexpr unsigned int nKeys = 512;
+    static constexpr unsigned int kKeys = 512;
     /** Max number of key events in the event queue */
-    static constexpr unsigned int maxKeyQueueSize = 16;
+    static constexpr unsigned int kMaxQueueSize = 16;
 
-	/** Bit set to track which keys are currently pressed*/
-    std::bitset<nKeys> keyStates;
+	/** Bitset to track which keys are currently pressed*/
+    std::bitset<kKeys> mKeyStates_;
     /** Queue of key events to use for single updates on a key event */
-    std::queue<KeyEvent> keyQueue;
+    std::queue<KeyEvent> mKeyEventQueue_;
+
+    /** Current mouse position */
+    glm::ivec2 mMousePosition_;
+
+    /** Bitset to track current mouse button state */
+    std::bitset<3> mMouseStates_;
+    /** Queue of mouse events to use for single updates on a mouse event */
+    std::queue<MouseEvent> mMouseEventQueue_;
+
 public:
     /** Constructor */
     InputHandler();
@@ -54,14 +88,28 @@ public:
     /** Check if a key is marked as pressed */
     bool isKeyPressed(int keyCode) const;
 
-    /**
-     * Set all tracked keys as not pressed. Used when losing focus on application 
-     */
+    /** Set all tracked keys as not pressed. Used when losing focus on application */
     void clearKeys();
 
+    /** */
     std::optional<KeyEvent> getKeyEvent();
+
+    bool isMouseButtonPressed(InputHandler::MouseEvent::Button button);
+
+    std::optional<MouseEvent> getMouseEvent();
+
+    void onMousePress(MouseEvent::Button button);
+
+    void onMouseRelease(MouseEvent::Button button);
+
+    void onMouseMove(int x, int y);
+
+    glm::ivec2 getMousePosition();
+
+    void onMouseWheel(float yOffset);
 
 private:
     /** Helper method to keep keyBuffer within the size limit */
-    void trimBuffer();
+    template<typename T>
+    void trimBuffer(T eventQueue);
 };

@@ -35,3 +35,9 @@ void Scene::setRemove(const bool remove) {
 void Scene::onKeyPress(unsigned int code) {}
 
 void Scene::onKeyRelease(unsigned int code) {}
+
+void Scene::onMousePress(const InputHandler::MouseEvent& mouseEvent) {}
+
+void Scene::onMouseRelease(const InputHandler::MouseEvent& mouseEvent) {}
+
+void Scene::onMouseWheel(const InputHandler::MouseEvent& mouseEvent) {}

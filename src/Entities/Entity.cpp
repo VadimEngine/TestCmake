@@ -20,7 +20,7 @@ void Entity::update(float dt) {
     mPosition_ += mVelocity_ * dt;
 }
 
-void Entity::render(Renderer& theRenderer, Camera& theCamera) {
+void Entity::render(const Renderer& theRenderer, const Camera& theCamera) const{
     glm::mat4 model = glm::mat4(1.0f);
     
     // translation matrix for position
@@ -32,11 +32,17 @@ void Entity::render(Renderer& theRenderer, Camera& theCamera) {
     // scale matrix
     glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), mScale_);
 
+    const glm::mat4 modelMat = translationMatrix * rotationMatrix * scaleMatrix;
     for (const BaseRenderable* eachRenderable : mRenderableComponents_) {
         if (eachRenderable->isEnabled()) {
-            eachRenderable->render(theRenderer, theCamera, translationMatrix * rotationMatrix * scaleMatrix);
+            eachRenderable->render(theRenderer, theCamera, modelMat);
         }
     }
+}
+
+void Entity::renderHighlight(const Renderer& theRenderer, const Camera& theCamera) const {
+    // TODO how to set a color for this?
+    getCollider()->render(theRenderer, theCamera);
 }
 
 std::vector<BaseRenderable*>& Entity::getRenderableComponents() {
@@ -65,6 +71,9 @@ glm::vec3 Entity::getVelocity() const {
 
 void Entity::setPosition(const glm::vec3& newPosition) {
     mPosition_ = newPosition;
+    if (mCollider_ != nullptr) {
+        mCollider_->setPosition(newPosition);
+    }
 }
 
 void Entity::setRotation(const glm::vec3& newRotation) {
@@ -77,6 +86,14 @@ void Entity::setScale(const glm::vec3& newScale) {
 
 void Entity::setVelocity(const glm::vec3& newVelocity) {
     mVelocity_ = newVelocity;
+}
+
+void Entity::setCollider2(Collider2* newCollider) {
+    mCollider_ = newCollider;
+}
+
+Collider2* Entity::getCollider() const {
+    return mCollider_;
 }
 
 template<typename T>

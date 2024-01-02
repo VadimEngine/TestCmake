@@ -1,7 +1,8 @@
 #include "Renderer.h"
 
 Renderer::Renderer(float screenWidth, float screenHeight)
-    : mSpriteShader_(*Shader::getLoadedShader("Texture2d")), mTextShader_(*Shader::getLoadedShader("Text")) {
+    : mSpriteShader_(*Shader::getLoadedShader("Texture2d")), mTextShader_(*Shader::getLoadedShader("Text")),
+    mTextShader2_(*Shader::getLoadedShader("Text2")) {
     // initialize sprite renderer
     GLuint VBO;
 
@@ -40,6 +41,53 @@ Renderer::Renderer(float screenWidth, float screenHeight)
     mSpriteShader_.setInt("theTexture", 0);
     // set up font/text resources
     initializeFont(screenWidth, screenHeight);
+
+    // Rect
+    float verticesRect[] = {
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.5f,  0.5f, 0.0f,
+        -0.5f,  0.5f, 0.0f
+    };
+
+    unsigned int indicesRect[] = {
+        2, 1, 0,
+        0, 3, 2
+    };
+
+    unsigned int VBORect, EBORect;
+
+    glGenVertexArrays(1, &mRectVAO_);
+    glGenBuffers(1, &VBORect);
+    glGenBuffers(1, &EBORect);
+
+    glBindVertexArray(mRectVAO_);
+    glBindBuffer(GL_ARRAY_BUFFER, VBORect);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesRect), verticesRect, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBORect);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesRect), indicesRect, GL_STATIC_DRAW);
+
+    // Set the vertex attribute pointers
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // Set up Line properties
+    float lineVertices[] = {
+        0,0,0,
+        0,0,0,
+    };
+
+    glGenVertexArrays(1, &mLineVAO_);
+    glGenBuffers(1, &mLineVBO_);
+
+    glBindVertexArray(mLineVAO_);
+    glBindBuffer(GL_ARRAY_BUFFER, mLineVBO_);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(lineVertices), lineVertices, GL_DYNAMIC_DRAW);
+
+    // Set the vertex attribute pointers
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 }
 
 Renderer::~Renderer() {}
@@ -122,10 +170,10 @@ void Renderer::renderText(const std::string& text, glm::vec2 position, float sca
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Renderer::renderTextCentered(const std::string& text, glm::vec2 position, float scale, const glm::vec3& color) {
+void Renderer::renderTextCentered(const std::string& text, glm::vec2 position, float scale, const glm::vec4& color) {
     // activate corresponding render state	
     mTextShader_.bind();
-    glUniform3f(glGetUniformLocation(mTextShader_.getProgramId(), "textColor"), color.x, color.y, color.z);
+    mTextShader_.setVec3("textColor", color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(mTextVAO_);
     
@@ -182,6 +230,105 @@ void Renderer::renderTextCentered(const std::string& text, glm::vec2 position, f
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, float scale, const glm::vec3& color) const {
+    // activate corresponding render state	
+    mTextShader2_.bind();
+    glUniform3f(glGetUniformLocation(mTextShader2_.getProgramId(), "textColor"), color.x, color.y, color.z);
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(mTextVAO_);
+
+    // Calculate the total width of the text
+    float totalWidth = 0.0f;
+    for (const char& c : text) {
+        auto it = mCharacterFrontInfo_.find(c);
+        if (it != mCharacterFrontInfo_.end()) {
+            Character ch = it->second;
+            totalWidth += (ch.advance >> 6) * scale;
+        }
+    }
+
+    float startX = -totalWidth / 2.0f; // Center horizontally around the origin
+
+    // iterate through all characters
+    for (const char& c : text) {
+        auto it = mCharacterFrontInfo_.find(c);
+        if (it != mCharacterFrontInfo_.end()) {
+            Character ch = it->second;
+
+            float xpos = startX + ch.bearing.x * scale;
+            float ypos = - (ch.size.y - ch.bearing.y) * scale; // Adjust for Y-axis to center vertically around the origin
+
+            float w = ch.size.x * scale;
+            float h = ch.size.y * scale;
+            // update VBO for each character
+            float vertices[6][4] = {
+                { xpos,     ypos + h,   0.0f, 0.0f },
+                { xpos,     ypos,       0.0f, 1.0f },
+                { xpos + w, ypos,       1.0f, 1.0f },
+
+                { xpos,     ypos + h,   0.0f, 0.0f },
+                { xpos + w, ypos,       1.0f, 1.0f },
+                { xpos + w, ypos + h,   1.0f, 0.0f }
+            };
+            // render glyph texture over quad
+            glBindTexture(GL_TEXTURE_2D, ch.textureId);
+            // update content of VBO memory
+            glBindBuffer(GL_ARRAY_BUFFER, mTextVBO_);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // be sure to use glBufferSubData and not glBufferData
+
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            // Apply the model matrix to the shader
+            //glUniformMatrix4fv(glGetUniformLocation(mTextShader_.getProgramId(), "model"), 1, GL_FALSE, glm::value_ptr(modelMatrix));
+            mTextShader2_.setMat4("model", modelMat);
+            mTextShader2_.setMat4("view", theCamera.getViewMatrix());
+            mTextShader2_.setMat4("projection", theCamera.getProjectionMatrix());
+            
+            // render quad
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+            // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+            startX += (ch.advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+        }
+    }
+    glBindVertexArray(0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+
+void Renderer::renderRectangleSimple(const Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const {
+    // TODO use reference to shader
+    Shader::getLoadedShader("MVPShader")->bind();
+    Shader::getLoadedShader("MVPShader")->setMat4("model", modelMat);
+    Shader::getLoadedShader("MVPShader")->setMat4("view", theCamera.getViewMatrix());
+    Shader::getLoadedShader("MVPShader")->setMat4("projection", theCamera.getProjectionMatrix());
+    Shader::getLoadedShader("MVPShader")->setVec4("uColor", theColor);
+
+    glBindVertexArray(mRectVAO_);
+    glDrawArrays(GL_LINE_LOOP, 0, 4);
+    glBindVertexArray(0);
+}
+
+void Renderer::renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const {
+    // Update vertices
+    float vertices[] = {
+        startPoint.x, startPoint.y, startPoint.z,
+        endPoint.x, endPoint.y, endPoint.z
+    };
+
+    glBindBuffer(GL_ARRAY_BUFFER, mLineVBO_);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+
+    // draw line
+    Shader::getLoadedShader("MVPShader")->bind();
+    Shader::getLoadedShader("MVPShader")->setMat4("model", modelMat);
+    Shader::getLoadedShader("MVPShader")->setMat4("view", theCamera.getViewMatrix());
+    Shader::getLoadedShader("MVPShader")->setMat4("projection", theCamera.getProjectionMatrix());
+    Shader::getLoadedShader("MVPShader")->setVec4("uColor", theColor);
+    
+    glBindVertexArray(mLineVAO_);
+    glDrawArrays(GL_LINES, 0, 2); // Draw a line using the two vertices
+
+    glBindVertexArray(0);
+}
 
 void Renderer::initializeFont(float screenWidth, float screenHeight) {
     // TODO get actual screen dimensions

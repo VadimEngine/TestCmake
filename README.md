@@ -58,3 +58,10 @@ Games Scene is a scene to hold that multiple mini-games that are made using this
 ![alt text](./ScreenShots/PongScene.png)
 
 Pong Scene is a mini game that consists of 2 paddles and a ball. Scoring is tracked when the ball hits the other sides and the game can be replayed.
+
+### Turn Based Strategy Game Scene
+
+![alt text](./ScreenShots/TurnStrategyScene.png)
+
+
+Turn Based Strategy Game Scene is a small game inspired by Sid Meier's Civilization. The camera can be moved with WASD and zoomed in and out with the mouse wheel. Currently the game only has Settlements and Units. Settlements grow each turn and can produce Units if they have enough population and can buy more tiles if they have enough size. Units can move to tiles other than water with each move taking up moves and can also settle to make a new settlement

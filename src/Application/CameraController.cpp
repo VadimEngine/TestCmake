@@ -56,3 +56,7 @@ void CameraController::update(float dt) {
 void CameraController::setCamera(Camera* newCamera) {
     mpCamera_ = newCamera;
 }
+
+Camera* CameraController::getCamera() {
+    return mpCamera_;
+}

@@ -68,6 +68,10 @@ void BasicScene::render(Renderer& renderer) {
     for (int i = 0; i < mEntities_.size(); i++) {
         mEntities_[i]->render(renderer, *getFocusCamera());
     }
+
+    glm::mat4 translationMatrix2 = glm::translate(glm::mat4(1.0f), {0.f, 0.f, 0.f});
+    renderer.renderTextNormalized("TEST STRING", translationMatrix2, *getFocusCamera(), .01f, {1,0,0});
+
     mGui_.render();
 }
 

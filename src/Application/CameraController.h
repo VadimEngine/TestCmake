@@ -7,7 +7,7 @@ class Camera;
 
 class CameraController {
 private:
-    /** Camera being controlled */
+    /** Camera being controlled (pointer to allow replacing camera) */
     Camera* mpCamera_ = nullptr;
     /** Input handler to get input from */
     InputHandler& mInputHandler_;
@@ -28,4 +28,7 @@ public:
 
     /** Set the camera to be controlled */
     void setCamera(Camera* newCamera);
+
+    /** Get the camera this controller is controlling */
+    Camera* getCamera();
 };

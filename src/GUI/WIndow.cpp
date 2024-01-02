@@ -1,16 +1,65 @@
 #include "Window.h"
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
+    Window* windowWrapper = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    InputHandler& inputHandler = windowWrapper->getInputHandler();
+    inputHandler.onMouseMove(static_cast<int>(xPos), static_cast<int>(yPos));
     //get width and height
     int winHeight;
     int winWidth;
 
     glfwGetWindowSize(window, &winWidth, &winHeight);
 
-    GLfloat mx = ((2.0f * xpos / winWidth) - 1.0f);
-    GLfloat my = (1.0f - (2.0f * ypos / winHeight));
+    GLfloat mx = ((2.0f * xPos / winWidth) - 1.0f);
+    GLfloat my = (1.0f - (2.0f * yPos / winHeight));
     //((Window*)glfwGetWindowUserPointer(window))->getHandler()->mouseCoords = glm::vec2(mx, my);
     //((Window*)glfwGetWindowUserPointer(window))->getHandler()->setMousePosition(glm::vec2(mx, my));
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    Window* windowWrapper = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    InputHandler& inputHandler = windowWrapper->getInputHandler();
+
+    double xpos, ypos;
+    glfwGetCursorPos(window, &xpos, &ypos);
+
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        if (action == GLFW_PRESS) {
+            inputHandler.onMousePress(
+                InputHandler::MouseEvent::Button::LEFT
+            );
+        } else if (action == GLFW_RELEASE) {
+            inputHandler.onMouseRelease(
+                InputHandler::MouseEvent::Button::LEFT
+            );
+        }
+    } else if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+        if (action == GLFW_PRESS) {
+            inputHandler.onMousePress(
+                InputHandler::MouseEvent::Button::RIGHT
+            );
+        } else if (action == GLFW_RELEASE) {
+            inputHandler.onMouseRelease(
+                InputHandler::MouseEvent::Button::RIGHT
+            );
+        }
+    }
+
+    /**
+    The mods parameter is a combination of one or more of the following constants:
+
+    GLFW_MOD_SHIFT: Set if one of the Shift keys is held down.
+    GLFW_MOD_CONTROL: Set if one of the Control keys is held down.
+    GLFW_MOD_ALT: Set if one of the Alt keys is held down.
+    GLFW_MOD_SUPER: Set if one of the Super keys is held down. 
+     */
+}
+
+void mouseWheelCallback(GLFWwindow* window, double xOffset, double yOffset) {
+    Window* windowWrapper = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    InputHandler& inputHandler = windowWrapper->getInputHandler();
+
+    inputHandler.onMouseWheel(yOffset);
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -19,8 +68,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     
     if (action == GLFW_PRESS) {
         inputHandler.onKeyPressed(key);
-    }
-    if (action == GLFW_RELEASE) {
+    } else if (action == GLFW_RELEASE) {
         inputHandler.onKeyReleased(key);
     }
     // GLFW_REPEAT
@@ -59,10 +107,12 @@ Window::Window(const std::string& windowLbl, int width, int height) {
     glfwSetWindowUserPointer(window, this);
     glfwMakeContextCurrent(window);
     glfwSetKeyCallback(window, key_callback);
-    glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetCursorEnterCallback(window, mouse_enter_callback);
-    glfwSetMouseButtonCallback(window, mouse_button_callback);
     */
+
+    glfwSetCursorPosCallback(mpGLFWWindow_, mouse_callback);
+    glfwSetMouseButtonCallback(mpGLFWWindow_, mouse_button_callback);
+    glfwSetScrollCallback(mpGLFWWindow_, mouseWheelCallback);
 }
 
 Window::~Window() {
@@ -96,7 +146,7 @@ int Window::getGLFWSwapInterval() {
     return mSwapInterval_;
 }
 
-glm::vec2 Window::getWindowDimensions() {
+glm::ivec2 Window::getWindowDimensions() {
     int winWidth;
     int winHeight;
     glfwGetWindowSize(mpGLFWWindow_, &winWidth, &winHeight);

@@ -49,15 +49,29 @@ void App::update() {
             it++;
         }
     }
-    // Propagate key events to the scenes
     InputHandler& handler = getWindow().getInputHandler();
 
+    // Propagate key events to the scenes
     while (const auto keyEvent = handler.getKeyEvent()) {
         for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); it++) {
-            if (keyEvent.value().isPress()) {
+            if (keyEvent.value().getType() == InputHandler::KeyEvent::Type::PRESS) {
                 (*it)->onKeyPress(keyEvent.value().getCode());
-            } else if (keyEvent.value().isRelease()) {
+            } else if (keyEvent.value().getType() == InputHandler::KeyEvent::Type::RELEASE) {
                 (*it)->onKeyRelease(keyEvent.value().getCode());
+            }
+        }
+    }
+
+    // Propagate mouse events to scenes
+    while (const auto mouseEvent = handler.getMouseEvent()) {
+        for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); it++) {
+            if (mouseEvent.value().getType() == InputHandler::MouseEvent::Type::PRESS) {
+                (*it)->onMousePress(mouseEvent.value());
+            } else if (mouseEvent.value().getType() == InputHandler::MouseEvent::Type::RELEASE) {
+                (*it)->onMouseRelease(mouseEvent.value());
+            } else if (mouseEvent.value().getType() == InputHandler::MouseEvent::Type::SCROLL_UP ||
+                mouseEvent.value().getType() == InputHandler::MouseEvent::Type::SCROLL_DOWN) {
+                (*it)->onMouseWheel(mouseEvent.value());
             }
         }
     }
@@ -120,11 +134,12 @@ void App::initializeOpenGL() {
             throw std::runtime_error("GLEW Init error");
         }
         glEnable(GL_CULL_FACE);// Default is counter clockwise
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Enable alpha drawing
         glEnable(GL_DEPTH_TEST); // Enable z-buffer
         // Needed for text rendering
         glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        // Set Depth test to replace the current fragment if the z is less then OR equal
+        glDepthFunc(GL_LEQUAL); 
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Enable alpha drawing
 
         sOpenGLInitialized_ = true;
     }

@@ -8,7 +8,7 @@ set_property(CACHE BUILD_MODE PROPERTY STRINGS "x64" "Win32")
 
 # Add the include directories
 include_directories(
-    ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/include # Openel windows
+    ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/include # OpenGl windows
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLEW/include # OpenGL api
     ${CMAKE_SOURCE_DIR}/ThirdParty/imgui # GUI components
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLM # Graphics Mathimatics
@@ -19,7 +19,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/ThirdParty/sndfile/include # Audio file loading
     ${CMAKE_SOURCE_DIR}/ThirdParty/freetype/include # Font/Text Rendering
 
-
+    # source code
     ${CMAKE_SOURCE_DIR}/src/Application
     ${CMAKE_SOURCE_DIR}/src/Application/Games
     ${CMAKE_SOURCE_DIR}/src/Audio
