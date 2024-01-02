@@ -67,7 +67,6 @@ namespace TurnStrategy {
                       static_cast<int>(std::round(selectedEntity->getPosition().x)),
                       static_cast<int>(std::round(selectedEntity->getPosition().y))  
                     };
-                    LOG_I("Create Settlement at %d %d", position.x, position.y);
                     dynamic_cast<Unit*>(selectedEntity)->doAction(1);
                     mScene_.getGame().spawnSettlement(position);
                 }
@@ -86,7 +85,6 @@ namespace TurnStrategy {
                       static_cast<int>(std::round(selectedEntity->getPosition().x)),
                       static_cast<int>(std::round(selectedEntity->getPosition().y))  
                     };
-                    LOG_I("Spawn unit at %d %d", position.x, position.y);
                     mScene_.getGame().spawnUnit(position);
                     dynamic_cast<Settlement*>(selectedEntity)->setPopulation(dynamic_cast<Settlement*>(selectedEntity)->getPopulation() - 1);
                 }
