@@ -5,11 +5,10 @@ namespace Pong {
         mCircleModel_.addMesh(*(Mesh::getLoadedMesh("CircularPlane")));
 
         addRenderable(new ModelRenderable(&mCircleModel_, Shader::getLoadedShader("Assimp")));
-        addPhysicsComponent<RigidBodyComponent>();
         mPosition_ = {0.f,0.f,0.f};
         mScale_ = {.25, .25, 1};
-        RigidBodyComponent* rigid3 = getPhysicsComponent<RigidBodyComponent>();
-        rigid3->getCollider().setShape(Collider::Shape::CIRCLE);
+        RigidBodyComponent* rigid3 = addPhysicsComponent<RigidBodyComponent>();
+        rigid3->getCollider().setShape(ColliderOLD::Shape::CIRCLE);
     }
 
     Ball::~Ball() {}

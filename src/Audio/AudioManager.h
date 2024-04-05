@@ -6,6 +6,7 @@
 #include <AL/alext.h>
 #include <unordered_map>
 #include <string>
+#include "Resource.h"
 
 class AudioManager {
 private:

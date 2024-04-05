@@ -6,20 +6,14 @@
 #include <string>
 #include <unordered_set>
 #include <queue>
+#include "Utils.h"
 
 namespace TurnStrategy {
 
-// forward declare TurnStrategyGame
-class TurnStrategyGame;
+    // forward declare TurnStrategyGame
+    class TurnStrategyGame;
 
     class Unit : public Entity {
-    public:
-        struct Vec2Hash {
-            size_t operator()(const glm::ivec2& v) const {
-                // Custom hash function for glm::ivec2
-                return std::hash<int>()(v.x) ^ std::hash<int>()(v.y);
-            }
-        };
     private:
 
         std::string mName_;
@@ -47,7 +41,7 @@ class TurnStrategyGame;
 
         void renderValidMoves(const Renderer& theRenderer, const Camera& theCamera);
 
-        std::unordered_set<glm::ivec2, Vec2Hash> getMoveableTiles();
+        std::unordered_set<glm::ivec2, Utils::Vec2Hash> getMoveableTiles();
 
         void moveToTile(glm::ivec2 newPosition);
 

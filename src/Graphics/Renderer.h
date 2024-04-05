@@ -8,6 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <map>
 #include <unordered_map>
+#include "Resource.h"
 #include <ft2build.h>
 #include FT_FREETYPE_H
 

@@ -5,11 +5,10 @@ namespace Pong {
         mRectModel_.addMesh(*(Mesh::getLoadedMesh("RectPlane")));
         mXPosition_ = xPos;
         addRenderable(new ModelRenderable(&mRectModel_, Shader::getLoadedShader("Assimp")));
-        addPhysicsComponent<RigidBodyComponent>();
         setPosition({xPos, 0.f, 0.f});
         setScale({.25f, .5, 1});
-        RigidBodyComponent* rigid1 = getPhysicsComponent<RigidBodyComponent>();
-        rigid1->getCollider().setShape(Collider::Shape::RECTANGLE);
+        RigidBodyComponent* rigid1 = addPhysicsComponent<RigidBodyComponent>();
+        rigid1->getCollider().setShape(ColliderOLD::Shape::RECTANGLE);
     }
 
     Paddle::~Paddle() {}

@@ -4,8 +4,8 @@ std::unordered_map<std::string, unsigned int> Texture::sLoadedTextureIdByName_;
 
 /** Load the preset list of Meshes */
 void Texture::loadTextures() {
-    sLoadedTextureIdByName_["SpriteSheet"] = loadTexture("res/Sprites.png");
-    sLoadedTextureIdByName_["SampleTexture"] = loadTexture("res/V.png");
+    sLoadedTextureIdByName_["SpriteSheet"] = loadTexture(Resource::RESOURCE_PATH + "Sprites.png");
+    sLoadedTextureIdByName_["SampleTexture"] = loadTexture(Resource::RESOURCE_PATH + "V.png");
 }    
 
 const std::optional<unsigned int> Texture::getLoadedTexture(const std::string& textureName) {

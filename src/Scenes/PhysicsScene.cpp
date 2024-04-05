@@ -11,9 +11,8 @@ PhysicsScene::PhysicsScene(App& theApp)
 
     Entity* theEntity1 = new Entity();
     theEntity1->addRenderable(new ModelRenderable(&mCircleModel_, Shader::getLoadedShader("Assimp")));
-    theEntity1->addPhysicsComponent<RigidBodyComponent>();
-    RigidBodyComponent* rigid1 = theEntity1->getPhysicsComponent<RigidBodyComponent>();
-    rigid1->getCollider().setShape(Collider::Shape::CIRCLE);
+    RigidBodyComponent* rigid1  = theEntity1->addPhysicsComponent<RigidBodyComponent>();
+    rigid1->getCollider().setShape(ColliderOLD::Shape::CIRCLE);
     rigid1->setMobile(true);
     rigid1->setAttractive(true);
     mEntities_.push_back(theEntity1);
@@ -23,9 +22,8 @@ PhysicsScene::PhysicsScene(App& theApp)
     theEntity3->addRenderable(new ModelRenderable(&mRectModel_, Shader::getLoadedShader("Assimp")));
     theEntity3->setPosition({0.f, -10.f, 0.f});
     theEntity3->setScale({10.f, 1.f, 1.f});
-    theEntity3->addPhysicsComponent<RigidBodyComponent>();
-    RigidBodyComponent* rigid3 = theEntity3->getPhysicsComponent<RigidBodyComponent>();
-    rigid3->getCollider().setShape(Collider::Shape::RECTANGLE);
+    RigidBodyComponent* rigid3 = theEntity3->addPhysicsComponent<RigidBodyComponent>();
+    rigid3->getCollider().setShape(ColliderOLD::Shape::RECTANGLE);
     rigid3->setMobile(false);
     rigid3->setAttractive(false);
     mEntities_.push_back(theEntity3);
@@ -63,9 +61,8 @@ std::vector<Entity*>& PhysicsScene::getEntities() {
 void PhysicsScene::addEntity() {
     Entity* newEntity = new Entity();
     newEntity->addRenderable(new ModelRenderable(&mCircleModel_, Shader::getLoadedShader("Assimp")));
-    newEntity->addPhysicsComponent<RigidBodyComponent>();
-    RigidBodyComponent* rigid = newEntity->getPhysicsComponent<RigidBodyComponent>();
-    rigid->getCollider().setShape(Collider::Shape::CIRCLE);
+    RigidBodyComponent* rigid = newEntity->addPhysicsComponent<RigidBodyComponent>();
+    rigid->getCollider().setShape(ColliderOLD::Shape::CIRCLE);
     rigid->setMobile(true);
     rigid->setAttractive(true);
 

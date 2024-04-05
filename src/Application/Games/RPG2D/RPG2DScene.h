@@ -1,28 +1,23 @@
 #pragma once
 #include "Scene.h"
-#include "PongSceneGUI.h"
-#include "PongGame.h"
+#include "RPG2DSceneGUI.h"
+#include "RPG2DGame.h"
 
 // Forward Declare App
 class App;
 
-namespace Pong {
-    class PongScene : public Scene {
+namespace RPG2D {
+    class RPG2DScene : public Scene {
     private:
-        /** GUI for this Scene*/
-        PongSceneGUI mGui_;
-        /** Game logic handler */
-        PongGame mGame_;
+        RPG2DSceneGUI mGui_;
+
+        RPG2DGame mGame_;
 
     public:
-        /**  
-         * Constructor
-         * \param theApp Parent app handling this Scene
-         */
-        PongScene(App& theApp);
+        RPG2DScene(App& theApp);
 
         /** Destructor */
-        ~PongScene();
+        ~RPG2DScene();
 
         /** 
          * Update the Scene
@@ -47,6 +42,9 @@ namespace Pong {
          * \param newColor key code for released key
          */
         void onKeyRelease(unsigned int code) override;
+
+        void onMousePress(const InputHandler::MouseEvent& mouseEvent);
+
     };
 
-} // namespace Pong
+} // namespace RPG2D 

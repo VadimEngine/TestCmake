@@ -11,6 +11,7 @@
 #include <unordered_map>
 #include "RigidBodyComponent.h"
 #include "Collider2.h"
+#include "BoxCollider2D.h"
 
 class Entity {
 protected:
@@ -32,7 +33,7 @@ protected:
     glm::vec3 mVelocity_ = {0.0f, 0.0f, 0.0f};
 
     /** Physics components attached to this Entity*/
-    std::unordered_map<PhysicsComponentBase::ComponentType, PhysicsComponentBase*> mPhysicsComponents_;
+    std::unordered_map<PhysicsComponentBase::ComponentType, std::vector<PhysicsComponentBase*>> mPhysicsComponents_;
 
 public:
     /** Constructor */
@@ -104,9 +105,23 @@ public:
 
     /** Add a physics component of the specified class */
     template<typename T>
-    void addPhysicsComponent();
+    T* addPhysicsComponent();
 
-    /** Get a pointer to the physics component of the specified class if it exists */
+    /**
+     * Add the passed in physics component
+     * \param newVelocity New velocity vector
+     */
+    template<typename T>
+    void addPhysicsComponent(T* component);
+
+    /**
+     *  Get a pointer to the physics component of the specified class if it exists. 
+     * If there are multiple then the first instance is returned 
+     */
     template<typename T>
     T* getPhysicsComponent();
+
+    /** Get a list of pointers to the physics component of the specified class if it exists */
+    template<typename T>
+    std::vector<T*> getPhysicsComponents();
 };

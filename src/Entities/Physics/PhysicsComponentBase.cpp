@@ -1,4 +1,9 @@
 #include "PhysicsComponentBase.h"
+#include "Entity.h"
+
+PhysicsComponentBase::PhysicsComponentBase(Entity& parentEntity) 
+    : mParentEntity_(parentEntity) {}
+
 
 void PhysicsComponentBase::setEnabled(const bool isEnabled) {
     mEnabled_ = isEnabled;
@@ -6,4 +11,8 @@ void PhysicsComponentBase::setEnabled(const bool isEnabled) {
 
 bool PhysicsComponentBase::isEnabled() const {
     return mEnabled_;
+}
+
+Entity& PhysicsComponentBase::getEntity() {
+    return mParentEntity_;
 }

@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include "ModelRenderable.h"
 #include <vector>
+#include "Utils.h"
 
 
 namespace TurnStrategy {
@@ -15,13 +16,6 @@ namespace TurnStrategy {
     class TurnStrategyGame;
 
     class Settlement : public Entity {
-    private:
-        /** Hash for glm::ivec2 */
-        struct Vec2Hash {
-            size_t operator()(const glm::ivec2& v) const {
-                return std::hash<int>()(v.x) ^ std::hash<int>()(v.y);
-            }
-        };
 
         std::vector<int> test;
         std::string mName_;
@@ -40,7 +34,7 @@ namespace TurnStrategy {
 
     public:
 
-        std::unordered_set<glm::ivec2, Vec2Hash> territoryTiles;
+        std::unordered_set<glm::ivec2, Utils::Vec2Hash> territoryTiles;
 
         Settlement(TurnStrategyGame& theGame, SpriteSheet::Sprite* pSprite, glm::ivec2 tilePosition);
 

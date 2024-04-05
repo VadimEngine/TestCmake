@@ -20,6 +20,10 @@ void GamesSceneGUI::buildImGui() {
         mScene_.getApp().setScene(new TurnStrategy::TurnStrategyScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
+    if (ImGui::Button("2D-RPG")) {
+        mScene_.getApp().setScene(new RPG2D::RPG2DScene(mScene_.getApp()));
+        mScene_.setRemove(true);
+    }
     if (ImGui::Button("Back")) {
         mScene_.getApp().setScene(new MenuScene(mScene_.getApp()));
         mScene_.setRemove(true);

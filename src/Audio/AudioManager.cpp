@@ -5,19 +5,19 @@ std::unordered_map<std::string, ALuint> AudioManager::sLoadedAudio_;
 void AudioManager::loadAudios() {
     sLoadedAudio_.emplace(
         "Blip_Deep",
-        loadAudioFile("res/audio/beep_deep_1.wav")
+        loadAudioFile((Resource::RESOURCE_PATH + "audio/beep_deep_1.wav").c_str())
     );
     sLoadedAudio_.emplace(
         "Blip1",
-        loadAudioFile("res/audio/Blip_1.wav")
+        loadAudioFile((Resource::RESOURCE_PATH + "audio/Blip_1.wav").c_str())
     );
     sLoadedAudio_.emplace(
         "Button_click",
-        loadAudioFile("res/audio/button_click_1.wav")
+        loadAudioFile((Resource::RESOURCE_PATH + "audio/button_click_1.wav").c_str())
     );
     sLoadedAudio_.emplace(
         "loadAudioFile",
-        loadAudioFile("res/audio/PatakasWorld.wav")
+        loadAudioFile((Resource::RESOURCE_PATH +"audio/PatakasWorld.wav").c_str())
     );
 }
 

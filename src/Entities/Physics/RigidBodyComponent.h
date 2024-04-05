@@ -1,6 +1,6 @@
 #pragma once
 #include "PhysicsComponentBase.h"
-#include "Collider.h"
+#include "ColliderOLD.h"
 #include <optional>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -21,22 +21,19 @@ private:
     /** If this component moves when responding to interactions */
     bool mMobile_ = true;
 
-    /** If this component applied and responds to attractive forces with other attractive components*/
+    /** If this component applies and responds to attractive forces with other attractive components*/
     bool mAttractive_ = false;
 
     // TODO drag
 
-    /** The Entity this component is applied to*/
-    Entity& mEntity_;
-
     /** Collider used for interacting with other components */
-    Collider mCollider_; 
+    ColliderOLD mCollider_; 
 public:
     /**
      * Constructor
-     * \param theEntity Entity this Rigid body is attached to
+     * \param parentEntity Entity this Rigid body is attached to
     */
-    RigidBodyComponent(Entity& theEntity);
+    RigidBodyComponent(Entity& parentEntity);
 
     /** Destructor */
     ~RigidBodyComponent();
@@ -50,11 +47,8 @@ public:
     /** Get what kind of Physics component this is (used for polymorphism) */
     ComponentType getType() const override;
 
-    /** Get the Entity this component is tied to*/
-    Entity& getEntity();
-
     /** Get the collider for this rigid body*/
-    Collider& getCollider();
+    ColliderOLD& getCollider();
 
     /**
      * Do collision actions on the Entity/RigidBody if there is a collision 

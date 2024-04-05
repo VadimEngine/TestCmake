@@ -342,7 +342,7 @@ void Renderer::initializeFont(float screenWidth, float screenHeight) {
     }
 
     FT_Face face;
-    if (FT_New_Face(ft, "Res/fonts/Consolas.ttf", 0, &face)) {
+    if (FT_New_Face(ft, (Resource::RESOURCE_PATH + "fonts/Consolas.ttf").c_str(), 0, &face)) {
         LOG_E("ERROR::FREETYPE: Failed to load font");
     }
 

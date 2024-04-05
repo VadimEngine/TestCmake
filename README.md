@@ -18,7 +18,7 @@ To run:
 To clean (Remove everything in `\build`):
 - `.\clean-build.bat`
 
-To buld and run (Combined)
+To buld and run (Combined):
 - `cmake -DBUILD_MODE=x64 -S . -DCMAKE_BUILD_TYPE=Debug  -B build ; cmake --build .\build\ --clean-first ; .\build\Debug\Sandbox.exe`
 
 ## ScreenShots:

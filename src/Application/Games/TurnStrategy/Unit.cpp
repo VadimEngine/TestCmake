@@ -25,7 +25,7 @@ namespace TurnStrategy {
 
     void Unit::renderValidMoves(const Renderer& theRenderer, const Camera& theCamera) {
         //gather valid tiles first
-        std::unordered_set<glm::ivec2, Vec2Hash> validTiles = getMoveableTiles();
+        std::unordered_set<glm::ivec2, Utils::Vec2Hash> validTiles = getMoveableTiles();
 
         glm::vec4 lineColor = {0,0,1,1};
         glm::mat4 translationMatrix = glm::identity<glm::mat4>();
@@ -61,9 +61,9 @@ namespace TurnStrategy {
         }
     }
 
-    std::unordered_set<glm::ivec2, Unit::Vec2Hash> Unit::getMoveableTiles() {
+    std::unordered_set<glm::ivec2, Utils::Vec2Hash> Unit::getMoveableTiles() {
         //gather valid tiles first
-        std::unordered_set<glm::ivec2, Vec2Hash> validTiles;
+        std::unordered_set<glm::ivec2, Utils::Vec2Hash> validTiles;
 
         glm::ivec2 currentTile = {
             static_cast<int>(std::round(mPosition_.x)),

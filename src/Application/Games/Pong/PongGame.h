@@ -56,7 +56,7 @@ namespace Pong {
 
     public:
         /** Constructor */
-        PongGame(App& App);
+        PongGame(App& app);
 
         /** Destructor*/
         ~PongGame();

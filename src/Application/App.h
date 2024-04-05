@@ -9,6 +9,7 @@
 #include "PhysicsScene.h"
 #include "TurnStrategy/TurnStrategyScene.h"
 #include "Pong/PongScene.h"
+#include "RPG2D/RPG2DScene.h"
 #include "Scene2d.h"
 #include "Logger.h"
 #include "Renderer.h"

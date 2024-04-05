@@ -1,87 +1,49 @@
 #pragma once
-#include <optional>
+#include "PhysicsComponentBase.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <functional>
+#include <unordered_set>
+#include <optional>
+#include "Renderer.h"
 
-// Forward Declare RigidBody
-class RigidBodyComponent;
+class Entity;
 
-// TODO remove this class (Replace with Collider2)
-class Collider {
+class Collider : public PhysicsComponentBase {
+public:
+    using OnCollisionCB = std::function<void(Collider&, Collider&)>;
+protected:
+    // center position
+    glm::vec3 mPosition_;
+    
+    glm::vec3 mScale_;
 
-// TODO maybe local position, scale and rotation?
+    std::unordered_set<Collider*> mCurrentCollides;
+
+    // todo how to allow control to remove specific functions
+    std::vector<OnCollisionCB> mOnCollisionEnterCallbacks_;
+
+    std::vector<OnCollisionCB> mOnCollisionExitCallbacks_;
 
 public:
-    /** Possible shapes for a collider */
-    enum class Shape {CIRCLE, RECTANGLE};
+    Collider(Entity& parentEntity);
 
-private:
-    /** Description of the shape of this collider */
-    Shape mShape_;
+    ComponentType getType() const override;
 
-    /** The rigid body this collider is tied to */
-    // TODO remove this since a collider should be applyable without a rigidbody
-    RigidBodyComponent& mRigidBody_;
+    virtual bool isColliding(const Collider& other) const = 0;
 
-    /** Dimensions of this Collider */
-    glm::vec3 mDimension_ = {2.f, 2.f, 2.f};
+    virtual std::optional<glm::vec3> getCollisionMTV(const Collider& other) const = 0;
 
-public:
-    /**
-     * Constructor
-     * \param theRigidBody Rigid body this Collider is for
-    */
-    Collider(RigidBodyComponent& theRigidBody);
+    void addOnCollisionEnterCallback(const OnCollisionCB& cb);
 
-    /** Destructor */
-    ~Collider();
+    void addOnCollisionExitCallback(const OnCollisionCB& cb);
 
-    /** 
-     * If there is a collision, get the normal vector from the other Collider
-     * \param otherCollider Other Collider that may be colliding with this Collider
-     */
-    std::optional<glm::vec3> getCollisionNormal(Collider* otherCollider) const;
+    void onCollisionEnter(Collider& other);
 
-    /** 
-     * If there is a collision, get the Minimum translation vector that should be applied to this collider
-     * \param otherCollider Other Collider that may be colliding with this Collider
-     */
-    std::optional<glm::vec3> getCollisionMVT(Collider* otherCollider) const;
+    void onCollisionExit(Collider& other);
 
-    /** Get Shape type of this collider */
-    Shape getShape() const;
+    glm::vec3 getPosition() const;
 
-    /** 
-     * set Shape type of this collider
-     * \param theShape New Shape type
-     */
-    void setShape(const Shape& theShape);
+    glm::vec3 getScale() const;
 
-    /** Get The Dimensions of this Collider */
-    glm::vec3 getDimension() const;
-
-    /**
-     * Replace the dimensions of this collider
-     * \param newDimension New collider dimensions
-     */
-    void setDimension(const glm::vec3& newDimension);
-
-    /**
-     * Update of the dimensions of this collider
-     * \param axis Axis to update (x=0, y=1, z=2)
-     * \param newValue New value for dimension
-     */
-    void setDimension(int axis, float newValue);
-
-    // TODO onEnter/onCollide/onExit?
-
-private:
-    /** Get the width / 2 that is also scaled with the related Entity */
-    float getWidthDiv2() const;
-
-    /** Get the height / 2 that is also scaled with the related Entity */
-    float getHeightDiv2() const;
-
-    /** Get the absolute Center position of this collider*/
-    glm::vec3 getAbsolutePosition() const;
 };

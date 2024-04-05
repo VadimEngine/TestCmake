@@ -5,6 +5,7 @@
 #include <SOIL.h>
 #include <stdexcept>
 #include "Logger.h"
+#include "Resource.h"
 #include <optional>
 
 class Texture {

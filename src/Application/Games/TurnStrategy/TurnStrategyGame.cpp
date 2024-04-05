@@ -6,27 +6,26 @@
 namespace TurnStrategy {
 
     TurnStrategyGame::TurnStrategyGame(App& theApp, Camera& focusCamera) 
-    : mApp_(theApp) ,mCameraController_(&focusCamera, theApp.getWindow().getInputHandler()),
+    : mApp_(theApp), mCameraController_(&focusCamera, theApp.getWindow().getInputHandler()),
       mSpriteSheet_(Texture::getLoadedTexture("SpriteSheet").value(), {512, 512}, {16,16}),
       mSprite1_(&mSpriteSheet_, glm::ivec2(0, 0)),
       mSprite2_(&mSpriteSheet_, glm::ivec2(5, 21)), mUnit_(*this, &mSprite1_) {
         // set camera position
         focusCamera.setPosition({5, 5, 11});
-        screenSize = theApp.getWindow().getWindowDimensions();
         // create first unit
         mUnit_.setName("Unit 1");
-        mUnit_.setCollider2(new Collider2());
+        mUnit_.setCollider2(new Collider2(mUnit_));
         mUnit_.setPosition({6,5,0});
         mUnitList_.push_back(&mUnit_);
         // create first settlement
         Settlement* settlement = new Settlement(*this, &mSprite2_, {5,5});
         settlement->setName("Settlement1");
-        settlement->setCollider2(new Collider2());
+        settlement->setCollider2(new Collider2(*settlement));
         settlement->setPosition({5,5,0});
         mSettlementList_.push_back(settlement);
         
         // load tile map
-        mpTileMap_ = new TileMap("res/World1.png");
+        mpTileMap_ = new TileMap(Resource::RESOURCE_PATH + "World1.png");
     }
 
     void TurnStrategyGame::update(const float dt) {
@@ -158,7 +157,7 @@ namespace TurnStrategy {
     void TurnStrategyGame::spawnUnit(glm::ivec2 tileLocation) {
         Unit* newUnit = new Unit(*this, &mSprite1_);
         newUnit->setName("Unit " + std::to_string(mUnitList_.size()));
-        newUnit->setCollider2(new Collider2());
+        newUnit->setCollider2(new Collider2(*newUnit));
         newUnit->setPosition({tileLocation.x,tileLocation.y,0});
         mUnitList_.push_back(newUnit);
     }
@@ -166,7 +165,7 @@ namespace TurnStrategy {
     void TurnStrategyGame::spawnSettlement(glm::ivec2 tileLocation) {
         Settlement* settlement = new Settlement(*this, &mSprite2_, tileLocation);
         settlement->setName("Settlement" + std::to_string(mSettlementList_.size()));
-        settlement->setCollider2(new Collider2());
+        settlement->setCollider2(new Collider2(*settlement));
         settlement->setPosition({tileLocation.x, tileLocation.y,0});
         mSettlementList_.push_back(settlement);
     }
@@ -215,6 +214,7 @@ namespace TurnStrategy {
     void TurnStrategyGame::onLeftClick(const InputHandler::MouseEvent& mouseEvent) {
 
         glm::ivec2 mousePosition = mouseEvent.getPosition();
+        glm::ivec2 screenSize = mApp_.getWindow().getWindowDimensions(); // get this incase the size changes
 
         glm::vec3 ray_ndc(
             (2.0f * mousePosition.x) / screenSize.x - 1.0f,
@@ -245,6 +245,7 @@ namespace TurnStrategy {
             addTerritoryMode = false;
         } else {
             addTerritoryMode = false;
+            // why does this need the camera position if the ray_direction is already translated by the camera?
             selectEntity(cameraPos, ray_direction);
         }
     }
@@ -253,6 +254,8 @@ namespace TurnStrategy {
         if (selectedEntity != nullptr && dynamic_cast<Unit*>(selectedEntity)) {
             // TODO make a function to calculate mouse ray
             glm::ivec2 mousePosition = mouseEvent.getPosition();
+            glm::ivec2 screenSize = mApp_.getWindow().getWindowDimensions(); // get this incase the size changes
+
 
             glm::vec3 ray_ndc(
                 (2.0f * mousePosition.x) / screenSize.x - 1.0f,

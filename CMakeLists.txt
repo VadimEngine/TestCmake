@@ -29,6 +29,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/src/Entities
     ${CMAKE_SOURCE_DIR}/src/Entities/Render
     ${CMAKE_SOURCE_DIR}/src/Entities/Physics
+    ${CMAKE_SOURCE_DIR}/src/Utils
 )
 
 # Collect all .cpp and .h files from the src directory

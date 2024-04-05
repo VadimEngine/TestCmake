@@ -10,6 +10,7 @@
 #include "Settlement.h"
 #include "Camera.h"
 #include "TileMap.h"
+#include "Resource.h"
 //#include "ImGuiComponent.h"
 
 // forward declare App
@@ -38,9 +39,6 @@ namespace TurnStrategy {
         SpriteSheet::Sprite mSprite1_;
 
         SpriteSheet::Sprite mSprite2_;
-
-
-        glm::ivec2 screenSize;
 
         Unit mUnit_;
 

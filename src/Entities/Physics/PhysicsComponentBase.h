@@ -1,16 +1,25 @@
 #pragma once
 
+class Entity;
+
 class PhysicsComponentBase {
 public:
     /** Physics Component types*/
     enum class ComponentType {
-        RIGID_BODY
+        RIGID_BODY, COLLIDER
     };
 
+protected:
+    Entity& mParentEntity_;
+public:
     /** If this Component is enabled (update is applied)*/
     bool mEnabled_ = true;
 
+    PhysicsComponentBase(Entity& parentEntity);
+
     virtual void update(float dt) = 0;
+
+    // virtual void render(Renderer, camera) = 0;
 
     /**
      * Set if this Component is enabled
@@ -23,4 +32,7 @@ public:
 
     /** Get the type of Physics Component */
     virtual ComponentType getType() const = 0;
+
+    /** Get the Entity this Component is attached to*/
+    Entity& getEntity();
 };
