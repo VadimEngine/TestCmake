@@ -3,17 +3,19 @@
 #include <chrono>
 #include <GL/glew.h>
 #include "Window.h"
-#include "BasicScene.h"
-#include "GamesScene.h"
-#include "MenuScene.h"
-#include "PhysicsScene.h"
+#include "Basic/BasicScene.h"
+#include "Games/GamesScene.h"
+#include "Menu/MenuScene.h"
+#include "PhysicsScene/PhysicsScene.h"
+#include "Galaxy/GalaxyScene.h"
 #include "TurnStrategy/TurnStrategyScene.h"
 #include "Pong/PongScene.h"
 #include "RPG2D/RPG2DScene.h"
-#include "Scene2d.h"
+#include "Scene2d/Scene2d.h"
 #include "Logger.h"
 #include "Renderer.h"
 #include "AudioManager.h"
+#include "Resource.h"
 
 class App {
 private:
@@ -29,6 +31,8 @@ private:
     Renderer* mpRenderer_ = nullptr;
     /** Audio manager */
     AudioManager mAudioManger_;
+
+    Resource mResources_;
 
 public:
     /** Default Constructor */
@@ -72,6 +76,8 @@ public:
 
     /** Get the audio manager for this application */
     AudioManager& getAudioManger();
+
+    Resource& getResources();
 
 private:
     /** Initialize OpenGL if not already initialized */

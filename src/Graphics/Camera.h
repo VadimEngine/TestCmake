@@ -35,7 +35,7 @@ private:
 
 public:
     /** Constructor */
-    Camera(glm::vec3 position = {0,0,0});
+    Camera(const glm::vec3& position = {0,0,0});
 
     /** Destructor */
     ~Camera();
@@ -51,14 +51,14 @@ public:
      * \param dir Direction to move
      * \param step Amount to move 
      */
-    void move(const glm::vec3 dir, const float step);
+    void move(const glm::vec3& dir, const float step);
 
     /**
      *  Rotate the camera from current rotation in the given axis and step
      * \param axis Axis to rotate around
      * \param angle Amount to rotate 
      */
-    void rotate(glm::vec3 axis, const float angle);
+    void rotate(const glm::vec3& axis, const float angle);
 
     /**
      * Set the Camera FOV
@@ -76,13 +76,13 @@ public:
      * Set the Camera Position 
      * \param newPosition New Position vector
     */
-    void setPosition(glm::vec3 newPosition);
+    void setPosition(const glm::vec3& newPosition);
 
     /**
      * Set the Rotation vector
      * \param newRotation New Rotation vector
      */
-    void setRotation(glm::vec3 newRotation);
+    void setRotation(const glm::vec3& newRotation);
 
     /**
      * Adjust the FOV with the given amount

@@ -41,3 +41,12 @@ void BaseRenderable::setScale(const glm::vec3& newScale) {
 void BaseRenderable::setColor(const glm::vec4& newColor) {
     mColor_ = newColor;
 }
+
+void BaseRenderable::setColor(int newColor) {
+    float red = ((newColor >> 24) & 0xFF) / 255.0f;
+    float green = ((newColor >> 16) & 0xFF) / 255.0f;
+    float blue = ((newColor >> 8) & 0xFF) / 255.0f;
+    float alpha = (newColor & 0xFF) / 255.0f;
+    
+    mColor_ = glm::vec4(red, green, blue, alpha);
+}

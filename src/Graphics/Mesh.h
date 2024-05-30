@@ -55,7 +55,7 @@ public:
      * \param vertices Vertices for this Mesh
      * \param indices Render order of the vertices
      */
-    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices);
+    Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
     /**
      * Render the mesh with the given shader. TODO use textures

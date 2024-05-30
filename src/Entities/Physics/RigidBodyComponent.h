@@ -18,7 +18,7 @@ private:
     /** Scale of gravity applied */
     float mGravityScale_ = 0.f;
 
-    /** If this component moves when responding to interactions */
+    /** If this component moves when responding to interactions. TODO better name? static/Kinematic? */
     bool mMobile_ = true;
 
     /** If this component applies and responds to attractive forces with other attractive components*/

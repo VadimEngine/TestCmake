@@ -13,8 +13,13 @@
 #include "Collider2.h"
 #include "BoxCollider2D.h"
 
+class Scene;
+
 class Entity {
 protected:
+
+    Scene& mScene_;
+
     /** List of all rendering components*/
     std::vector<BaseRenderable*> mRenderableComponents_;
 
@@ -23,7 +28,7 @@ protected:
     /** Entity Position */
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
     
-    /** Entity Rotation */
+    /** Entity Rotation in degrees */
     glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
     
     /** Entity Scale */
@@ -37,7 +42,7 @@ protected:
 
 public:
     /** Constructor */
-    Entity();
+    Entity(Scene& scene);
 
     /** Destructor */
     virtual ~Entity();
@@ -82,8 +87,8 @@ public:
     void setPosition(const glm::vec3& newPosition);
 
     /**
-     * Set this Entity's rotation
-     * \param newRotation New position vector
+     * Set this Entity's rotation in degrees
+     * \param newRotation New Rotation vector (In degrees)
      */
     void setRotation(const glm::vec3& newRotation);
 
@@ -115,7 +120,7 @@ public:
     void addPhysicsComponent(T* component);
 
     /**
-     *  Get a pointer to the physics component of the specified class if it exists. 
+     * Get a pointer to the physics component of the specified class if it exists. 
      * If there are multiple then the first instance is returned 
      */
     template<typename T>

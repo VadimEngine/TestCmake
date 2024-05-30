@@ -21,11 +21,11 @@ include_directories(
 
     # source code
     ${CMAKE_SOURCE_DIR}/src/Application
-    ${CMAKE_SOURCE_DIR}/src/Application/Games
+    ${CMAKE_SOURCE_DIR}/src/Application/Scenes/Games
     ${CMAKE_SOURCE_DIR}/src/Audio
     ${CMAKE_SOURCE_DIR}/src/Graphics
     ${CMAKE_SOURCE_DIR}/src/GUI
-    ${CMAKE_SOURCE_DIR}/src/Scenes
+    ${CMAKE_SOURCE_DIR}/src/Application/Scenes
     ${CMAKE_SOURCE_DIR}/src/Entities
     ${CMAKE_SOURCE_DIR}/src/Entities/Render
     ${CMAKE_SOURCE_DIR}/src/Entities/Physics
@@ -65,5 +65,4 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     winmm.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/sndfile/lib/${BUILD_MODE}/sndfile.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/freetype/lib/${BUILD_MODE}/freetype.lib
-
 )
