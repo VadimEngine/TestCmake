@@ -7,6 +7,7 @@ App::App()
     // Initialize OpenGL, imgui and load resources
     initializeOpenGL();
     ImGuiComponent::initializeImGui(mWindow_.getGLFWWindow());
+    // TODO populate resources instead of these methods
     Texture::loadTextures();
     Shader::loadShaders();
     Mesh::loadMeshes();
@@ -147,4 +148,8 @@ void App::initializeOpenGL() {
 
 AudioManager& App::getAudioManger() {
     return mAudioManger_;
+}
+
+Resource& App::getResources() {
+    return mResources_;
 }

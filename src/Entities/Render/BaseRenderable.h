@@ -73,7 +73,13 @@ public:
 
     /**
      * Set the color of this renderable
-     * \param newColor Color of this Renderable
+     * \param newColor Color of this Renderable (rgba)
      */
     void setColor(const glm::vec4& newColor);
+
+    /**
+     * Set the color of this renderable
+     * \param newColor Color of this Renderable in hex (rgba)
+     */
+    void setColor(int newColor);
 };

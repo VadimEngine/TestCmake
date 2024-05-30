@@ -55,7 +55,7 @@ public:
      * \param theCamera Camera to render the Sprite relative to
      * \param modelMat Model matrix to transform the sprite by
      */
-    void renderSprite(unsigned int textureId, Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor = {1,1,1,1}) const;
+    void renderSprite(unsigned int textureId, Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor = {1,1,1,1}) const;
 
     /**
      * Render the given Sprite from a sprite sheet with the applied camera and model transforms.
@@ -72,7 +72,7 @@ public:
      * \param scale Scale of the text
      * \param color Color of the rendered text
      */
-    void renderText(const std::string& text, glm::vec2 position, float scale, const glm::vec3& color);
+    void renderText(const std::string& text, const glm::vec2& position, float scale, const glm::vec3& color);
 
     void renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, float scale, const glm::vec3& color) const;
 
@@ -84,14 +84,14 @@ public:
      * \param scale Scale of the text
      * \param color Color of the rendered text 
      */
-    void renderTextCentered(const std::string& text, glm::vec2 position, float scale, const glm::vec4& color);
+    void renderTextCentered(const std::string& text, const glm::vec2& position, float scale, const glm::vec4& color);
 
     // Render line (coords, color, thickness)
     // Render shapes square/circle/triangle (hollow/color/thickness)
 
-    void renderRectangleSimple(const Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const;
+    void renderRectangleSimple(const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const;
 
-    void renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const;
+    void renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const;
 
 private:
     /** Load font and shaders for rendering Text */

@@ -92,7 +92,7 @@ Renderer::Renderer(float screenWidth, float screenHeight)
 
 Renderer::~Renderer() {}
 
-void Renderer::renderSprite(unsigned int textureId, Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const {
+void Renderer::renderSprite(unsigned int textureId, Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const {
     mSpriteShader_.bind();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureId);
@@ -125,8 +125,9 @@ void Renderer::renderSprite(SpriteSheet::Sprite& theSprite, const Camera& theCam
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Renderer::renderText(const std::string& text, glm::vec2 position, float scale, const glm::vec3& color) {
-    // activate corresponding render state	
+void Renderer::renderText(const std::string& text, const glm::vec2& position, float scale, const glm::vec3& color) {
+    // activate corresponding render state
+    float xPos = position.x;	
     mTextShader_.bind();
     glUniform3f(glGetUniformLocation(mTextShader_.getProgramId(), "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
@@ -138,7 +139,7 @@ void Renderer::renderText(const std::string& text, glm::vec2 position, float sca
         if (it != mCharacterFrontInfo_.end()) {
             Character ch = it->second;
 
-            float xpos = position.x + ch.bearing.x * scale;
+            float xpos = xPos + ch.bearing.x * scale;
             float ypos = position.y - (ch.size.y - ch.bearing.y) * scale;
 
             float w = ch.size.x * scale;
@@ -163,14 +164,14 @@ void Renderer::renderText(const std::string& text, glm::vec2 position, float sca
             // render quad
             glDrawArrays(GL_TRIANGLES, 0, 6);
             // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-            position.x += (ch.advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+            xPos += (ch.advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
         }
     }
     glBindVertexArray(0);
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Renderer::renderTextCentered(const std::string& text, glm::vec2 position, float scale, const glm::vec4& color) {
+void Renderer::renderTextCentered(const std::string& text, const glm::vec2& position, float scale, const glm::vec4& color) {
     // activate corresponding render state	
     mTextShader_.bind();
     mTextShader_.setVec3("textColor", color.x, color.y, color.z);
@@ -294,7 +295,7 @@ void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& mo
 }
 
 
-void Renderer::renderRectangleSimple(const Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const {
+void Renderer::renderRectangleSimple(const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const {
     // TODO use reference to shader
     Shader::getLoadedShader("MVPShader")->bind();
     Shader::getLoadedShader("MVPShader")->setMat4("model", modelMat);
@@ -307,7 +308,7 @@ void Renderer::renderRectangleSimple(const Camera& theCamera, glm::mat4 modelMat
     glBindVertexArray(0);
 }
 
-void Renderer::renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const Camera& theCamera, glm::mat4 modelMat, const glm::vec4& theColor) const {
+void Renderer::renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const {
     // Update vertices
     float vertices[] = {
         startPoint.x, startPoint.y, startPoint.z,

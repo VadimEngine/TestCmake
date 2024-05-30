@@ -1,6 +1,8 @@
 #include "Entity.h"
+#include "Scene.h"
 
-Entity::Entity() {}
+Entity::Entity(Scene& scene)
+: mScene_(scene) {}
 
 Entity::~Entity() {
     // Delete Renderables
