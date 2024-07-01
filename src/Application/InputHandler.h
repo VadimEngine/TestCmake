@@ -75,13 +75,13 @@ public:
     
     /** 
      * Track the key that is pressed
-     * \param keyCode Keycode for pressed key
+     * @param keyCode Keycode for pressed key
      */
     void onKeyPressed(int keyCode);
 
     /**
      * Track the key that is released
-     * \param keyCode Keycode for pressed key
+     * @param keyCode Keycode for pressed key
      */
     void onKeyReleased(int keyCode);
 

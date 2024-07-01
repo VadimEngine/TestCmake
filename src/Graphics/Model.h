@@ -7,13 +7,15 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "Logger.h"
+#include <filesystem>
 
 class Model {
-    // TODO map of loaded models?
-
 private:
-    /** Meshes this model is made up of */
+    /** Meshes this model is made up of and owns*/
     std::vector<Mesh> mMeshes_;
+    /** Meshes owned by another object (likely Resource) and can be shared between mutiple objects */
+    std::vector<Mesh*> mSharedMeshes_;
+
 public:
     /** Constructor */
     Model();
@@ -23,34 +25,23 @@ public:
 
     /** 
      * Add a mesh to the model
-     * \param newMesh Mesh to add
+     * @param newMesh Mesh to add
      */
     void addMesh(const Mesh& newMesh);
 
+    void addSharedMesh(Mesh* newMesh);
+
+    void addMeshes(std::vector<Mesh>&& meshes);
+
     /**
      * Load and add a mesh to the model
-     * \param meshPath Path to load mesh from
+     * @param meshPath Path to load mesh from
      */
-    void loadMesh(const std::string& meshPath);
+    void loadMesh(const std::filesystem::path& meshPath);
 
     /**
      * Draw the Model meshes
-     * \param shader Shader to render the meshes with
+     * @param shader Shader to render the meshes with
      */
     void render(const Shader& shader) const;
-
-private:
-    /**
-     * Process a node (and child nodes recursively) in a assimp object and add to
-     * \param aiNode Assimp node
-     * \param aiScene Assimp scene
-     */
-    void processNode(aiNode *node, const aiScene *scene);
-    
-    /**
-     * Process an Assimp Mesh and add to list of meshes
-     * \param mesh Child node
-     * \param scene Assimp Scene
-     */
-    Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 };

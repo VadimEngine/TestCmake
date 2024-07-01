@@ -1,6 +1,8 @@
 #include "Entity.h"
+#include "Scene.h"
 
-Entity::Entity() {}
+Entity::Entity(Scene& scene)
+: mScene_(scene) {}
 
 Entity::~Entity() {
     // Delete Renderables
@@ -8,15 +10,20 @@ Entity::~Entity() {
         delete it;
     }
     // Delete Physics Components
-    for (auto& it: mPhysicsComponents_) {
-        delete it.second;
+    for (auto& pair : mPhysicsComponents_) {
+        for (auto& ptr: pair.second) {
+            delete ptr;
+        }
     }
 }
 
 void Entity::update(float dt) {
-    for (auto& it: mPhysicsComponents_) {
-        it.second->update(dt);
+    for (auto& pair : mPhysicsComponents_) {
+        for (auto& ptr: pair.second) {
+            ptr->update(dt);
+        }
     }
+
     mPosition_ += mVelocity_ * dt;
 }
 
@@ -97,21 +104,61 @@ Collider2* Entity::getCollider() const {
 }
 
 template<typename T>
-void Entity::addPhysicsComponent() {
+T* Entity::addPhysicsComponent() {
     T* component = new T(*this);
-    mPhysicsComponents_[component->getType()] = component;
+    if (mPhysicsComponents_.find(component->getType()) == mPhysicsComponents_.end()) {
+        mPhysicsComponents_[component->getType()] = {}; 
+    }
+    mPhysicsComponents_[component->getType()].push_back(component);
+    return component;
+}
+
+template<typename T>
+void Entity::addPhysicsComponent(T* component) {
+    if (mPhysicsComponents_.find(component->getType()) == mPhysicsComponents_.end()) {
+        mPhysicsComponents_[component->getType()] = {}; 
+    }
+    mPhysicsComponents_[component->getType()].push_back(component);
 }
 
 template<typename T>
 T* Entity::getPhysicsComponent() {
     // Use a temporary Component to get the seeking type
     auto it = mPhysicsComponents_.find(T(*this).getType());
-    if (it != mPhysicsComponents_.end()) {
-        return dynamic_cast<T*>(it->second);
+    if (it != mPhysicsComponents_.end() && !it->second.empty()) {
+        return dynamic_cast<T*>(it->second[0]);
     }
+    // Component type not found
     return nullptr;
 }
 
+template<typename T>
+std::vector<T*> Entity::getPhysicsComponents() {
+    std::vector<T*> result;
+    auto it = mPhysicsComponents_.find(T(*this).getType());
+    if (it != mPhysicsComponents_.end()) {
+        for (auto& component : it->second) {
+            T* castedComponent = dynamic_cast<T*>(component);
+            if (castedComponent != nullptr) {
+                result.push_back(castedComponent);
+            }
+        }
+    }
+    return result;
+}
+
 // Explicit instantiate template for expected types
-template void Entity::addPhysicsComponent<RigidBodyComponent>();
+template RigidBodyComponent* Entity::addPhysicsComponent<RigidBodyComponent>();
+template void Entity::addPhysicsComponent(RigidBodyComponent* component);
 template RigidBodyComponent* Entity::getPhysicsComponent<RigidBodyComponent>();
+template std::vector<RigidBodyComponent*> Entity::getPhysicsComponents<RigidBodyComponent>();
+
+template Collider2* Entity::addPhysicsComponent<Collider2>();
+template void Entity::addPhysicsComponent(Collider2* component);
+template Collider2* Entity::getPhysicsComponent<Collider2>();
+template std::vector<Collider2*> Entity::getPhysicsComponents<Collider2>();
+
+template BoxCollider2D* Entity::addPhysicsComponent<BoxCollider2D>();
+template void Entity::addPhysicsComponent(BoxCollider2D* component);
+template BoxCollider2D* Entity::getPhysicsComponent<BoxCollider2D>();
+template std::vector<BoxCollider2D*> Entity::getPhysicsComponents<BoxCollider2D>();

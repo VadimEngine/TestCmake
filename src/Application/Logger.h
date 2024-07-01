@@ -28,7 +28,7 @@
 }                                                                   \
 
 #else
-#define LOG_I(...) //no log
+#define LOG_IV(...) //no log
 #endif
 
 
@@ -57,5 +57,3 @@
 #else
 #define LOG_E(...) //no log
 #endif
-
-

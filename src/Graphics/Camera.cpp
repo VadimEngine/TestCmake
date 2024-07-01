@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera(glm::vec3 position) {
+Camera::Camera(const glm::vec3& position) {
     mPosition_ = position;
     mForward_ = glm::vec3(0.0f, 0.0f, 1.0f);
     mUp_ = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -13,11 +13,11 @@ Camera::~Camera() {}
 
 void Camera::update(float dt) {}
 
-void Camera::move(const glm::vec3 dir, const float step) {
+void Camera::move(const glm::vec3& dir, const float step) {
     mPosition_ += (glm::normalize(dir) * step);
 }
 
-void Camera::rotate(glm::vec3 axis, const float angle) {
+void Camera::rotate(const glm::vec3& axis, const float angle) {
     mRotation_ += (axis * angle);
     updateCameraVectors();
 }
@@ -30,11 +30,11 @@ void Camera::setAspectRatio(float newAspect) {
     mAspectRatio_ = newAspect;
 }
 
-void Camera::setPosition(glm::vec3 newPosition) {
+void Camera::setPosition(const glm::vec3& newPosition) {
     mPosition_ = newPosition;
 }
 
-void Camera::setRotation(glm::vec3 newRotation) {
+void Camera::setRotation(const glm::vec3& newRotation) {
     mRotation_ = newRotation;
 }
 

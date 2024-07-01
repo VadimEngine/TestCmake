@@ -11,9 +11,15 @@
 #include <unordered_map>
 #include "RigidBodyComponent.h"
 #include "Collider2.h"
+#include "BoxCollider2D.h"
+
+class Scene;
 
 class Entity {
 protected:
+
+    Scene& mScene_;
+
     /** List of all rendering components*/
     std::vector<BaseRenderable*> mRenderableComponents_;
 
@@ -22,7 +28,7 @@ protected:
     /** Entity Position */
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
     
-    /** Entity Rotation */
+    /** Entity Rotation in degrees */
     glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
     
     /** Entity Scale */
@@ -32,11 +38,11 @@ protected:
     glm::vec3 mVelocity_ = {0.0f, 0.0f, 0.0f};
 
     /** Physics components attached to this Entity*/
-    std::unordered_map<PhysicsComponentBase::ComponentType, PhysicsComponentBase*> mPhysicsComponents_;
+    std::unordered_map<PhysicsComponentBase::ComponentType, std::vector<PhysicsComponentBase*>> mPhysicsComponents_;
 
 public:
     /** Constructor */
-    Entity();
+    Entity(Scene& scene);
 
     /** Destructor */
     virtual ~Entity();
@@ -46,8 +52,8 @@ public:
 
     /**
      * Render all renderable components of this Entity
-     * \param theRenderer Helping Object for rendering
-     * \param theCamera Camera to render relative to
+     * @param theRenderer Helping Object for rendering
+     * @param theCamera Camera to render relative to
      */
     virtual void render(const Renderer& theRenderer, const Camera& theCamera) const;
 
@@ -70,31 +76,31 @@ public:
 
     /**
      * Add a Renderable for this Entity. Renderables are owned by the entity and deleted when the Entity is deleted
-     * \param newPosition New position vector
+     * @param newPosition New position vector
      */
     void addRenderable(BaseRenderable* newRenderable); 
 
     /**
      * Set this Entity's position
-     * \param newPosition New position vector
+     * @param newPosition New position vector
      */
     void setPosition(const glm::vec3& newPosition);
 
     /**
-     * Set this Entity's rotation
-     * \param newRotation New position vector
+     * Set this Entity's rotation in degrees
+     * @param newRotation New Rotation vector (In degrees)
      */
     void setRotation(const glm::vec3& newRotation);
 
     /**
      * Set this Entity's scale
-     * \param newScale New scale vector
+     * @param newScale New scale vector
      */
     void setScale(const glm::vec3& newScale);
 
     /**
      * Set the velocity of this Entity
-     * \param newVelocity New velocity vector
+     * @param newVelocity New velocity vector
      */
     void setVelocity(const glm::vec3& newVelocity);
 
@@ -104,9 +110,23 @@ public:
 
     /** Add a physics component of the specified class */
     template<typename T>
-    void addPhysicsComponent();
+    T* addPhysicsComponent();
 
-    /** Get a pointer to the physics component of the specified class if it exists */
+    /**
+     * Add the passed in physics component
+     * @param newVelocity New velocity vector
+     */
+    template<typename T>
+    void addPhysicsComponent(T* component);
+
+    /**
+     * Get a pointer to the physics component of the specified class if it exists. 
+     * If there are multiple then the first instance is returned 
+     */
     template<typename T>
     T* getPhysicsComponent();
+
+    /** Get a list of pointers to the physics component of the specified class if it exists */
+    template<typename T>
+    std::vector<T*> getPhysicsComponents();
 };

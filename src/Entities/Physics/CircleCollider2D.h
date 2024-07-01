@@ -1,0 +1,12 @@
+#pragma once
+#include "Collider.h"
+
+class Entity;
+
+class CircleCollider2D : public Collider {
+    CircleCollider2D(Entity& parentEntity);
+
+    bool isColliding(const Collider& other) const override;
+
+    std::optional<glm::vec3> getCollisionMTV(const Collider& other) const;
+};

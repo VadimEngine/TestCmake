@@ -23,7 +23,7 @@ public:
 
     /** 
      * Initialize Imgui
-     * \param window The Window this GUI is inside
+     * @param window The Window this GUI is inside
      */
     static void initializeImGui(GLFWwindow* window);
 
@@ -44,7 +44,7 @@ public:
 
     /**
      * Set the removal status of this component
-     * \param window The Window this GUI is inside
+     * @param window The Window this GUI is inside
      */
     void setRemove(const bool remove);
 

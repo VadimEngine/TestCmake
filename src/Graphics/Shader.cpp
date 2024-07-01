@@ -1,41 +1,6 @@
 #include "Shader.h"
 
-std::unordered_map<std::string, const Shader> Shader::sLoadedShaderByName_;
-
-void Shader::loadShaders() {
-    sLoadedShaderByName_.emplace(
-        std::piecewise_construct, std::forward_as_tuple("MVPTexShader"), std::forward_as_tuple("src/Shaders/MVPTexShader.vert", "src/Shaders/MVPTexShader.frag")
-    );
-    sLoadedShaderByName_.emplace(
-        std::piecewise_construct, std::forward_as_tuple("Assimp"), std::forward_as_tuple("src/Shaders/Assimp.vert", "src/Shaders/Assimp.frag")
-    );    
-    sLoadedShaderByName_.emplace(
-        std::piecewise_construct, std::forward_as_tuple("Texture2d"), std::forward_as_tuple("src/Shaders/Texture2d.vert", "src/Shaders/Texture2d.frag")
-    );
-    sLoadedShaderByName_.emplace(
-        std::piecewise_construct, std::forward_as_tuple("Text"), std::forward_as_tuple("src/Shaders/Text.vert", "src/Shaders/Text.frag")
-    );
-    sLoadedShaderByName_.emplace(
-        std::piecewise_construct, std::forward_as_tuple("Text2"), std::forward_as_tuple("src/Shaders/Text2.vert", "src/Shaders/Text2.frag")
-    );
-    sLoadedShaderByName_.emplace(
-        std::piecewise_construct, std::forward_as_tuple("Simple"), std::forward_as_tuple("src/Shaders/Simple.vert", "src/Shaders/Simple.frag")
-    );
-    sLoadedShaderByName_.emplace(
-        std::piecewise_construct, std::forward_as_tuple("MVPShader"), std::forward_as_tuple("src/Shaders/MVPShader.vert", "src/Shaders/MVPShader.frag")
-    );
-}
-
-const Shader* Shader::getLoadedShader(const std::string& shaderName) {
-    auto it = sLoadedShaderByName_.find(shaderName);
-    if (it != sLoadedShaderByName_.end()) {
-        return &(it->second);
-    } else {
-        return nullptr;
-    }
-}
-
-Shader::Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath) {
+Shader::Shader(const std::filesystem::path& vertexSourcePath, const std::filesystem::path& fragmentSourcePath) {
     std::string vertexCode;
     std::string fragmentCode;
     std::ifstream vShaderFile;
@@ -59,7 +24,8 @@ Shader::Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath)
         fragmentCode = fShaderSteam.str();
 
     } catch (std::ifstream::failure e) {
-        LOG_E("Error::SHADER::FILE_NOT_SUCCESFULLY_READ: %s", e.what());
+        LOG_E("Error::SHADER::FILE_NOT_SUCCESFULLY_READ: %s ", e.what());
+        LOG_E("Erro::SHADER : %s %s", vertexSourcePath.string().c_str(), fragmentSourcePath.string().c_str());
     }
 
     const GLchar* vShaderCode = vertexCode.c_str();

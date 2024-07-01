@@ -15,14 +15,14 @@ private:
 public:
     /**
      * Constructor.
-     * \param pCamera Camera to be controlled
-     * \param pInputHandler Input handler to listen to
+     * @param pCamera Camera to be controlled
+     * @param pInputHandler Input handler to listen to
      */
     CameraController(Camera* pCamera, InputHandler& theInputHandler);
 
     /**
      * Update the camera based on inputs 
-     * \param dt Time since last update (in seconds)
+     * @param dt Time since last update (in seconds)
      */
     void update(float dt);
 

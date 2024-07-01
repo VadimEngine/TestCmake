@@ -18,7 +18,7 @@ To run:
 To clean (Remove everything in `\build`):
 - `.\clean-build.bat`
 
-To buld and run (Combined)
+To buld and run (Combined):
 - `cmake -DBUILD_MODE=x64 -S . -DCMAKE_BUILD_TYPE=Debug  -B build ; cmake --build .\build\ --clean-first ; .\build\Debug\Sandbox.exe`
 
 ## ScreenShots:
@@ -63,5 +63,10 @@ Pong Scene is a mini game that consists of 2 paddles and a ball. Scoring is trac
 
 ![alt text](./ScreenShots/TurnStrategyScene.png)
 
-
 Turn Based Strategy Game Scene is a small game inspired by Sid Meier's Civilization. The camera can be moved with WASD and zoomed in and out with the mouse wheel. Currently the game only has Settlements and Units. Settlements grow each turn and can produce Units if they have enough population and can buy more tiles if they have enough size. Units can move to tiles other than water with each move taking up moves and can also settle to make a new settlement
+
+### Galaxy Scene
+
+![alt text](./ScreenShots/GalaxyScene.png)
+
+A simple simulation of a planet and moon orbiting the sum.

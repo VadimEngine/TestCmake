@@ -27,14 +27,14 @@ public:
     virtual ~BaseRenderable() = default;
     /**
      * Rendering this renderable component
-     * \param theRenderer Helping Object for rendering
-     * \param theCamera Camera to render relative to
+     * @param theRenderer Helping Object for rendering
+     * @param theCamera Camera to render relative to
      */
     virtual void render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const = 0;
 
     /**
      * Set if this Renderable is enabled
-     * \param isEnabled New enabled value
+     * @param isEnabled New enabled value
      */
     void setEnabled(const bool isEnabled);
 
@@ -55,25 +55,31 @@ public:
 
     /**
      * Set this Renderable's position
-     * \param newPosition New position vector
+     * @param newPosition New position vector
      */
     void setPosition(const glm::vec3& newPosition);
 
     /**
      * Set this Renderable's rotation (In degrees)
-     * \param newRotation New Rotation vector
+     * @param newRotation New Rotation vector
      */
     void setRotation(const glm::vec3& newRotation);
 
     /**
      * Set this Renderable's scale
-     * \param newScale New scale vector
+     * @param newScale New scale vector
      */
     void setScale(const glm::vec3& newScale);
 
     /**
      * Set the color of this renderable
-     * \param newColor Color of this Renderable
+     * @param newColor Color of this Renderable (rgba)
      */
     void setColor(const glm::vec4& newColor);
+
+    /**
+     * Set the color of this renderable
+     * @param newColor Color of this Renderable in hex (rgba)
+     */
+    void setColor(int newColor);
 };

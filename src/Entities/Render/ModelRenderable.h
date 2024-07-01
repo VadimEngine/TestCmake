@@ -4,24 +4,11 @@
 #include <unordered_map>
 
 class ModelRenderable : public BaseRenderable {
-private:
-    /**The Model of this Model Renderable */
-    const Model* mpModel_ = nullptr;
-    
-    /** The Shader used to render this model */
-    const Shader* mpShader_ = nullptr;
-
-    /** Map of texture ids and the uniform name for the shader*/
-    std::unordered_map<unsigned int, unsigned int> mTextureIdByUnit_;
-
-    /** If the wire frames are also rendered */
-    bool renderWireframe_ = false;
-
 public:
     /**
      * Constructor
-     * \param pModel Model for this Renderable
-     * \param pShader Shader used for this Renderable
+     * @param pModel Model for this Renderable
+     * @param pShader Shader used for this Renderable
      */
     ModelRenderable(const Model* pModel = nullptr, const Shader* pShader = nullptr);
 
@@ -30,9 +17,9 @@ public:
 
     /**
      * Render this model
-     * \param theRenderer Helper Renderer object
-     * \param theCamera Camera to draw relative to
-     * \param parentModelMat Model matrix with the model transforms
+     * @param theRenderer Helper Renderer object
+     * @param theCamera Camera to draw relative to
+     * @param parentModelMat Model matrix with the model transforms
      */
     void render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const override;
 
@@ -44,26 +31,49 @@ public:
 
     /**
      * Set the model this Renderable will render 
-     * \param pModel the Model
+     * @param pModel the Model
      */
     void setModel(Model* pModel);
 
     /**
      * Set the Shader this Renderable will use
-     * \param pShader the Shader
+     * @param pShader the Shader
      */
     void setShader(Shader* pShader);
 
     /**
      * Set a texture when rendering this renderable with the assign Texture unit
-     * \param textureUnit The unit this texture is binded to
-     * \param textureId texture Id
+     * @param textureUnit The unit this texture is binded to
+     * @param textureId texture Id
+     * @param uniformName uniform this texture is binded to
      */
-    void setTexture(unsigned int textureUnit, unsigned int textureId);
+    void setTexture(unsigned int textureUnit, unsigned int textureId, const std::string& uniformName);
 
     /**
      * Set if wireframes should be rendered
-     * \param enable if wireframe rendering is enabled
+     * @param enable if wireframe rendering is enabled
      */
     void setWireframeRendering(const bool enable);
+
+    void setSubTextureSize(const glm::vec2& size);
+
+    void setSubTextureTopLeft(const glm::vec2& pos);
+
+private:
+    /**The Model of this Model Renderable */
+    const Model* mpModel_ = nullptr;
+    
+    /** The Shader used to render this model */
+    const Shader* mpShader_ = nullptr;
+
+    /** Map of texture ids and the uniform name for the shader*/
+    std::unordered_map<unsigned int, std::pair<unsigned int, std::string>> mTextureByUnit_;
+
+    /** If the wire frames are also rendered */
+    bool renderWireframe_ = false;
+
+    glm::vec2 mSubTextureSize = {1.f, 1.f};
+    glm::vec2 mSubTextureTopLeft = {0.f, 0.f};
+
+
 };

@@ -11,7 +11,7 @@ private:
 public:
     /**
      * Constructor
-     * \param pSprite Sprite for this Renderable
+     * @param pSprite Sprite for this Renderable
      */
     SpriteRenderable(SpriteSheet::Sprite* pSprite = nullptr);
 
@@ -20,15 +20,15 @@ public:
 
     /**
      * Draw this renderable
-     * \param theRenderer Helper Render object
-     * \param theCamera Camera to draw relative to
-     * \param parentModelMat Model matrix of the parent to render relative to
+     * @param theRenderer Helper Render object
+     * @param theCamera Camera to draw relative to
+     * @param parentModelMat Model matrix of the parent to render relative to
      */
     void render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const override;
 
     /**
      * Set the Sprite this Renderable will draw 
-     * \param pSprite the Sprite
+     * @param pSprite the Sprite
      */
     void setSprite(SpriteSheet::Sprite* pSprite);
 
