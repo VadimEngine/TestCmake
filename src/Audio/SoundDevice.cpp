@@ -1,4 +1,5 @@
 #include "SoundDevice.h"
+#include <iostream>
 
 SoundDevice::SoundDevice() {
     mpALCDevice_ = alcOpenDevice(nullptr); // nullptr = get default device
@@ -27,8 +28,9 @@ SoundDevice::~SoundDevice() {
         throw("failed to set context to nullptr");
     }
     alcDestroyContext(mpALCContext_);
-    if (mpALCContext_) {
-        throw("failed to unset during close");
+    ALenum err = alcGetError(mpALCDevice_);
+    if (err != AL_NO_ERROR) {
+       throw("failed to unset audio context during close");
     }
     if (!alcCloseDevice(mpALCDevice_)) {
         throw("failed to close sound device");

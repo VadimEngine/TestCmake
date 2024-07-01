@@ -1,7 +1,6 @@
 #pragma once
 #include "Scene.h"
 #include "PhysicsSceneGUI.h"
-#include "Entity.h"
 #include "ModelRenderable.h"
 #include "CameraController.h"
 #include "RigidBodyComponent.h"
@@ -32,7 +31,7 @@ private:
 public:
     /**  
      * Constructor
-     * \param theApp Parent app handling this Scene
+     * @param theApp Parent app handling this Scene
      */
     PhysicsScene(App& theApp);
 
@@ -41,13 +40,13 @@ public:
     
     /** 
      * Update the Scene
-     * \param dt Time since last update in seconds
+     * @param dt Time since last update in seconds
      */
     void update(const float dt) override;
 
     /**
      * Render this scene
-     * \param renderer Rendering helper
+     * @param renderer Rendering helper
      */
     void render(Renderer& renderer) override;
 

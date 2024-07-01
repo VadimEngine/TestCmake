@@ -25,7 +25,7 @@ private:
 public:
     /** 
      * Constructor
-     * \param theScene The scene this gui is for
+     * @param theScene The scene this gui is for
      */
     Scene2dGUI(Scene2d& theScene);
 

@@ -8,32 +8,19 @@
 #include <glm/glm.hpp>
 #include <optional>
 #include "unordered_map"
+#include <filesystem>
 
 class Shader {
-private:
-    /** Map to hold loaded Shaders */
-    static std::unordered_map<std::string, const Shader> sLoadedShaderByName_;
-
-public:
-    /** Load the preset list of Shaders */
-    static void loadShaders();
-
-    /** 
-     * Get a loaded Shader if it exists
-     * \param textureName Name of the loaded Shader
-     */
-    static const Shader* getLoadedShader(const std::string& shaderName);
-
 private:
     /** Program Id for this Shader*/
     GLuint mProgramId_;
 public:
     /**
      * Constructor
-     * \param vertexSourcePath Path the vertex Shader path
-     * \param fragmentSourcePath Path to fragment Shader path
+     * @param vertexSourcePath Path the vertex Shader path
+     * @param fragmentSourcePath Path to fragment Shader path
      */
-    Shader(const GLchar* vertexSourcePath, const GLchar* fragmentSourcePath);
+    Shader(const std::filesystem::path& vertexSourcePath, const std::filesystem::path& fragmentSourcePath);
 
     /** Destructor */
     ~Shader();

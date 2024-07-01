@@ -6,9 +6,8 @@ namespace galaxy {
 
 class SunEntity : public Entity {
 private:
-    Model mSphereModel_;
     float mRadius_ = 1;
-    ModelRenderable* mpSunRenderable_ = nullptr;
+    ModelRenderable* mpRenderable_ = nullptr;
 
 public:
     SunEntity(Scene& scene);

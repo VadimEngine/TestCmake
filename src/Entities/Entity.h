@@ -52,8 +52,8 @@ public:
 
     /**
      * Render all renderable components of this Entity
-     * \param theRenderer Helping Object for rendering
-     * \param theCamera Camera to render relative to
+     * @param theRenderer Helping Object for rendering
+     * @param theCamera Camera to render relative to
      */
     virtual void render(const Renderer& theRenderer, const Camera& theCamera) const;
 
@@ -76,31 +76,31 @@ public:
 
     /**
      * Add a Renderable for this Entity. Renderables are owned by the entity and deleted when the Entity is deleted
-     * \param newPosition New position vector
+     * @param newPosition New position vector
      */
     void addRenderable(BaseRenderable* newRenderable); 
 
     /**
      * Set this Entity's position
-     * \param newPosition New position vector
+     * @param newPosition New position vector
      */
     void setPosition(const glm::vec3& newPosition);
 
     /**
      * Set this Entity's rotation in degrees
-     * \param newRotation New Rotation vector (In degrees)
+     * @param newRotation New Rotation vector (In degrees)
      */
     void setRotation(const glm::vec3& newRotation);
 
     /**
      * Set this Entity's scale
-     * \param newScale New scale vector
+     * @param newScale New scale vector
      */
     void setScale(const glm::vec3& newScale);
 
     /**
      * Set the velocity of this Entity
-     * \param newVelocity New velocity vector
+     * @param newVelocity New velocity vector
      */
     void setVelocity(const glm::vec3& newVelocity);
 
@@ -114,7 +114,7 @@ public:
 
     /**
      * Add the passed in physics component
-     * \param newVelocity New velocity vector
+     * @param newVelocity New velocity vector
      */
     template<typename T>
     void addPhysicsComponent(T* component);

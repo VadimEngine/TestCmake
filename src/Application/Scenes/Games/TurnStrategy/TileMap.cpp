@@ -1,33 +1,37 @@
 #include "TileMap.h"
+#include <iostream>
 
 namespace turn_strategy {
 
-    TileMap::TileMap()
-    :mSpriteSheet_(Texture::getLoadedTexture("SpriteSheet").value(), {512, 512}, {16,16}),
-    tiles(rows, std::vector<Tile>(cols))  {
-        for (int i = 0; i < tiles.size(); i++) {
-            for (int j = 0; j < tiles[0].size(); j++) {
-                tiles[i][j].sprite = new SpriteSheet::Sprite(&mSpriteSheet_, glm::ivec2(0, 1));
-            }
-        }
-    }
+    TileMap::TileMap(Texture* texture, SpriteSheet* spriteSheet)
+    : tiles(rows, std::vector<Tile>(cols)) {
+        // Bind the texture
+        glBindTexture(GL_TEXTURE_2D, texture->getId());
 
-    TileMap::TileMap(const std::string& tileMapPath)  
-    :mSpriteSheet_(Texture::getLoadedTexture("SpriteSheet").value(), {512, 512}, {16,16}),
-    tiles(rows, std::vector<Tile>(cols)) {
-        // res/World1.png
-        int width, height;
-        int channels;
-        // Load image file
-        unsigned char* textureData = SOIL_load_image(tileMapPath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
+        // Get the texture dimensions
+        int width, height, channels;
+        glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
+        glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
+        glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &channels);
 
-        if (textureData == nullptr) {
-            LOG_E("Tilemap not found: %s", tileMapPath.c_str());
-            const char* errorMessage = SOIL_last_result();
-            if (errorMessage != nullptr) {
-                LOG_E("SOIL error:: %s", errorMessage);
-            }
+        // Determine the number of channels
+        if (channels == GL_RGB) {
+            channels = 3;
+        } else if (channels == GL_RGBA) {
+            channels = 4;
+        } else {
+            std::cout << "Unsupported texture format" << channels  << std::endl;
+            glBindTexture(GL_TEXTURE_2D, 0);
+            return;
         }
+
+        // Allocate memory to hold the texture data
+        size_t dataSize = width * height * channels;
+        unsigned char* textureData = new unsigned char[dataSize];
+
+        // Retrieve the texture data
+        glGetTexImage(GL_TEXTURE_2D, 0, (channels == 3) ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, textureData);
+
 
         // iterate texture
         for (int y = 0; y < height; ++y) {
@@ -48,26 +52,28 @@ namespace turn_strategy {
                 if (combinedColor == 0x0000FF) {
                     // Water
                     tiles[y][x].type = Tile::Type::SEA;
-                    tiles[y][x].sprite = new SpriteSheet::Sprite(&mSpriteSheet_, glm::ivec2(2, 1));
+                    tiles[y][x].sprite = new SpriteSheet::Sprite(spriteSheet, glm::ivec2(2, 1));
                 } else if (combinedColor == 0x00FF00) {
                     // grass
                     tiles[y][x].type = Tile::Type::GRASS;
-                    tiles[y][x].sprite = new SpriteSheet::Sprite(&mSpriteSheet_, glm::ivec2(0, 1));
+                    tiles[y][x].sprite = new SpriteSheet::Sprite(spriteSheet, glm::ivec2(0, 1));
                 } else if (combinedColor == 0xFFFF00) {
                     // sand
                     tiles[y][x].type = Tile::Type::SAND;
-                    tiles[y][x].sprite = new SpriteSheet::Sprite(&mSpriteSheet_, glm::ivec2(3, 1));
+                    tiles[y][x].sprite = new SpriteSheet::Sprite(spriteSheet, glm::ivec2(3, 1));
                 }
             }
         }
-        SOIL_free_image_data(textureData);
-    }
+        // Free the allocated memory
+        delete[] textureData;
 
+        // Unbind the texture
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 
     TileMap::~TileMap() {}
 
     void TileMap::render(const Renderer& theRenderer, const Camera& theCamera) {
-        
         for (int i = 0; i < tiles.size(); i++) {
             for (int j = 0; j < tiles[0].size(); j++) {
                 glm::vec3 position = {i, j, 0};

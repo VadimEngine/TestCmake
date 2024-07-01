@@ -6,8 +6,6 @@ namespace galaxy {
 
 class PlanetEntity : public Entity {
 private:
-    // TODO make/cache this model somewhere else so it can be shared
-    Model mTorusModel_;
     float mRadius_ = 0.5f;
     float mOrbitRadius_ = 5.f;
     float mRotationSpeed_ = 1.f;
@@ -31,7 +29,7 @@ public:
 
     float getRotationSpeed() const;
 
-    void setRotationSpeed(int rotation);
+    void setRotationSpeed(float rotation);
 };
 
 } // namespace galaxy

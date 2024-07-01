@@ -54,21 +54,27 @@ namespace pong {
             mEntities_[i]->render(renderer, camera);
         }
         // Display text
-        renderer.renderText("PONG", {350.0f, 500.0f}, 1.0f, {1.f, 1.f, 1.f});
+        renderer.renderText(
+            "PONG", 
+            {350.0f, 500.0f}, 
+            *(mApp_.getResources().getResource<Font>("Consolas")),
+            1.0f, 
+            {1.f, 1.f, 1.f}
+        );
 
         glm::vec2 windowDimension = mApp_.getWindow().getWindowDimensions();
 
         if (currentState == GameState::INITIAL) {
-            renderer.renderTextCentered(initalMsg, {windowDimension.x/2.f, 400.0f}, .5f, {1.f, 1.f, 1.f, 1.f});
+            renderer.renderTextCentered(initalMsg, {windowDimension.x/2.f, 400.0f}, *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
         } else if (currentState == GameState::PLAYING) {
             std::string playMsg = std::to_string(leftScore) + ":" + std::to_string(rightScore);
-            renderer.renderTextCentered(playMsg,  {windowDimension.x/2.f, 400.0f}, .5f, {1.f, 1.f, 1.f, 1.f});
+            renderer.renderTextCentered(playMsg,  {windowDimension.x/2.f, 400.0f},  *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
         } else if (currentState == GameState::PAUSE) {
-            renderer.renderTextCentered(pauseMsg, {windowDimension.x/2.f, 400.f}, .5f, {1.f, 1.f, 1.f, 1.f});
+            renderer.renderTextCentered(pauseMsg, {windowDimension.x/2.f, 400.f}, *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
         } else if (currentState == GameState::END) {
-            renderer.renderTextCentered(endMsg,  {windowDimension.x/2.f, 400.0f}, .5f, {1.f, 1.f, 1.f, 1.f});
+            renderer.renderTextCentered(endMsg,  {windowDimension.x/2.f, 400.0f}, *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
             std::string playMsg = std::to_string(leftScore) + ":" + std::to_string(rightScore);
-            renderer.renderTextCentered(playMsg, {windowDimension.x/2.f, 350.0f}, .5f, {1.f, 1.f, 1.f, 1.f});
+            renderer.renderTextCentered(playMsg, {windowDimension.x/2.f, 350.0f}, *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
         }
     }
 
@@ -152,7 +158,7 @@ namespace pong {
 
         if (paddleLeftRigid->handleIfCollision(ballRigid) || paddleRightRigid->handleIfCollision(ballRigid)) {
             // bounce paddle of paddle
-            mApp_.getAudioManger().playSound("Blip1");
+            mApp_.getAudioManger().playSound(mScene_.getApp().getResources().getResource<Audio>("Blip1")->getId());
             mBall_.setSpeed(mBall_.getSpeed() * 1.1f);
         }
     }

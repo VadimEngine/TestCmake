@@ -1,15 +1,16 @@
 #include "MoonEntity.h"
 #include "GalaxyScene.h"
+#include <iostream>
+#include "App.h"
 
 namespace galaxy {
 
 MoonEntity::MoonEntity(GalaxyScene& scene) 
-    : Entity(scene),
-     mSphereModel_(
-        *((Model*)(mScene_.getResources().getResource(Resource::ResourceType::MODEL,"Sphere")) )
-    ) {
-
-    mpRenderable_ = new ModelRenderable(&mSphereModel_, Shader::getLoadedShader("Assimp"));
+    : Entity(scene) {
+    mpRenderable_ = new ModelRenderable(
+        mScene_.getResources().getResource<Model>("Sphere"),
+        mScene_.getApp().getResources().getResource<Shader>("Assimp")
+    );
     mpRenderable_->setScale({mRadius_, mRadius_, mRadius_});
     mpRenderable_->setColor(0x9A9A9AFF);
     // Add Sphere to Entity
@@ -41,7 +42,7 @@ float MoonEntity::getRotationSpeed() const {
     return mRotationSpeed_;
 }
 
-void MoonEntity::setRotationSpeed(int rotation) {
+void MoonEntity::setRotationSpeed(float rotation) {
     mRotationSpeed_ = rotation;
 }
 

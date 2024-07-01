@@ -4,7 +4,7 @@
 class SpriteSheet {
 public:
     struct Sprite {
-        /** The sprite sheet this sprite is from */
+        /** The sprite sheet this sprite is from TODO reference?*/
         SpriteSheet* parentSpriteSheet = nullptr;
         /** The grid this sprite is on the Sprite Sheet */
         glm::ivec2 gridIndex;
@@ -13,16 +13,16 @@ public:
 
         /**
          * Constructor
-         * \param theSpriteSheet Parent Sprites Sheet
-         * \param theGridIndex Grid index of the Sprite Sheet
-         * \param theSpriteSize Size of the sprite
+         * @param theSpriteSheet Parent Sprites Sheet
+         * @param theGridIndex Grid index of the Sprite Sheet
+         * @param theSpriteSize Size of the sprite
          */
         Sprite(SpriteSheet* theSpriteSheet, glm::ivec2 theGridIndex, glm::ivec2 theSpriteSize);
 
         /**
          * Constructor. Sets spriteSize to be the parent SpriteSheet default sprite size
-         * \param theSpriteSheet Parent Sprites Sheet
-         * \param theGridIndex Grid index of the Sprite Sheet
+         * @param theSpriteSheet Parent Sprites Sheet
+         * @param theGridIndex Grid index of the Sprite Sheet
          */
         Sprite(SpriteSheet* theSpriteSheet, glm::ivec2 theGridIndex);
     };
@@ -36,10 +36,10 @@ private:
 
 public:
     /**
-     * Constructor
-     * \param textureId Texture id for this sprite sheet
-     * \param sheetSize Sprite sheet size in pixels
-     * \param defaultSpiteSize Parent Sprites Sheet
+     * Sprite Sheet is a wrapper around a texture to allow easily accessing a sprite
+     * @param textureId Texture id for this sprite sheet
+     * @param sheetSize Sprite sheet size in pixels
+     * @param defaultSpiteSize Parent Sprites Sheet
      */
     SpriteSheet(unsigned int textureId, glm::ivec2 sheetSize, glm::ivec2 defaultSpiteSize);
     

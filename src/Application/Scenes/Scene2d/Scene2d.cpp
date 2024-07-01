@@ -3,7 +3,7 @@
 
 Scene2d::Scene2d(App& theApp)
     :Scene(theApp), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()), mGui_(*this), 
-     mSpriteSheet_(Texture::getLoadedTexture("SpriteSheet").value(), {512, 512}, {16,16}),
+     mSpriteSheet_(mApp_.getResources().getResource<Texture>("SpriteSheet")->getId(), {512, 512}, {16,16}),
      mSprite1_(&mSpriteSheet_, glm::ivec2(0, 0)), mSprite2_(&mSpriteSheet_, glm::ivec2(1, 0))  {
 
     mpFocusCamera_->setPosition({0,0,5});

@@ -1,11 +1,14 @@
 #include "PlanetEntity.h"
+#include "App.h"
 
 namespace galaxy {
 
 PlanetEntity::PlanetEntity(Scene& scene)
     :Entity(scene) {
-    mTorusModel_.loadMesh("./res/Torus.obj");
-    mpRenderable_ = new ModelRenderable(&mTorusModel_, Shader::getLoadedShader("Assimp"));
+    mpRenderable_ = new ModelRenderable(
+        mScene_.getResources().getResource<Model>("Torus"), 
+        mScene_.getApp().getResources().getResource<Shader>("Assimp")
+    );
     mpRenderable_->setScale({mRadius_, mRadius_, mRadius_});
     mpRenderable_->setRotation({0, 0, 20});
 
@@ -37,7 +40,7 @@ float PlanetEntity::getRotationSpeed() const {
     return mRotationSpeed_;
 }
 
-void PlanetEntity::setRotationSpeed(int rotation) {
+void PlanetEntity::setRotationSpeed(float rotation) {
     mRotationSpeed_ = rotation;
 }
 

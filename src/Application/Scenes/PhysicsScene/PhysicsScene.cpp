@@ -6,11 +6,11 @@ PhysicsScene::PhysicsScene(App& theApp)
     mBackgroundColor_ = {.4,.4,.4,1.f};
     getFocusCamera()->setPosition({0,0,5});
 
-    mCircleModel_.addMesh(*(Mesh::getLoadedMesh("CircularPlane")));
-    mRectModel_.addMesh(*(Mesh::getLoadedMesh("RectPlane")));
+    mCircleModel_.addSharedMesh(mApp_.getResources().getResource<Mesh>("CircularPlane"));
+    mRectModel_.addSharedMesh(mApp_.getResources().getResource<Mesh>("RectPlane"));
 
     Entity* theEntity1 = new Entity(*this);
-    theEntity1->addRenderable(new ModelRenderable(&mCircleModel_, Shader::getLoadedShader("Assimp")));
+    theEntity1->addRenderable(new ModelRenderable(&mCircleModel_, getApp().getResources().getResource<Shader>("Assimp")));
     RigidBodyComponent* rigid1  = theEntity1->addPhysicsComponent<RigidBodyComponent>();
     rigid1->getCollider().setShape(ColliderOLD::Shape::CIRCLE);
     rigid1->setMobile(true);
@@ -19,7 +19,7 @@ PhysicsScene::PhysicsScene(App& theApp)
 
     // floor
     Entity* theEntity3 = new Entity(*this);
-    theEntity3->addRenderable(new ModelRenderable(&mRectModel_, Shader::getLoadedShader("Assimp")));
+    theEntity3->addRenderable(new ModelRenderable(&mRectModel_, getApp().getResources().getResource<Shader>("Assimp")));
     theEntity3->setPosition({0.f, -10.f, 0.f});
     theEntity3->setScale({10.f, 1.f, 1.f});
     RigidBodyComponent* rigid3 = theEntity3->addPhysicsComponent<RigidBodyComponent>();
@@ -60,7 +60,7 @@ std::vector<Entity*>& PhysicsScene::getEntities() {
 
 void PhysicsScene::addEntity() {
     Entity* newEntity = new Entity(*this);
-    newEntity->addRenderable(new ModelRenderable(&mCircleModel_, Shader::getLoadedShader("Assimp")));
+    newEntity->addRenderable(new ModelRenderable(&mCircleModel_, getApp().getResources().getResource<Shader>("Assimp")));
     RigidBodyComponent* rigid = newEntity->addPhysicsComponent<RigidBodyComponent>();
     rigid->getCollider().setShape(ColliderOLD::Shape::CIRCLE);
     rigid->setMobile(true);

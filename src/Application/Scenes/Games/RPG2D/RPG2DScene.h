@@ -21,25 +21,25 @@ namespace rpg_2d {
 
         /** 
          * Update the Scene
-         * \param dt Time since last update in seconds
+         * @param dt Time since last update in seconds
          */
         void update(const float dt) override;
 
         /**
          * Render this scene
-         * \param renderer Rendering helper
+         * @param renderer Rendering helper
          */
         void render(Renderer& renderer) override;
 
         /** 
          * On keyboard key press handler
-         * \param newColor key code for pressed key
+         * @param newColor key code for pressed key
          */
         void onKeyPress(unsigned int code) override;
 
         /** 
          * On keyboard key release handler
-         * \param newColor key code for released key
+         * @param newColor key code for released key
          */
         void onKeyRelease(unsigned int code) override;
 

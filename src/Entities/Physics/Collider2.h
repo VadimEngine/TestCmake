@@ -39,7 +39,7 @@ public:
 
     /**
      * Update this rigid body and related Entity
-     * \param dt Time since last update
+     * @param dt Time since last update
     */
     void update(float dt) override;
 

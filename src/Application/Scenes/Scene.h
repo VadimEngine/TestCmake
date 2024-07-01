@@ -6,6 +6,7 @@
 #include <glm/vec4.hpp>
 #include "InputHandler.h"
 #include "Resource.h"
+#include "Entity.h"
 
 // Forward declare App
 class App;
@@ -17,7 +18,7 @@ protected:
 
     Resource mResources_;
 
-    /** The current focused camera the scene is rendered through*/
+    /** The current focused camera the scene is rendered through */
     Camera* mpFocusCamera_;
     /** Background color when rendering this scene */
     glm::vec4 mBackgroundColor_ = {0.0f, 0.0f, 0.0f, 1.0f};
@@ -29,7 +30,7 @@ protected:
 public:
     /**  
      * Constructor
-     * \param theApp Parent app handling this Scene
+     * @param theApp Parent app handling this Scene
      */
     Scene(App& theApp);
 
@@ -38,19 +39,19 @@ public:
     
     /**
      * Update scene content
-     * \param dt time since last update in seconds
+     * @param dt time since last update in seconds
      */
     virtual void update(const float dt) = 0;
     
     /**
      * Render this scene
-     * \param renderer Rendering helper
+     * @param renderer Rendering helper
      */
     virtual void render(Renderer& renderer) = 0;
 
     /**
      * Set the Scene background color
-     * \param newColor background color
+     * @param newColor background color
      */
     void setBackgroundColor(glm::vec4 newColor);
 
@@ -77,31 +78,31 @@ public:
     /** If this scene is set for removal */
     bool isRunning() const;
 
-    Resource getResources();
+    Resource& getResources();
 
     /** 
      * On keyboard key press handler
-     * \param code key code for pressed key
+     * @param code key code for pressed key
      */
     virtual void onKeyPress(unsigned int code);
 
     /** 
      * On keyboard key release handler
-     * \param code key code for released key
+     * @param code key code for released key
      */
     virtual void onKeyRelease(unsigned int code);
 
     /** 
      * On Mouse button press handler
-     * \param mousePos Mouse Position at time of the event
-     * \param mouseEvent Mouse event details
+     * @param mousePos Mouse Position at time of the event
+     * @param mouseEvent Mouse event details
      */
     virtual void onMousePress(const InputHandler::MouseEvent& mouseEvent);
 
     /** 
      * On Mouse Button release handler
-     * \param mousePos Mouse Position at time of the event
-     * \param mouseEvent Mouse event details
+     * @param mousePos Mouse Position at time of the event
+     * @param mouseEvent Mouse event details
      */
     virtual void onMouseRelease(const InputHandler::MouseEvent& mouseEvent);
 

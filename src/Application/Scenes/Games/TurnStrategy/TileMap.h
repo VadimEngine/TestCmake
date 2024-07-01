@@ -20,15 +20,13 @@ namespace turn_strategy {
         const int rows = 20;
         const int cols = 20;
 
-        SpriteSheet mSpriteSheet_;
 
 
         // Create a 2D vector of Tile objects
         std::vector<std::vector<Tile>> tiles;
 
-        TileMap();
 
-        TileMap(const std::string& tileMapPath);
+        TileMap(Texture* texture, SpriteSheet* spriteSheet);
 
         ~TileMap();
 

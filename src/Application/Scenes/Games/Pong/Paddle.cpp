@@ -1,11 +1,13 @@
 #include "Paddle.h"
+#include "Scene.h"
+#include "App.h"
 
 namespace pong {
     Paddle::Paddle(Scene& scene, float xPos, float maxY, float minY) 
     : Entity(scene) {
-        mRectModel_.addMesh(*(Mesh::getLoadedMesh("RectPlane")));
+        mRectModel_.addSharedMesh(mScene_.getApp().getResources().getResource<Mesh>("RectPlane"));
         mXPosition_ = xPos;
-        addRenderable(new ModelRenderable(&mRectModel_, Shader::getLoadedShader("Assimp")));
+        addRenderable(new ModelRenderable(&mRectModel_, mScene_.getApp().getResources().getResource<Shader>("Assimp")));
         setPosition({xPos, 0.f, 0.f});
         setScale({.25f, .5, 1});
         RigidBodyComponent* rigid1 = addPhysicsComponent<RigidBodyComponent>();

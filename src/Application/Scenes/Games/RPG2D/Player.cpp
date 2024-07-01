@@ -1,9 +1,11 @@
 #include "Player.h"
+#include "Scene.h"
+#include "App.h"
 
 namespace rpg_2d {
 
     Player::Player(Scene& scene)
-    : Entity(scene), mSpriteSheet_(Texture::getLoadedTexture("SpriteSheet").value(), {512, 512}, {16,16}) {
+    : Entity(scene), mSpriteSheet_(mScene_.getApp().getResources().getResource<Texture>("SpriteSheet")->getId(), {512, 512}, {16,16}) {
         // TODO use sprite sheet to add sprite
         addRenderable(new SpriteRenderable(new SpriteSheet::Sprite(&mSpriteSheet_, glm::ivec2(3, 0))));
         mpCollider_ = addPhysicsComponent<Collider2>();

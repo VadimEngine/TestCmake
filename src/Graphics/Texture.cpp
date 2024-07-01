@@ -1,28 +1,32 @@
 #include "Texture.h"
 
-std::unordered_map<std::string, unsigned int> Texture::sLoadedTextureIdByName_;
-
-/** Load the preset list of Meshes */
-void Texture::loadTextures() {
-    sLoadedTextureIdByName_["SpriteSheet"] = loadTexture(Resource::RESOURCE_PATH + "Sprites.png");
-    sLoadedTextureIdByName_["SampleTexture"] = loadTexture(Resource::RESOURCE_PATH + "V.png");
-}    
-
-const std::optional<unsigned int> Texture::getLoadedTexture(const std::string& textureName) {
-    if (sLoadedTextureIdByName_.find(textureName) != sLoadedTextureIdByName_.end()) {
-        return sLoadedTextureIdByName_.find(textureName)->second;
-    } else {
-        return std::nullopt;
-    }
+Texture::Texture(const unsigned char* textureData, int width, int height, int channels) {
+    mWidth_ = width;
+    mHeight_ = height;
+    mChannels_ = channels;
+    mTextureId_ = genGLTexture(textureData, width, height, channels);
 }
 
-unsigned int Texture::loadTexture(const std::string& texturePath) {
+Texture::Texture(const std::string& path) {
+    mTextureId_ = loadTexture(path, &mWidth_, &mHeight_, &mChannels_);
+}
+
+Texture::~Texture() {
+    LOG_I("Delete Texture: %d", mTextureId_);
+    glDeleteTextures(1, &mTextureId_);
+}
+
+unsigned int Texture::loadTexture(const std::string& texturePath, int* width, int* height, int* channels) {
     // TODO return option if path fails
     unsigned textureId;
-    int width, height;
-    int channels;
     // Load image file
-    unsigned char* textureData = SOIL_load_image(texturePath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
+    unsigned char* textureData = SOIL_load_image(
+        texturePath.c_str(),
+        (int*)(width),
+        (int*)(height),
+        (int*)(channels),
+        SOIL_LOAD_AUTO
+    );
 
     if (textureData == nullptr) {
         LOG_E("ERROR LOADING TEXTURE: %s", textureData);
@@ -30,7 +34,25 @@ unsigned int Texture::loadTexture(const std::string& texturePath) {
         if (errorMessage != nullptr) {
             LOG_E("SOIL error: %s", errorMessage)
         }
-        throw std::runtime_error("Shader program linking failed");
+        throw std::runtime_error("Texture load failed");
+    }
+
+    textureId = genGLTexture(textureData, *width, *height, *channels);
+
+    SOIL_free_image_data(textureData);
+    return textureId;
+}
+
+unsigned int Texture::getId() {
+    return mTextureId_;
+}
+
+unsigned int Texture::genGLTexture(const unsigned char* textureData, int width, int height, int channels) {
+    unsigned int textureId;
+
+    if (textureData == nullptr) {
+        LOG_E("Null texture data cannot be convert to a texture");
+        throw std::runtime_error("Texture build failed");
     }
 
     // create textures
@@ -47,7 +69,10 @@ unsigned int Texture::loadTexture(const std::string& texturePath) {
     );
     // Unbind texture
     glBindTexture(GL_TEXTURE_2D, 0);
+    GLenum err;
+    if ((err = glGetError()) != GL_NO_ERROR) {
+        LOG_E("genGLTexture ERROR %d", err);
 
-    SOIL_free_image_data(textureData);
+    }
     return textureId;
 }

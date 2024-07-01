@@ -26,7 +26,7 @@ private:
 public:
     /** 
      * Constructor
-     * \param theScene The scene this gui is for
+     * @param theScene The scene this gui is for
      */
     PhysicsSceneGUI(PhysicsScene& theScene);
 

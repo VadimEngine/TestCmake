@@ -29,7 +29,7 @@ public:
 
     /** 
      * Update the window (mainly polls for inputs)
-     * \param dt Time since last update in seconds
+     * @param dt Time since last update in seconds
      */
     void update(float dt);
 
@@ -44,7 +44,7 @@ public:
 
     /** 
      * Enable/Disable VSync
-     * \param enabled VSync status
+     * @param enabled VSync status
      */
     void setVSync(const bool enabled);
 

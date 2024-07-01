@@ -16,24 +16,9 @@
 #include "Renderer.h"
 #include "AudioManager.h"
 #include "Resource.h"
+#include <numbers>
 
 class App {
-private:
-    /** If OpenGL is already initalized. Used to prevent redundant initialization  */
-    static bool sOpenGLInitialized_;
-    /** Time of last update call */
-    std::chrono::steady_clock::time_point mLastTime_;
-    /** The window for this application*/
-    Window mWindow_;
-    /** The current Scenes of the application. List to allow controlled scene deleting */
-    std::list<Scene*> mScenes_;
-    /** Renderer used to*/
-    Renderer* mpRenderer_ = nullptr;
-    /** Audio manager */
-    AudioManager mAudioManger_;
-
-    Resource mResources_;
-
 public:
     /** Default Constructor */
     App();
@@ -54,20 +39,20 @@ public:
     bool isRunning() const;
     
     /**
-     * Quits the application. Quit should be handled by the App and not the window to ensure
+     * Quits the application. Quit should be handled by the Application and not the window to ensure
      * proper closure of the application
      */
     void quit();
 
     /**
-     *  Set the current Scene of the application
-     * \param newScene The new Scene
+     * Set the current Scene of the application
+     * @param newScene The new Scene
      */
     void setScene(Scene* newScene);
     
     /** 
      * Set Anti-Aliasing sample size. If the size is 0 then anti aliasing is disabled
-     * \param sampleSize Anti aliasing sample size
+     * @param sampleSize Anti aliasing sample size
      */
     void setAntiAliasing(unsigned int sampleSize);
 
@@ -77,9 +62,28 @@ public:
     /** Get the audio manager for this application */
     AudioManager& getAudioManger();
 
+    /** Get application resources */
     Resource& getResources();
 
 private:
+    /** Load/Build the common resources for the scenes in this application */
+    void loadResources();
     /** Initialize OpenGL if not already initialized */
     static void initializeOpenGL();
+
+private:
+    /** If OpenGL is already initalized. Used to prevent redundant initialization  */
+    static bool sOpenGLInitialized_;
+    /** Time of last update call */
+    std::chrono::steady_clock::time_point mLastTime_;
+    /** The window for this application*/
+    Window mWindow_;
+    /** The current Scenes of the application. List to allow controlled scene deleting */
+    std::list<Scene*> mScenes_;
+    /** Renderer used to*/
+    std::unique_ptr<Renderer> mpRenderer_;
+    /** Audio manager */
+    AudioManager mAudioManger_;
+    /** Resource for this application that can be shared with child scenes */
+    Resource mResources_;
 };

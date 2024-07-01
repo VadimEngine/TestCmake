@@ -1,28 +1,40 @@
 #pragma once
 #define GLEW_STATIC
 #include <GL/glew.h>
-#include <unordered_map>
 #include <SOIL.h>
 #include <stdexcept>
 #include "Logger.h"
-#include "Resource.h"
 #include <optional>
+#include <vector>
 
 class Texture {
 private:
-    /** Map to hold loaded Textures */
-    static std::unordered_map<std::string, unsigned int> sLoadedTextureIdByName_;
+    unsigned int mTextureId_;
+    //TODO hold texture properties such as rgb/rgba/with,height
+    int mWidth_;
+    int mHeight_;
+    int mChannels_;
 
 public:
-    /** Load the preset list of Textures */
-    static void loadTextures();
-    
-    /** 
-     * Get a loaded texture Id if it exists
-     * \param textureName Name of the loaded texture
-     */
-    static const std::optional<unsigned int> getLoadedTexture(const std::string& textureName);
+    Texture(const unsigned char* textureData, int width, int height, int channels);
 
+    // TODO use path
+    explicit Texture(const std::string& path);
+
+    ~Texture();
+
+    // TODO use path
     /** Load a texture from a file and return the OpenGL Texture Id */
-    static unsigned int loadTexture(const std::string& texturePath);
+    static unsigned int loadTexture(const std::string& texturePath, int* width, int* height, int* channels);
+
+    unsigned int getId();
+
+    unsigned int getWidth();
+
+    unsigned int getHeight();
+
+    unsigned int getChannels();
+
+private:
+    static unsigned int genGLTexture(const unsigned char* textureData, int width, int height, int channels);
 };

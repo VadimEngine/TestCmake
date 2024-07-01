@@ -1,11 +1,13 @@
 #include "Ball.h"
+#include "Scene.h"
+#include "App.h"
 
 namespace pong {
     Ball::Ball(Scene& scene)
     : Entity(scene) {
-        mCircleModel_.addMesh(*(Mesh::getLoadedMesh("CircularPlane")));
+        mCircleModel_.addSharedMesh(mScene_.getApp().getResources().getResource<Mesh>("CircularPlane"));
 
-        addRenderable(new ModelRenderable(&mCircleModel_, Shader::getLoadedShader("Assimp")));
+        addRenderable(new ModelRenderable(&mCircleModel_, mScene_.getApp().getResources().getResource<Shader>("Assimp")));
         mPosition_ = {0.f,0.f,0.f};
         mScale_ = {.25, .25, 1};
         RigidBodyComponent* rigid3 = addPhysicsComponent<RigidBodyComponent>();

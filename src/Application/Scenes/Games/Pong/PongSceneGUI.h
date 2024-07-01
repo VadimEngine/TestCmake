@@ -19,7 +19,7 @@ namespace pong {
     public:
         /** 
          * Constructor
-         * \param theScene The scene this gui is for
+         * @param theScene The scene this gui is for
          */
         PongSceneGUI(PongScene& theScene);
 

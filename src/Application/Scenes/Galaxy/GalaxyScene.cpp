@@ -8,16 +8,15 @@ namespace galaxy {
 GalaxyScene::GalaxyScene(App& theApp) 
     : Scene(theApp), mGui_(*this), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()) {
     getFocusCamera()->setPosition({0,.1,5});
-
-    mResources_.loadResource(
-        Resource::ResourceType::MODEL, 
-        Resource::RESOURCE_PATH + "Sphere.obj", 
-        "Sphere"
-    );
-    mResources_.loadResource(
-        Resource::ResourceType::MODEL, 
-        Resource::RESOURCE_PATH + "Torus.obj", 
+    mResources_.loadResource<Model>(
+        {Resource::RESOURCE_PATH / "Torus.obj"},
         "Torus"
+    );
+    std::unique_ptr<Model> sphereModel = std::make_unique<Model>();
+    sphereModel->addSharedMesh(mApp_.getResources().getResource<Mesh>("Sphere"));
+    mResources_.addResource(
+        std::move(sphereModel),
+        "Sphere"
     );
 
     // sun

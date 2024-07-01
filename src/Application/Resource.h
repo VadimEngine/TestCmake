@@ -5,87 +5,80 @@
 #include "Model.h"
 #include "Shader.h"
 #include "Texture.h"
+#include "Audio.h"
+#include "Font.h"
+#include <memory>
+#include <filesystem>
 
+// TODO how to handle loading resources async. Probably in scene/app
 class Resource {
 public:
+    /** Path to resource folder */
+    static const std::filesystem::path RESOURCE_PATH;
+    /* Path to the source folder* */
+    static const std::filesystem::path SRC_PATH;
 
-    enum class ResourceType {
-        MODEL,
-        MESH,
-        TEXTURE,
-        AUDIO,
-        FONT,
-        SHADER
-    };
-    
-    union ResourcePointer {
-        Mesh* meshPtr;
-        Model* modelPtr;
-    };
-    
-    static std::string RESOURCE_PATH;
+    /** Loaded/Built Mesh resources */
+    std::unordered_map<std::string, std::unique_ptr<Mesh>> mMeshes_;
+    /** Loaded/Built Model resources */
+    std::unordered_map<std::string, std::unique_ptr<Model>> mModels_;
+    /** Loaded/Built Model textures */
+    std::unordered_map<std::string, std::unique_ptr<Texture>> mTextures_;
+    /** Loaded/Built Shader resources */
+    std::unordered_map<std::string, std::unique_ptr<Shader>> mShaders_;
+    /** Loaded/Built Audio resources */
+    std::unordered_map<std::string, std::unique_ptr<Audio>> mAudios_;
+    /** Loaded/Built Fonts resources */
+    std::unordered_map<std::string, std::unique_ptr<Font>> mFonts_;
 
-    //std::unordered_map<ResourceType, std::unordered_map<std::string, ResourcePointer>> resources;
+    /** Constructor default */
+    Resource();
 
-
-
-    /*
-    std::unordered_map<std::string, Texture*> textures_;
-    std::unordered_map<std::string, Mesh*> meshes_;
-    std::unordered_map<std::string, TextFile*> textFiles_;
-    std::unordered_map<std::string, AudioFile*> audioFiles_;
-    std::unordered_map<std::string, Font*> fonts_;
-     std::vector<unsigned char> data // undefined binary data
-    */
-
-    std::unordered_map<std::string, Mesh*> mMeshes_;
-    std::unordered_map<std::string, Model*> mModels_;
-
+    /** Destructor default */
     ~Resource();
+    
+    /**
+     * Load the resource from given paths
+     * 
+     * @tparam T Type of resource
+     * @param resourcePaths Paths to load the resource from
+     * @param resourceName Name to save the resource as for retrieval 
+     */
+    template<typename T>
+    void loadResource(const std::vector<std::filesystem::path>& resourcePaths, const std::string& resourceName);
 
-   void loadResource(ResourceType type, const std::string& resourcePath, const std::string& resourceName);
-
-   void addResource(ResourceType type, void* resource, const std::string& resourceName);
+    /**
+     * Add a resource and transfer ownership to this resource container. Generally std::move should be used here
+     * 
+     * @tparam T Type of resource
+     * @param resource Resource rvalue reference
+     * @param resourceName Name to save the resource as for retrieval 
+     */
+    template<typename T>
+    void addResource(std::unique_ptr<T> resource, const std::string& resourceName);
    
-   void* getResource(ResourceType type, const std::string& resourceName);
+    /**
+     * @brief Get a pointer to the loaded resource
+     * 
+     * @tparam T Type of resource 
+     * @param resourceName Name of the resource to return
+     */
+    template<typename T>
+    T* getResource(const std::string& resourceName);
 
-   void release();
-
+    /**
+     * Release the resource if it is owned in this resource container
+     * 
+     * @tparam T Type of resource
+     * @param resourceName Name of resource to related
+     */
+    template<typename T>
+    void release(const std::string& resourceName);
+    
+    /**
+     * Release all the resources in this container. (This not need to be called
+     * when deleting a Resource Object since the destructor will manage that itself)
+     */
+    /** Release all resources */
+    void releaseAll();
 };
-
-/*
-
-// Define your resource types
-enum class ResourceType {
-    Texture,
-    Mesh,
-    TextFile,
-    AudioFile,
-    Font
-};
-
-// Define a union to hold different resource pointers (size of this would be the size of the largest member which in this case is a single pointer)
-union ResourcePointer {
-    Texture* texturePtr;
-    Mesh* meshPtr;
-    TextFile* textFilePtr;
-    AudioFile* audioFilePtr;
-    Font* fontPtr;
-
-    // Add constructors if needed
-};
-
-// Define your map using nested unordered_maps
-std::unordered_map<ResourceType, std::unordered_map<std::string, ResourcePointer>> resources;
-// Example of adding a resource
-std::string resourceName = "myTexture";
-Texture* texture = new Texture(); // Example texture creation
-ResourcePointer pointer;
-pointer.texturePtr = texture;
-resources[ResourceType::Texture][resourceName] = pointer;
-
-// Example of accessing a resource
-std::string textureName = "myTexture";
-Texture* texturePtr = resources[ResourceType::Texture][textureName].texturePtr;
-
-*/

@@ -1,7 +1,6 @@
 #pragma once
 #include "Renderer.h"
 #include <vector>
-#include "Entity.h"
 #include "Texture.h"
 #include "SpriteSheet.h"
 #include "CameraController.h"
@@ -26,8 +25,6 @@ namespace turn_strategy {
 
         /** Camera Controller */
         CameraController mCameraController_;
-
-        std::vector<Entity*> mEntities_;
 
         std::vector<Unit*> mUnitList_;
 
@@ -61,30 +58,32 @@ namespace turn_strategy {
 
         /** 
          * Update Game
-         * \param dt Time since last update
+         * @param dt Time since last update
          */
         void update(const float dt);
         
         /** 
          * Render Game
-         * \param renderer Rendering Renderer
-         * \param camera Camera to render relative to
+         * @param renderer Rendering Renderer
+         * @param camera Camera to render relative to
          */
         void render(const Renderer& renderer, const Camera& camera);
+
+        void setTileMap(Texture* texture);
 
         Entity* getSelectedEntity();
         
         /** 
          * On Mouse button press handler
-         * \param mousePos Mouse Position at time of the event
-         * \param mouseEvent Mouse event details
+         * @param mousePos Mouse Position at time of the event
+         * @param mouseEvent Mouse event details
          */
         void onMousePress(const InputHandler::MouseEvent& mouseEvent);
 
         /** 
          * On Mouse Button release handler
-         * \param mousePos Mouse Position at time of the event
-         * \param mouseEvent Mouse event details
+         * @param mousePos Mouse Position at time of the event
+         * @param mouseEvent Mouse event details
          */
         void onMouseRelease(const InputHandler::MouseEvent& mouseEvent);
 

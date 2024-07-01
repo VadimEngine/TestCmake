@@ -7,8 +7,35 @@
 #include "unordered_map"
 #include <optional>
 #include <numbers>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 class Mesh {
+public:
+    /**
+     * Reads an obj file and populates the given list with the meshes
+     * 
+     * @param path obj file path
+     * @param meshList 
+     */
+    static void loadMeshes(const std::filesystem::path& path, std::vector<Mesh>& meshList);
+
+private:
+    /**
+     * Process a node (and child nodes recursively) in a assimp object and add to
+     * @param aiNode Assimp node
+     * @param aiScene Assimp scene
+     */
+    static void processNode(aiNode *node, const aiScene *scene, std::vector<Mesh>& meshList);
+    
+    /**
+     * Process an Assimp Mesh and add to list of meshes
+     * @param mesh Child node
+     * @param scene Assimp Scene
+     */
+    static Mesh processMesh(aiMesh *mesh, const aiScene *scene);
+
 public:
     /** Mesh Vertex info*/
     struct Vertex {
@@ -24,23 +51,7 @@ public:
         std::string type;
         std::string path;
     };
-private:
-    /** Map to hold loaded Meshes */
-    static std::unordered_map<std::string, const Mesh*> sLoadedMeshByName_;
-
-public:
-    /** Load the preset list of Meshes */
-    static void loadMeshes();
     
-    /** Delete the loaded Meshes*/
-    static void releaseMeshes();
-
-    /** 
-     * Get a loaded mesh if it exists
-     * \param meshName Name of the loaded mesh
-     */
-    static const Mesh* getLoadedMesh(const std::string& meshName);
-
     /** Vertices of this mesh */
     std::vector<Vertex> vertices;
     /** Order to render the vertices in */
@@ -52,14 +63,19 @@ public:
 
     /**
      * Constructor
-     * \param vertices Vertices for this Mesh
-     * \param indices Render order of the vertices
+     * @param vertices Vertices for this Mesh
+     * @param indices Render order of the vertices
      */
     Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>& indices);
 
     /**
+     * @brief Destructor
+     */
+    ~Mesh();
+
+    /**
      * Render the mesh with the given shader. TODO use textures
-     * \param theShader Shader that will be used to draw. Textures will be bound to the shader before rendering
+     * @param theShader Shader that will be used to draw. Textures will be bound to the shader before rendering
      */
     void render(const Shader& theShader) const;
 

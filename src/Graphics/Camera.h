@@ -42,57 +42,57 @@ public:
 
     /** 
      * Update Camera 
-     * \param dt Time since last update in seconds
+     * @param dt Time since last update in seconds
      */
     void update(float dt);
 
     /**
      *  Move the camera from current postion in the given direction and step
-     * \param dir Direction to move
-     * \param step Amount to move 
+     * @param dir Direction to move
+     * @param step Amount to move 
      */
     void move(const glm::vec3& dir, const float step);
 
     /**
      *  Rotate the camera from current rotation in the given axis and step
-     * \param axis Axis to rotate around
-     * \param angle Amount to rotate 
+     * @param axis Axis to rotate around
+     * @param angle Amount to rotate 
      */
     void rotate(const glm::vec3& axis, const float angle);
 
     /**
      * Set the Camera FOV
-     * \param newFOV New FOV in degrees
+     * @param newFOV New FOV in degrees
      */
     void setFOV(const float newFOV);
 
     /**
      * Set the Camera Aspect Ratio
-     * \param newAspect New Camera Aspect ratio
+     * @param newAspect New Camera Aspect ratio
      */
     void setAspectRatio(float newAspect);
 
     /**
      * Set the Camera Position 
-     * \param newPosition New Position vector
+     * @param newPosition New Position vector
     */
     void setPosition(const glm::vec3& newPosition);
 
     /**
      * Set the Rotation vector
-     * \param newRotation New Rotation vector
+     * @param newRotation New Rotation vector
      */
     void setRotation(const glm::vec3& newRotation);
 
     /**
      * Adjust the FOV with the given amount
-     * \param zoomAdjust FOV adjustment amount
+     * @param zoomAdjust FOV adjustment amount
      */
     void zoom(const float zoomAdjust);
 
     /**
      * Set the Camera mode (Perspective/Orthogonal )
-     * \param mode New Camera mode
+     * @param mode New Camera mode
      */
     void setMode(const CameraMode mode);
 
@@ -125,19 +125,19 @@ public:
 
     /**
      * Set the camera movement speed
-     * \param mode New Camera mode
+     * @param mode New Camera mode
      */
     void setMoveSpeed(float newSpeed);
 
     /**
      * Set the camera rotation speed
-     * \param mode New Camera mode
+     * @param mode New Camera mode
      */
     void setRotationSpeed(float newSpeed);
     
     /**
      * Set the camera zoom speed
-     * \param mode New Camera mode
+     * @param mode New Camera mode
      */
     void setZoomSpeed(float newSpeed);
     

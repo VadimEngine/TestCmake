@@ -1,6 +1,5 @@
 #include "App.h"
 #include "Logger.h"
-#include <iostream>
 #include <filesystem>
 
 int main() {

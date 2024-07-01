@@ -6,8 +6,6 @@ ModelRenderable::ModelRenderable(const Model* pModel, const Shader* pShader)
 ModelRenderable::~ModelRenderable() {}
 
 void ModelRenderable::render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const {
-    glm::mat4 model = glm::mat4(1.0f);
-    
     // translation matrix for position
     glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), mPosition_);
     //rotation matrix
@@ -22,16 +20,21 @@ void ModelRenderable::render(const Renderer& theRenderer, const Camera& theCamer
     mpShader_->bind();
     
     // Bind all textures to the Texture Units
-    for (const auto& [slot, texId] : mTextureIdByUnit_) {
+    for (const auto& [slot, pair] : mTextureByUnit_) {
+        const auto& [texId, uniformName] = pair;
         glActiveTexture(GL_TEXTURE0 + slot);
         glBindTexture(GL_TEXTURE_2D, texId);
+        // TODO fix this. Maybe all uniforms will be uTexture0/uTexture1
+        mpShader_->setInt(uniformName, slot);
     }
 
+    mpShader_->setMat4("uModel", parentModelMat * localModelMat);
+    mpShader_->setMat4("uView", theCamera.getViewMatrix());
+    mpShader_->setMat4("uProjection", theCamera.getProjectionMatrix());
     mpShader_->setVec4("uColor", mColor_);
-    mpShader_->setMat4("model", parentModelMat * localModelMat);
-    mpShader_->setMat4("view", theCamera.getViewMatrix());
-    mpShader_->setMat4("projection", theCamera.getProjectionMatrix());
-    mpModel_->render(*mpShader_);
+    mpShader_->setVec2("uSubImageTopLeft", mSubTextureTopLeft);
+    // (16.0 / 512.0, 16.0 / 512.0)
+    mpShader_->setVec2("uSubImageSize", mSubTextureSize);
 
     if (renderWireframe_) {
         // Enable wire frame
@@ -44,6 +47,7 @@ void ModelRenderable::render(const Renderer& theRenderer, const Camera& theCamer
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         mpShader_->setBool("wireframeMode", false);
     }
+    mpModel_->render(*mpShader_);
 }
 
 const Model* ModelRenderable::getModel() const {
@@ -62,10 +66,18 @@ void ModelRenderable::setShader(Shader* pShader) {
     mpShader_ = pShader;
 }
 
-void ModelRenderable::setTexture(unsigned int textureUnit, unsigned int textureId) {
-    mTextureIdByUnit_[textureUnit] = textureId;
+void ModelRenderable::setTexture(unsigned int textureUnit, unsigned int textureId, const std::string& uniformName) {
+    mTextureByUnit_[textureUnit] = {textureId, uniformName};
 }
 
 void ModelRenderable::setWireframeRendering(const bool enable) {
     renderWireframe_ = enable;
+}
+
+void ModelRenderable::setSubTextureSize(const glm::vec2& size) {
+    mSubTextureSize = size;
+}
+
+void ModelRenderable::setSubTextureTopLeft(const glm::vec2& pos) {
+    mSubTextureTopLeft = pos;
 }

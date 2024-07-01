@@ -19,7 +19,7 @@ namespace pong {
 
         /**
          * Update the Ball
-         * \param dt time since last update
+         * @param dt time since last update
          */
         void update(float dt) override;
 

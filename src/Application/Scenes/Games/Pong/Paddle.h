@@ -19,9 +19,9 @@ namespace pong {
     public:
         /**
          *  Constructor
-         * \param xPos X position of paddle
-         * \param maxY Upper position bound
-         * \param minY Lower position bound
+         * @param xPos X position of paddle
+         * @param maxY Upper position bound
+         * @param minY Lower position bound
          */
         Paddle(Scene& scene, float xPos, float maxY, float minY);
         
@@ -30,7 +30,7 @@ namespace pong {
 
         /**
          * Update paddle
-         * \param dt Time since last update
+         * @param dt Time since last update
          */
         void update(float dt) override;
 

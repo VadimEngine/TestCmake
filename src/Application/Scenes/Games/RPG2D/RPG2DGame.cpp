@@ -36,7 +36,13 @@ namespace rpg_2d {
         theMOB.render(theRenderer, theCamera);
         theMOB.getCollider().render(theRenderer, theCamera);
         // draw player collider for debugging
-        theRenderer.renderText("RPG", {350.0f, 500.0f}, 1.0f, {1.f, 1.f, 1.f});
+        theRenderer.renderText(
+            "RPG",
+            {350.0f, 500.0f},
+            *(mApp_.getResources().getResource<Font>("Consolas")),
+            1.0f,
+            {1.f, 1.f, 1.f}
+        );
     }
 
     void RPG2DGame::handleKeyUpdate(float dt) {

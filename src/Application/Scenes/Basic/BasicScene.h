@@ -5,7 +5,6 @@
 #include "CameraController.h"
 #include "Texture.h"
 #include "BasicSceneGUI.h"
-#include "Entity.h"
 #include "ModelRenderable.h"
 #include "SpriteRenderable.h"
 
@@ -13,34 +12,10 @@
 class App;
 
 class BasicScene : public Scene {
-private:
-    /** Camera Controller */
-    CameraController mCameraController_;
-
-    /** GUI for this Scene*/
-    BasicSceneGUI mGui_;
-
-    /** Entities rendered in this Scene */
-    std::vector<Entity*> mEntities_;
-
-    /** Sprite Sheet used for this Scene*/
-    SpriteSheet mSpriteSheet_;
-
-    /** First Sprite used in this Scene*/
-    SpriteSheet::Sprite mSprite_;
-
-    /** Cube Model */
-    Model mCubeModel_;
-    
-    /** Plane Model*/
-    Model mPlaneModel_;
-
-    Model assimpModel_;
-
 public:
     /**  
      * Constructor
-     * \param theApp Parent app handling this Scene
+     * @param theApp Parent app handling this Scene
      */
     BasicScene(App& theApp);
 
@@ -49,16 +24,33 @@ public:
 
     /** 
      * Update the Scene
-     * \param dt Time since last update in seconds
+     * @param dt Time since last update in seconds
      */
     void update(const float dt) override;
 
     /**
      * Render this scene
-     * \param renderer Rendering helper
+     * @param renderer Rendering helper
      */
     void render(Renderer& renderer) override;
 
-    /** get the entities in this scene*/
-    std::vector<Entity*>& getEntities();
+    /**
+     * @brief Loads and builds resources that are used for this scene
+     */
+    void assembleResources();
+
+    /** Get the entities in this scene*/
+    std::vector<std::unique_ptr<Entity>>& getEntities();
+    
+private:
+    /** Camera Controller */
+    CameraController mCameraController_;
+    /** GUI for this Scene*/
+    BasicSceneGUI mGui_;
+    /** Entities rendered in this Scene */
+    std::vector<std::unique_ptr<Entity>> mEntities_;
+    /** Sprite Sheet used for this Scene*/
+    SpriteSheet mSpriteSheet_;
+    /** First Sprite used in this Scene*/
+    SpriteSheet::Sprite mSprite_;
 };

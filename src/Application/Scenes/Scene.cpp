@@ -40,7 +40,7 @@ bool Scene::isRunning() const {
     return mIsRunning_;
 }
 
-Resource Scene::getResources() {
+Resource& Scene::getResources() {
     return mResources_;
 }
 

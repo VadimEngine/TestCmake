@@ -23,7 +23,7 @@ namespace turn_strategy {
     public:
         /** 
          * Constructor
-         * \param theScene The scene this gui is for
+         * @param theScene The scene this gui is for
          */
         TurnStrategyGUI(TurnStrategyScene& theScene);
 

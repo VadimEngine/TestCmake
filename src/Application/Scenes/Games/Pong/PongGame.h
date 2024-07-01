@@ -68,32 +68,32 @@ namespace pong {
 
         /** 
          * Update Game
-         * \param dt Time since last update
+         * @param dt Time since last update
          */
         void update(const float dt);
 
         /** 
          * Render Game
-         * \param renderer Rendering Renderer
-         * \param camera Camera to render relative to
+         * @param renderer Rendering Renderer
+         * @param camera Camera to render relative to
          */
         void render(Renderer& renderer, Camera& camera);
 
         /**
          * Update the game based on key inputs
-         * \param dt Time since last update
+         * @param dt Time since last update
         */
         void handleKeyUpdate(float dt);
 
         /** 
          * Update the game based on certain key pressed events
-         * \param code Keycode of press key
+         * @param code Keycode of press key
          */
         void onKeyPress(unsigned int code);
 
         /** 
          * Update the game based on certain key release events
-         * \param code Keycode of released key
+         * @param code Keycode of released key
          */
         void onKeyRelease(unsigned int code);
 

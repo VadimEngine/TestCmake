@@ -1,5 +1,7 @@
 #include "Settlement.h"
 #include "TurnStrategyGame.h"
+#include "Scene.h"
+#include "App.h"
 
 namespace turn_strategy {
 
@@ -7,12 +9,11 @@ namespace turn_strategy {
      : Entity(scene), mGame_(theGame) {
         addRenderable(new SpriteRenderable(pSprite));
         territoryTiles.insert(tilePosition);
-        mRectModel_.addMesh(*(Mesh::getLoadedMesh("RectPlane")));
-        borderRenderable = new ModelRenderable(&mRectModel_, Shader::getLoadedShader("Assimp"));
-        borderRenderable->setScale({.5f, .5f, 1});
-        borderRenderable->setColor({1,0,0,.5f});
+        mRectModel_.addSharedMesh(mScene_.getApp().getResources().getResource<Mesh>("RectPlane"));
+        borderRenderable = new ModelRenderable(&mRectModel_, mScene_.getApp().getResources().getResource<Shader>("Assimp"));
+        borderRenderable->setColor({1,0, 0,.5f});
 
-        labelRectRenderable = new ModelRenderable(&mRectModel_, Shader::getLoadedShader("Assimp"));
+        labelRectRenderable = new ModelRenderable(&mRectModel_, mScene_.getApp().getResources().getResource<Shader>("Assimp"));
         labelRectRenderable->setScale({1.f, .5f, 1});
         labelRectRenderable->setColor({.3f, .3f, .3f, 1.f});
     }
@@ -26,9 +27,17 @@ namespace turn_strategy {
 
         // draw settlement label
         {
-            glm::mat4 translationMatrix2 = glm::translate(glm::mat4(1.0f), {mPosition_.x, mPosition_.y-1, mPosition_.z});
+            glm::mat4 translationMatrix2 = glm::translate(glm::mat4(1.0f), {mPosition_.x, mPosition_.y-.75, mPosition_.z});
             labelRectRenderable->render(theRenderer, theCamera, translationMatrix2);
-            theRenderer.renderTextNormalized(mName_, translationMatrix2, theCamera, .005f, {1,1,1});
+            // TODO remove this temp cast
+            const_cast<Renderer&>(theRenderer).renderTextNormalized(
+                mName_,
+                translationMatrix2, 
+                theCamera, 
+                *(mScene_.getApp().getResources().getResource<Font>("Consolas")), 
+                .005f, 
+                {1,1,1}
+            );
         }
         std::vector<glm::ivec2> dirs = {
             {1,0},

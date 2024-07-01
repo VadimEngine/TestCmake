@@ -19,7 +19,7 @@ namespace rpg_2d {
     public:
         /** 
          * Constructor
-         * \param theScene The scene this gui is for
+         * @param theScene The scene this gui is for
          */
         RPG2DSceneGUI(RPG2DScene& theScene);
 

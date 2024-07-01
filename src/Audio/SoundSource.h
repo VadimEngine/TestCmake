@@ -28,13 +28,13 @@ public:
 
     /** 
      * Play the audio of the given id
-     * \param xPos X position of paddle
+     * @param xPos X position of paddle
      */
     void play(const ALuint buffer_to_play);
 
     /**
      * Set the Gain of this source
-     * \param newGain New gain setting
+     * @param newGain New gain setting
      */
     void setGain(float newGain);
 

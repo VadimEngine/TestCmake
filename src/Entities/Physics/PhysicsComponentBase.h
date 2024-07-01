@@ -23,7 +23,7 @@ public:
 
     /**
      * Set if this Component is enabled
-     * \param isEnabled New enabled value
+     * @param isEnabled New enabled value
      */
     void setEnabled(const bool isEnabled);
 

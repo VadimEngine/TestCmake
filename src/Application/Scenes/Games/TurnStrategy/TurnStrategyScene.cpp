@@ -6,6 +6,12 @@ namespace turn_strategy {
     TurnStrategyScene::TurnStrategyScene(App& theApp)
         : Scene(theApp), mGui_(*this), game(*this, *getFocusCamera()) {
         mBackgroundColor_ = {.5,.5,1,1.f};
+        mResources_.loadResource<Texture>(
+            {Resource::RESOURCE_PATH / "World1.png"},
+            "World1"
+        );
+
+        game.setTileMap(mResources_.getResource<Texture>("World1"));
     }
 
     TurnStrategyScene::~TurnStrategyScene() {

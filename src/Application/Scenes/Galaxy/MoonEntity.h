@@ -8,7 +8,6 @@ class GalaxyScene;
 
 class MoonEntity : public Entity {
 private:
-    Model& mSphereModel_;
     float mRadius_ = 0.25f;
     float mOrbitRadius_ = 1.f;
     float mRotationSpeed_ = 12.f;
@@ -29,7 +28,7 @@ public:
 
     float getRotationSpeed() const;
 
-    void setRotationSpeed(int rotation);
+    void setRotationSpeed(float rotation);
 };
 
 } // namespace galaxy

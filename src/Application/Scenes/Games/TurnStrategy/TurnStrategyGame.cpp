@@ -6,7 +6,7 @@ namespace turn_strategy {
 
     TurnStrategyGame::TurnStrategyGame(TurnStrategyScene& scene, Camera& focusCamera) 
     : mScene_(scene), mApp_(mScene_.getApp()), mCameraController_(&focusCamera, mApp_.getWindow().getInputHandler()),
-      mSpriteSheet_(Texture::getLoadedTexture("SpriteSheet").value(), {512, 512}, {16,16}),
+      mSpriteSheet_(mApp_.getResources().getResource<Texture>("SpriteSheet")->getId(), {512, 512}, {16,16}),
       mSprite1_(&mSpriteSheet_, glm::ivec2(0, 0)),
       mSprite2_(&mSpriteSheet_, glm::ivec2(5, 21)), mUnit_(mScene_, *this, &mSprite1_) {
         // set camera position
@@ -22,9 +22,10 @@ namespace turn_strategy {
         settlement->setCollider2(new Collider2(*settlement));
         settlement->setPosition({5,5,0});
         mSettlementList_.push_back(settlement);
-        
-        // load tile map
-        mpTileMap_ = new TileMap(Resource::RESOURCE_PATH + "World1.png");
+    }
+
+    void TurnStrategyGame::setTileMap(Texture* texture) {
+        mpTileMap_ = new TileMap(texture, &mSpriteSheet_);
     }
 
     void TurnStrategyGame::update(const float dt) {

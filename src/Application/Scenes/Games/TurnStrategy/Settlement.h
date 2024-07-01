@@ -40,7 +40,7 @@ namespace turn_strategy {
 
         /** 
          * Update Unit
-         * \param dt Time since last update
+         * @param dt Time since last update
          */
         void update(const float dt) override;
 

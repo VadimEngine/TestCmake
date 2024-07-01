@@ -24,12 +24,12 @@ private:
     RigidBodyComponent& mRigidBody_;
 
     /** Dimensions of this Collider */
-    glm::vec3 mDimension_ = {2.f, 2.f, 2.f};
+    glm::vec3 mDimension_ = {1.f, 1.f, 1.f};
 
 public:
     /**
      * Constructor
-     * \param theRigidBody Rigid body this Collider is for
+     * @param theRigidBody Rigid body this Collider is for
     */
     ColliderOLD(RigidBodyComponent& theRigidBody);
 
@@ -38,13 +38,13 @@ public:
 
     /** 
      * If there is a collision, get the normal vector from the other Collider
-     * \param otherCollider Other Collider that may be colliding with this Collider
+     * @param otherCollider Other Collider that may be colliding with this Collider
      */
     std::optional<glm::vec3> getCollisionNormal(ColliderOLD* otherCollider) const;
 
     /** 
      * If there is a collision, get the Minimum translation vector that should be applied to this collider
-     * \param otherCollider Other Collider that may be colliding with this Collider
+     * @param otherCollider Other Collider that may be colliding with this Collider
      */
     std::optional<glm::vec3> getCollisionMVT(ColliderOLD* otherCollider) const;
 
@@ -53,7 +53,7 @@ public:
 
     /** 
      * set Shape type of this collider
-     * \param theShape New Shape type
+     * @param theShape New Shape type
      */
     void setShape(const Shape& theShape);
 
@@ -62,14 +62,14 @@ public:
 
     /**
      * Replace the dimensions of this collider
-     * \param newDimension New collider dimensions
+     * @param newDimension New collider dimensions
      */
     void setDimension(const glm::vec3& newDimension);
 
     /**
      * Update of the dimensions of this collider
-     * \param axis Axis to update (x=0, y=1, z=2)
-     * \param newValue New value for dimension
+     * @param axis Axis to update (x=0, y=1, z=2)
+     * @param newValue New value for dimension
      */
     void setDimension(int axis, float newValue);
 
