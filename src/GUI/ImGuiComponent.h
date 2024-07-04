@@ -21,7 +21,7 @@ public:
     /** Virtual destructor */
     virtual ~ImGuiComponent() = 0;
 
-    /** 
+    /**
      * Initialize Imgui
      * @param window The Window this GUI is inside
      */
@@ -35,7 +35,7 @@ public:
 
     /** Build the imgui component for every frame*/
     virtual void buildImGui();
-    
+
     /**End the Imgui draw protocol */
     static void endRender();
 

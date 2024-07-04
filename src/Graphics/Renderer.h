@@ -61,11 +61,11 @@ public:
      * @param scale Scale of the text
      * @param color Color of the rendered text
      */
-    void renderText(const std::string& text, const glm::vec2& position, Font& font, float scale, const glm::vec3& color);
+    void renderText(const std::string& text, const glm::vec2& position, const Font& font, float scale, const glm::vec3& color);
 
     /**
      * @brief Draw text with a transformation and relative to a camera
-     * 
+     *
      * @param text The sprite to render
      * @param modelMat Transformation to apply to the rendering text
      * @param theCamera camera to draw relative to
@@ -73,16 +73,16 @@ public:
      * @param scale Text scale
      * @param color Text color
      */
-    void renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, Font& font ,float scale, const glm::vec3& color);
+    void renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, const Font& font ,float scale, const glm::vec3& color);
 
     /**
      * Render text centered at the given location. TODO scale.x scale.y
      * @param text The sprite to render
      * @param position Screen position to render (not normalized)
      * @param scale Scale of the text
-     * @param color Color of the rendered text 
+     * @param color Color of the rendered text
      */
-    void renderTextCentered(const std::string& text, const glm::vec2& position, Font& font, float scale, const glm::vec4& color);
+    void renderTextCentered(const std::string& text, const glm::vec2& position, const Font& font, float scale, const glm::vec4& color);
 
     // Render line (coords, color, thickness)
     // Render shapes square/circle/triangle (hollow/color/thickness)

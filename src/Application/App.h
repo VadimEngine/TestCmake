@@ -22,22 +22,22 @@ class App {
 public:
     /** Default Constructor */
     App();
-    
+
     /** Destructor */
     ~App();
-    
+
     /** Start and do the run loop */
     void run();
-    
+
     /** Update the application components */
     void update();
-    
+
     /** Render the application components */
     void render();
 
     /** If the application is currently running */
     bool isRunning() const;
-    
+
     /**
      * Quits the application. Quit should be handled by the Application and not the window to ensure
      * proper closure of the application
@@ -49,8 +49,8 @@ public:
      * @param newScene The new Scene
      */
     void setScene(Scene* newScene);
-    
-    /** 
+
+    /**
      * Set Anti-Aliasing sample size. If the size is 0 then anti aliasing is disabled
      * @param sampleSize Anti aliasing sample size
      */
@@ -72,7 +72,7 @@ private:
     static void initializeOpenGL();
 
 private:
-    /** If OpenGL is already initalized. Used to prevent redundant initialization  */
+    /** If OpenGL is already initalized. Used to prevent redundant initialization */
     static bool sOpenGLInitialized_;
     /** Time of last update call */
     std::chrono::steady_clock::time_point mLastTime_;

@@ -1,5 +1,4 @@
 #include "TileMap.h"
-#include <iostream>
 
 namespace turn_strategy {
 
@@ -20,7 +19,7 @@ namespace turn_strategy {
         } else if (channels == GL_RGBA) {
             channels = 4;
         } else {
-            std::cout << "Unsupported texture format" << channels  << std::endl;
+            LOG_E("Unsupported texture format: %d", channels);
             glBindTexture(GL_TEXTURE_2D, 0);
             return;
         }
@@ -52,15 +51,15 @@ namespace turn_strategy {
                 if (combinedColor == 0x0000FF) {
                     // Water
                     tiles[y][x].type = Tile::Type::SEA;
-                    tiles[y][x].sprite = new SpriteSheet::Sprite(spriteSheet, glm::ivec2(2, 1));
+                    tiles[y][x].sprite = new SpriteSheet::Sprite(*spriteSheet, glm::ivec2(2, 1));
                 } else if (combinedColor == 0x00FF00) {
                     // grass
                     tiles[y][x].type = Tile::Type::GRASS;
-                    tiles[y][x].sprite = new SpriteSheet::Sprite(spriteSheet, glm::ivec2(0, 1));
+                    tiles[y][x].sprite = new SpriteSheet::Sprite(*spriteSheet, glm::ivec2(0, 1));
                 } else if (combinedColor == 0xFFFF00) {
                     // sand
                     tiles[y][x].type = Tile::Type::SAND;
-                    tiles[y][x].sprite = new SpriteSheet::Sprite(spriteSheet, glm::ivec2(3, 1));
+                    tiles[y][x].sprite = new SpriteSheet::Sprite(*spriteSheet, glm::ivec2(3, 1));
                 }
             }
         }

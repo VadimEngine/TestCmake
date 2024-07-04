@@ -3,17 +3,15 @@
 #include "App.h"
 
 namespace rpg_2d {
-
     MOB::MOB(Scene& scene)
-    : Entity(scene), mSpriteSheet_(mScene_.getApp().getResources().getResource<Texture>("SpriteSheet")->getId(), {512, 512}, {16,16}) {
+    : Entity(scene), mSprite_(*mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), {0,0}) {
         // TODO use sprite sheet to add sprite
-        addRenderable(new SpriteRenderable(new SpriteSheet::Sprite(&mSpriteSheet_, glm::ivec2(0, 0))));
+        addRenderable(new SpriteRenderable(&mSprite_));
         mpCollider_ = addPhysicsComponent<Collider2>();
         mpCollider_->setShape(Collider2::Shape::RECTANGLE);
         // mpCollider_->addOnCollisionEnterCallback(separateFromMOB);
         // collider shape is 1x1x1
         mpBoxCollider_ = addPhysicsComponent<BoxCollider2D>();
-
     }
 
     MOB::~MOB() {}

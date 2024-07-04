@@ -1,40 +1,84 @@
 #pragma once
 #define GLEW_STATIC
+#include <filesystem>
 #include <GL/glew.h>
 #include <SOIL.h>
 #include <stdexcept>
 #include "Logger.h"
 #include <optional>
 #include <vector>
+#include <glm/vec2.hpp>
 
 class Texture {
-private:
-    unsigned int mTextureId_;
-    //TODO hold texture properties such as rgb/rgba/with,height
-    int mWidth_;
-    int mHeight_;
-    int mChannels_;
-
 public:
+    /**
+     * @brief Create a Texture out of given pixel data
+     *
+     * @param textureData Pixel data
+     * @param width width in pixels
+     * @param height height in pixels
+     * @param channels channels per pixel
+     */
     Texture(const unsigned char* textureData, int width, int height, int channels);
 
-    // TODO use path
-    explicit Texture(const std::string& path);
+    /**
+     * @brief Load a texture from a given path
+     *
+     * @param path
+     */
+    explicit Texture(const std::filesystem::path& path);
 
+    /**
+     * @brief Destructor. Frees the GL texture id
+     */
     ~Texture();
 
-    // TODO use path
-    /** Load a texture from a file and return the OpenGL Texture Id */
-    static unsigned int loadTexture(const std::string& texturePath, int* width, int* height, int* channels);
+    // TODO custom move/copy/= logic?
 
-    unsigned int getId();
+    /**
+     * @brief Load a texture from a file and return the OpenGL Texture Id
+     *
+     * @param texturePath Texture file path
+     * @param width Pointer to store the width in pixels of the loaded texture
+     * @param height Pointer to store the height in pixels of the loaded texture
+     * @param channels Pointer to store number of channels per pixel
+     * @return unsigned int GL Texture Id
+     */
+    static unsigned int loadTexture(const std::filesystem::path& texturePath, int* width, int* height, int* channels);
 
-    unsigned int getWidth();
+    /** Get the GL Texture Id */
+    unsigned int getId() const;
 
-    unsigned int getHeight();
+    /** Get Texture width in pixels */
+    unsigned int getWidth() const;
 
-    unsigned int getChannels();
+    /** Get Texture height in pixels */
+    unsigned int getHeight() const;
+
+    /** Get number of channels per pixel */
+    unsigned int getChannels() const;
+
+    /** Get Width x Height in pixels */
+    glm::ivec2 getShape() const;
 
 private:
+    /**
+     * @brief Helper method to convert pixel data into a GL texture data
+     *
+     * @param textureData Pixel data
+     * @param width Width in pixels
+     * @param height Height in pixels
+     * @param channels Channels per pixel
+     * @return Gl Texture Id
+     */
     static unsigned int genGLTexture(const unsigned char* textureData, int width, int height, int channels);
+
+    /** GL Texture Id*/
+    unsigned int mTextureId_;
+    /** Width in pixels*/
+    int mWidth_;
+    /** Height in pixels*/
+    int mHeight_;
+    /** Channels per pixel */
+    int mChannels_;
 };

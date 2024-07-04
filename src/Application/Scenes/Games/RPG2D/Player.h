@@ -13,12 +13,13 @@ namespace rpg_2d {
     private:
         float speed = 5.0f;
     public:
-        SpriteSheet mSpriteSheet_;
         // TODO try Collider2.h
 
         Collider2* mpCollider_ = nullptr;
 
         BoxCollider2D* mpBoxCollider_ = nullptr;
+
+        SpriteSheet::Sprite mSprite_;
 
         Player(Scene& scene);
 

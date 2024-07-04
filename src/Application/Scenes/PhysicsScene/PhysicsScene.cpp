@@ -1,40 +1,41 @@
 #include "PhysicsScene.h"
 #include "App.h"
 
+namespace physics_scene {
 PhysicsScene::PhysicsScene(App& theApp)
     : Scene(theApp), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()), mGui_(*this) {
+    assembleResources();
     mBackgroundColor_ = {.4,.4,.4,1.f};
     getFocusCamera()->setPosition({0,0,5});
-
-    mCircleModel_.addSharedMesh(mApp_.getResources().getResource<Mesh>("CircularPlane"));
-    mRectModel_.addSharedMesh(mApp_.getResources().getResource<Mesh>("RectPlane"));
-
-    Entity* theEntity1 = new Entity(*this);
-    theEntity1->addRenderable(new ModelRenderable(&mCircleModel_, getApp().getResources().getResource<Shader>("Assimp")));
-    RigidBodyComponent* rigid1  = theEntity1->addPhysicsComponent<RigidBodyComponent>();
-    rigid1->getCollider().setShape(ColliderOLD::Shape::CIRCLE);
-    rigid1->setMobile(true);
-    rigid1->setAttractive(true);
-    mEntities_.push_back(theEntity1);
-
+    // First particle
+    {
+        Entity* theEntity = new Entity(*this);
+        ModelRenderable* modelRenderable = theEntity->addRenderable<ModelRenderable>();
+        modelRenderable->setModel(mResources_.getResource<Model>("CircularPlane"));
+        modelRenderable->setShader(getApp().getResources().getResource<Shader>("Assimp"));
+        RigidBodyComponent* rigid = theEntity->addPhysicsComponent<RigidBodyComponent>();
+        rigid->getCollider().setShape(ColliderOLD::Shape::CIRCLE);
+        rigid->setMobile(true);
+        rigid->setAttractive(true);
+        mEntities_.emplace_back(theEntity);
+    }
     // floor
-    Entity* theEntity3 = new Entity(*this);
-    theEntity3->addRenderable(new ModelRenderable(&mRectModel_, getApp().getResources().getResource<Shader>("Assimp")));
-    theEntity3->setPosition({0.f, -10.f, 0.f});
-    theEntity3->setScale({10.f, 1.f, 1.f});
-    RigidBodyComponent* rigid3 = theEntity3->addPhysicsComponent<RigidBodyComponent>();
-    rigid3->getCollider().setShape(ColliderOLD::Shape::RECTANGLE);
-    rigid3->setMobile(false);
-    rigid3->setAttractive(false);
-    mEntities_.push_back(theEntity3);
-}
-
-PhysicsScene::~PhysicsScene() {
-    delete mpFocusCamera_;
-    for (auto& eachEntity : mEntities_) {
-        delete eachEntity;
+    {
+        Entity* theEntity = new Entity(*this);
+        ModelRenderable* modelRenderable = theEntity->addRenderable<ModelRenderable>();
+        modelRenderable->setModel(mResources_.getResource<Model>("RectPlane"));
+        modelRenderable->setShader(getApp().getResources().getResource<Shader>("Assimp"));
+        theEntity->setPosition({0.f, -10.f, 0.f});
+        theEntity->setScale({10.f, 1.f, 1.f});
+        RigidBodyComponent* rigid = theEntity->addPhysicsComponent<RigidBodyComponent>();
+        rigid->getCollider().setShape(ColliderOLD::Shape::RECTANGLE);
+        rigid->setMobile(false);
+        rigid->setAttractive(false);
+        mEntities_.emplace_back(theEntity);
     }
 }
+
+PhysicsScene::~PhysicsScene() {}
 
 void PhysicsScene::update(const float dt) {
     mCameraController_.update(dt);
@@ -54,19 +55,38 @@ void PhysicsScene::render(Renderer& renderer) {
     mGui_.render();
 }
 
-std::vector<Entity*>& PhysicsScene::getEntities() {
+std::vector<std::unique_ptr<Entity>>& PhysicsScene::getEntities() {
     return mEntities_;
 }
 
-void PhysicsScene::addEntity() {
+void PhysicsScene::addEntity(const glm::vec3 position) {
     Entity* newEntity = new Entity(*this);
-    newEntity->addRenderable(new ModelRenderable(&mCircleModel_, getApp().getResources().getResource<Shader>("Assimp")));
+    newEntity->setPosition(position);
+    ModelRenderable* modelRenderable = newEntity->addRenderable<ModelRenderable>();
+    modelRenderable->setModel(mResources_.getResource<Model>("CircularPlane"));
+    modelRenderable->setShader(getApp().getResources().getResource<Shader>("Assimp"));
+
     RigidBodyComponent* rigid = newEntity->addPhysicsComponent<RigidBodyComponent>();
     rigid->getCollider().setShape(ColliderOLD::Shape::CIRCLE);
     rigid->setMobile(true);
     rigid->setAttractive(true);
 
-    mEntities_.push_back(newEntity);
+    mEntities_.emplace_back(newEntity);
+}
+
+void PhysicsScene::assembleResources() {
+    // Circle Plane Model
+    std::unique_ptr<Model> circleModel = std::make_unique<Model>();
+    circleModel->addSharedMesh(
+        mApp_.getResources().getResource<Mesh>("CircularPlane")
+    );
+    mResources_.addResource(std::move(circleModel), "CircularPlane");
+    // Rectangle Plane Model
+    std::unique_ptr<Model> rectModel = std::make_unique<Model>();
+    rectModel->addSharedMesh(
+        mApp_.getResources().getResource<Mesh>("RectPlane")
+    );
+    mResources_.addResource(std::move(rectModel), "RectPlane");
 }
 
 void PhysicsScene::handleEntityCollision(const float dt) {
@@ -112,3 +132,4 @@ void PhysicsScene::handleEntityOverlap() {
         }
     }
 }
+} // namespace physics_scene

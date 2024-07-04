@@ -1,9 +1,8 @@
 #include "App.h"
-#include "iostream"
 
 bool App::sOpenGLInitialized_ = false;
 
-App::App() 
+App::App()
  : mWindow_("OpenGL Application", 800, 600) {
     // Initialize OpenGL and imgui
     initializeOpenGL();
@@ -12,13 +11,13 @@ App::App()
     loadResources();
     // Renderer and Scene (must be called after OpenGL is initialized)
     mpRenderer_ = std::make_unique<Renderer>(
-        800, 600, 
+        800, 600,
         *(mResources_.getResource<Shader>("TextureSurface")),
         *(mResources_.getResource<Shader>("Text")),
         *(mResources_.getResource<Shader>("MVPShader")),
         *(mResources_.getResource<Mesh>("RectPlane"))
     );
-    mScenes_.push_back(new MenuScene(*this));
+    mScenes_.push_back(new menu_scene::MenuScene(*this));
 }
 
 App::~App() {
@@ -311,9 +310,15 @@ void App::loadResources() {
     mResources_.loadResource<Audio>({Resource::RESOURCE_PATH / "audio/button_click_1.wav"}, "Button_click");
     mResources_.loadResource<Audio>({Resource::RESOURCE_PATH / "audio/PatakasWorld.wav"}, "PatakasWorld");
     // Fonts
+    mResources_.loadResource<Font>({Resource::RESOURCE_PATH / "fonts/Consolas.ttf"}, "Consolas");
+
+    // SpriteSheet
     mResources_.addResource(
-        std::move(std::make_unique<Font>(Resource::RESOURCE_PATH / "fonts/Consolas.ttf")),
-        "Consolas"
+        std::move(std::make_unique<SpriteSheet>(
+            *mResources_.getResource<Texture>("SpriteSheet"),
+            glm::ivec2{16,16}
+        )),
+        "SpriteSheet1"
     );
 }
 
@@ -332,7 +337,7 @@ void App::initializeOpenGL() {
         // Needed for text rendering
         glEnable(GL_BLEND);
         // Set Depth test to replace the current fragment if the z is less then OR equal
-        glDepthFunc(GL_LEQUAL); 
+        glDepthFunc(GL_LEQUAL);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Enable alpha drawing
 
         sOpenGLInitialized_ = true;

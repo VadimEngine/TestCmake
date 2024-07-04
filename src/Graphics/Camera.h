@@ -40,23 +40,23 @@ public:
     /** Destructor */
     ~Camera();
 
-    /** 
-     * Update Camera 
+    /**
+     * Update Camera
      * @param dt Time since last update in seconds
      */
     void update(float dt);
 
     /**
-     *  Move the camera from current postion in the given direction and step
+     * Move the camera from current postion in the given direction and step
      * @param dir Direction to move
-     * @param step Amount to move 
+     * @param step Amount to move
      */
     void move(const glm::vec3& dir, const float step);
 
     /**
-     *  Rotate the camera from current rotation in the given axis and step
+     * Rotate the camera from current rotation in the given axis and step
      * @param axis Axis to rotate around
-     * @param angle Amount to rotate 
+     * @param angle Amount to rotate
      */
     void rotate(const glm::vec3& axis, const float angle);
 
@@ -73,7 +73,7 @@ public:
     void setAspectRatio(float newAspect);
 
     /**
-     * Set the Camera Position 
+     * Set the Camera Position
      * @param newPosition New Position vector
     */
     void setPosition(const glm::vec3& newPosition);
@@ -101,13 +101,13 @@ public:
 
     /** Get the view matrix which is based on the Camera position and direction */
     glm::mat4 getViewMatrix() const;
-    
+
     /** Get camera rotations */
     glm::vec3 getRotation() const;
-    
+
     /** Get camera position */
     glm::vec3 getPosition() const;
-    
+
     /** Get camera forward direction */
     glm::vec3 getForward() const;
 
@@ -134,13 +134,13 @@ public:
      * @param mode New Camera mode
      */
     void setRotationSpeed(float newSpeed);
-    
+
     /**
      * Set the camera zoom speed
      * @param mode New Camera mode
      */
     void setZoomSpeed(float newSpeed);
-    
+
     /**
      * Get the Camera movement speed
      */

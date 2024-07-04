@@ -9,10 +9,10 @@ class BaseRenderable {
 protected:
     /** Renderable Position */
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
-    
+
     /** Renderable Rotation */
     glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
-    
+
     /** Renderable Scale */
     glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
 
@@ -40,7 +40,7 @@ public:
 
     /** Get if this Renderable is enabled */
     bool isEnabled() const;
-    
+
     /** Get this Renderable's position */
     glm::vec3 getPosition() const;
 

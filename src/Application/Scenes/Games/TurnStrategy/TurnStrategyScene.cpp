@@ -14,9 +14,7 @@ namespace turn_strategy {
         game.setTileMap(mResources_.getResource<Texture>("World1"));
     }
 
-    TurnStrategyScene::~TurnStrategyScene() {
-        delete mpFocusCamera_;
-    }
+    TurnStrategyScene::~TurnStrategyScene() {}
 
     void TurnStrategyScene::update(const float dt) {
         game.update(dt);

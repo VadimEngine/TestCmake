@@ -1,7 +1,7 @@
 #include "PhysicsComponentBase.h"
 #include "Entity.h"
 
-PhysicsComponentBase::PhysicsComponentBase(Entity& parentEntity) 
+PhysicsComponentBase::PhysicsComponentBase(Entity& parentEntity)
     : mParentEntity_(parentEntity) {}
 
 

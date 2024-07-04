@@ -15,7 +15,7 @@ void Mesh::loadMeshes(const std::filesystem::path& path, std::vector<Mesh>& mesh
 void Mesh::processNode(aiNode *node, const aiScene *scene, std::vector<Mesh>& meshList) {
     // process all the node's meshes (if any)
     for (unsigned int i = 0; i < node->mNumMeshes; i++) {
-        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]]; 
+        aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         meshList.push_back(processMesh(mesh, scene));
     }
     // then do the same for each of its children
@@ -48,9 +48,9 @@ Mesh Mesh::processMesh(aiMesh *mesh, const aiScene *scene) {
         // texture coordinates
         if(mesh->mTextureCoords[0]) { // does the mesh contain texture coordinates?
             glm::vec2 vec;
-            // a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
+            // a vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't
             // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
-            vec.x = mesh->mTextureCoords[0][i].x; 
+            vec.x = mesh->mTextureCoords[0][i].x;
             vec.y = mesh->mTextureCoords[0][i].y;
             vertex.texCoord = vec;
 
@@ -77,7 +77,7 @@ Mesh Mesh::processMesh(aiMesh *mesh, const aiScene *scene) {
         vertices.push_back(vertex);
     }
 
-    // now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
+    // now walk through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
     for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
         aiFace face = mesh->mFaces[i];
         // retrieve all indices of the face and store them in the indices vector
@@ -97,9 +97,7 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<unsigned int>&
     buildOpenGLproperties();
 }
 
-Mesh::~Mesh() {
-    LOG_I("Delete Mesh");
-}
+Mesh::~Mesh() {}
 
 void Mesh::render(const Shader& theShader) const {
     glBindVertexArray(mVAO);
@@ -117,7 +115,7 @@ void Mesh::buildOpenGLproperties() {
     // load data into vertex buffers
     glBindBuffer(GL_ARRAY_BUFFER, mVBO_);
     // bind vertices
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);  
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBO_);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);

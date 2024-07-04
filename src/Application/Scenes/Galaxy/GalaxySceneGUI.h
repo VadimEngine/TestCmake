@@ -7,14 +7,8 @@ namespace galaxy {
 class GalaxyScene;
 
 class GalaxySceneGUI : public ImGuiComponent {
-private:
-    /** The Scene this GUI is for */
-    GalaxyScene& mScene_;
-
-    bool mSceneRunning_ = true;
-
 public:
-    /** 
+    /**
      * Constructor
      * @param theScene The scene this gui is for
      */
@@ -25,6 +19,12 @@ public:
 
     /** Build the GUI ImGui components every frame */
     void buildImGui() override;
+
+private:
+    /** The Scene this GUI is for */
+    GalaxyScene& mScene_;
+    /** Applied running status to the scene*/
+    bool mSceneRunning_ = true;
 };
 
 } // namespace galaxy

@@ -15,9 +15,9 @@ class Mesh {
 public:
     /**
      * Reads an obj file and populates the given list with the meshes
-     * 
+     *
      * @param path obj file path
-     * @param meshList 
+     * @param meshList
      */
     static void loadMeshes(const std::filesystem::path& path, std::vector<Mesh>& meshList);
 
@@ -28,7 +28,7 @@ private:
      * @param aiScene Assimp scene
      */
     static void processNode(aiNode *node, const aiScene *scene, std::vector<Mesh>& meshList);
-    
+
     /**
      * Process an Assimp Mesh and add to list of meshes
      * @param mesh Child node
@@ -51,7 +51,7 @@ public:
         std::string type;
         std::string path;
     };
-    
+
     /** Vertices of this mesh */
     std::vector<Vertex> vertices;
     /** Order to render the vertices in */

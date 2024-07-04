@@ -19,7 +19,7 @@ std::optional<glm::vec3> ColliderOLD::getCollisionNormal(ColliderOLD* otherColli
         float closestY = glm::clamp(circleCenter.y, rectP2.y, rectP1.y);
 
         glm::vec3 posDiff = glm::vec3{closestX, closestY, 0} - circleCenter;
-        
+
         if (abs(posDiff.x) <= this->getWidthDiv2() && abs(posDiff.y) <= this->getHeightDiv2()) {
             // To get vector from A to B you do B - A
             // find normal pointing from Rectangle to circle (from other pointing to this)
@@ -33,7 +33,7 @@ std::optional<glm::vec3> ColliderOLD::getCollisionNormal(ColliderOLD* otherColli
         glm::vec3 rectP1 = this->getAbsolutePosition() - glm::vec3(this->getWidthDiv2(), -this->getHeightDiv2(), 0);
         glm::vec3 rectP2 = this->getAbsolutePosition() + glm::vec3(this->getWidthDiv2(), -this->getHeightDiv2(), 0);
 
-        // Closest point in rectangle to 
+        // Closest point in rectangle to
         float closestX = glm::clamp(circleCenter.x, rectP1.x, rectP2.x);
         // p1 is top left which is greater than p2 on y axis
         float closestY = glm::clamp(circleCenter.y, rectP2.y, rectP1.y);
@@ -53,7 +53,7 @@ std::optional<glm::vec3> ColliderOLD::getCollisionNormal(ColliderOLD* otherColli
             return norm;
         }
     }
-  
+
     // no collision
     return std::nullopt;
 }
@@ -67,7 +67,7 @@ void ColliderOLD::setShape(const Shape& theShape) {
 }
 
 std::optional<glm::vec3> ColliderOLD::getCollisionMVT(ColliderOLD* otherCollider) const {
-    int moveableCount = this->mRigidBody_.isMobile() + otherCollider->mRigidBody_.isMobile(); 
+    int moveableCount = this->mRigidBody_.isMobile() + otherCollider->mRigidBody_.isMobile();
 
     if (moveableCount == 0) {
         return std::nullopt;

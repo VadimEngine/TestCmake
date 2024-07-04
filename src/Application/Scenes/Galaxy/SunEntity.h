@@ -3,24 +3,42 @@
 #include "ModelRenderable.h"
 
 namespace galaxy {
+    class SunEntity : public Entity {
+    public:
+        /**
+         * @brief Construct a new Sun Entity
+         *
+         * @param scene Scene this sun is in
+         */
+        SunEntity(Scene& scene);
 
-class SunEntity : public Entity {
-private:
-    float mRadius_ = 1;
-    ModelRenderable* mpRenderable_ = nullptr;
+        /** Destructor */
+        ~SunEntity();
 
-public:
-    SunEntity(Scene& scene);
+        /** Get radius */
+        float getRadius() const;
 
-    ~SunEntity();
+        /**
+         * @brief Set Radius
+         *
+         * @param radius new radius
+         */
+        void setRadius(float radius);
 
-    float getRadius() const;
+        /** Get color */
+        glm::vec4 getColor() const;
 
-    void setRadius(float radius);
+        /**
+         * @brief Set Color
+         *
+         * @param color new color
+         */
+        void setColor(const glm::vec4& color);
 
-    glm::vec4 getColor() const;
-
-    void setColor(glm::vec4 color);
-};
-
+    private:
+        /** Radius of this entity*/
+        float mRadius_ = 1;
+        /** Pointer to this Renderable of this entity */
+        ModelRenderable* mpRenderable_ = nullptr;
+    };
 } // namespace galaxy

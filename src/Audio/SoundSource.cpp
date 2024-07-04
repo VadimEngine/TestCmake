@@ -34,5 +34,5 @@ float SoundSource::getGain() const {
 }
 
 ALuint SoundSource::getId() const {
-    return mSource_; 
+    return mSource_;
 }

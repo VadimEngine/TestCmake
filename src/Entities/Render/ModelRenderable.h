@@ -30,7 +30,7 @@ public:
     const Shader* getShader() const;
 
     /**
-     * Set the model this Renderable will render 
+     * Set the model this Renderable will render
      * @param pModel the Model
      */
     void setModel(Model* pModel);
@@ -62,7 +62,7 @@ public:
 private:
     /**The Model of this Model Renderable */
     const Model* mpModel_ = nullptr;
-    
+
     /** The Shader used to render this model */
     const Shader* mpShader_ = nullptr;
 

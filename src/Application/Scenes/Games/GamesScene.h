@@ -18,7 +18,7 @@ private:
     GamesSceneGUI mGui_;
 
 public:
-    /**  
+    /**
      * Constructor
      * @param theApp Parent app handling this Scene
      */
@@ -27,7 +27,7 @@ public:
     /** Destructor */
     ~GamesScene();
 
-    /** 
+    /**
      * Update the Scene
      * @param dt Time since last update in seconds
      */

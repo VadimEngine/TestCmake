@@ -51,7 +51,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
     GLFW_MOD_SHIFT: Set if one of the Shift keys is held down.
     GLFW_MOD_CONTROL: Set if one of the Control keys is held down.
     GLFW_MOD_ALT: Set if one of the Alt keys is held down.
-    GLFW_MOD_SUPER: Set if one of the Super keys is held down. 
+    GLFW_MOD_SUPER: Set if one of the Super keys is held down.
      */
 }
 
@@ -65,7 +65,7 @@ void mouseWheelCallback(GLFWwindow* window, double xOffset, double yOffset) {
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     Window* windowWrapper = static_cast<Window*>(glfwGetWindowUserPointer(window));
     InputHandler& inputHandler = windowWrapper->getInputHandler();
-    
+
     if (action == GLFW_PRESS) {
         inputHandler.onKeyPressed(key);
     } else if (action == GLFW_RELEASE) {
@@ -75,7 +75,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-    // make sure the viewport matches the new window dimensions; note that width and 
+    // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
@@ -139,6 +139,7 @@ bool Window::isRunning() const {
 
 void Window::setVSync(const bool enabled) {
     mSwapInterval_ = static_cast<int>(enabled);
+    // 0 disables, 1 enables
     glfwSwapInterval(mSwapInterval_);
 }
 

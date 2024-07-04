@@ -2,7 +2,6 @@
 #include "BaseRenderable.h"
 #include "SpriteSheet.h"
 
-// TODO maybe remove since this can just be a plane mesh renderable
 class SpriteRenderable : public BaseRenderable {
 private:
     /** The Sprite for this Renderable. */
@@ -27,7 +26,7 @@ public:
     void render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const override;
 
     /**
-     * Set the Sprite this Renderable will draw 
+     * Set the Sprite this Renderable will draw
      * @param pSprite the Sprite
      */
     void setSprite(SpriteSheet::Sprite* pSprite);

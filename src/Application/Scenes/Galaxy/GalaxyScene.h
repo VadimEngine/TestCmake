@@ -13,38 +13,18 @@
 class App;
 
 namespace galaxy {
-
 class GalaxyScene : public Scene {
-private:
-    /** GUI for this scene*/
-    GalaxySceneGUI mGui_;
-    /** Camera Controller */
-    CameraController mCameraController_;
-
-    /** Entities rendered in this Scene */
-    std::vector<Entity*> mEntities_;
-
-    SunEntity* sunEntity_ = nullptr;
-    PlanetEntity* planetEntity_ = nullptr;
-    MoonEntity* moonEntity_ = nullptr;
-
-    float sunRadius = 1.0f;
-    float planetRadius = 0.5f;
-    float moonRadius = .25f;
-
-    float planetOrbitRadius = 5.f;
-
 public:
-    /**  
+    /**
      * Constructor
      * @param theApp Parent app handling this Scene
      */
     GalaxyScene(App& theApp);
-    
+
     /** Destructor */
     ~GalaxyScene();
 
-    /** 
+    /**
      * Update the Scene
      * @param dt Time since last update in seconds
      */
@@ -56,14 +36,39 @@ public:
      */
     void render(Renderer& renderer) override;
 
+    /** Get the Sun Entity of this scene*/
     SunEntity* getSunEntity();
+    /** Get the Planet Entity of this scene */
     PlanetEntity* getPlanetEntity();
+    /** Get the Moon Entity of this scene */
     MoonEntity* getMoonEntity();
 
+    /** Build/load the resources for this scene*/
+    void assembleResources();
+
+    /** Get this scene resources */
     Resource& getResources();
 
-     void onMouseWheel(const InputHandler::MouseEvent& mouseEvent) override;
+    /**
+     * @brief Respond to mouse wheel events
+     *
+     * @param mouseEvent Mouse Wheel event
+     */
+    void onMouseWheel(const InputHandler::MouseEvent& mouseEvent) override;
 
+private:
+    /** GUI for this scene*/
+    GalaxySceneGUI mGui_;
+    /** Camera Controller */
+    CameraController mCameraController_;
+    /** Entities rendered in this Scene */
+    std::vector<Entity*> mEntities_;
+    /** Pointer to the Sun Entity of this Scene */
+    SunEntity* sunEntity_ = nullptr;
+    /** Pointer to the planet Entity of this Scene*/
+    PlanetEntity* planetEntity_ = nullptr;
+    /** Pointer to the moon Entity of this Scene*/
+    MoonEntity* moonEntity_ = nullptr;
 };
 
 } // namespace galaxy

@@ -16,7 +16,7 @@ bool CircleCollider2D::isColliding(const Collider& other) const {
     } else if (const BoxCollider2D* otherBox = dynamic_cast<const BoxCollider2D*>(&other)) {
         // Other is circle
     }
-    
+
 
     // else other is circle
     return false;
@@ -57,7 +57,7 @@ bool areOvalRectangleColliding(const Oval& oval, const Rectangle& rect) {
 
 /*
 
-OR 
+OR
 struct Rectangle {
     glm::vec2 center;
     glm::vec2 halfExtents; // Half of width and half of height

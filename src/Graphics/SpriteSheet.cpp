@@ -1,24 +1,27 @@
 #include "SpriteSheet.h"
 
-SpriteSheet::Sprite::Sprite(SpriteSheet* theSpriteSheet, glm::ivec2 theGridIndex, glm::ivec2 theSpriteSize)
+SpriteSheet::Sprite::Sprite(SpriteSheet& theSpriteSheet, const glm::ivec2& theGridIndex, const glm::ivec2& theSpriteSize)
     : parentSpriteSheet(theSpriteSheet), gridIndex(theGridIndex), spriteSize(theSpriteSize) {}
 
-SpriteSheet::Sprite::Sprite(SpriteSheet* theSpriteSheet, glm::ivec2 theGridIndex) 
-    : parentSpriteSheet(theSpriteSheet), gridIndex(theGridIndex), spriteSize(parentSpriteSheet->getDefaultSpriteSize()) {}
+SpriteSheet::Sprite::Sprite(SpriteSheet& theSpriteSheet, const glm::ivec2& theGridIndex)
+    : parentSpriteSheet(theSpriteSheet), gridIndex(theGridIndex), spriteSize(parentSpriteSheet.getDefaultSpriteSize()) {}
 
-SpriteSheet::SpriteSheet(unsigned int textureId, glm::ivec2 sheetSize, glm::ivec2 defaultSpiteSize) 
+SpriteSheet::SpriteSheet(unsigned int textureId, const glm::ivec2& sheetSize, const glm::ivec2& defaultSpiteSize)
     : mTextureId_(textureId), mSheetSize_(sheetSize), mDefaultSpriteSize_(defaultSpiteSize) {}
+
+SpriteSheet::SpriteSheet(const Texture& texture, const glm::ivec2& defaultSpiteSize)
+    : mTextureId_(texture.getId()), mSheetSize_(texture.getShape()), mDefaultSpriteSize_(defaultSpiteSize) {}
 
 SpriteSheet::~SpriteSheet() {}
 
-unsigned int SpriteSheet::getTextureId() {
+unsigned int SpriteSheet::getTextureId() const {
     return mTextureId_;
 }
 
-glm::ivec2 SpriteSheet::getSheetSize() {
+glm::ivec2 SpriteSheet::getSheetSize() const {
     return mSheetSize_;
 }
 
-glm::ivec2 SpriteSheet::getDefaultSpriteSize() {
+glm::ivec2 SpriteSheet::getDefaultSpriteSize() const {
     return mDefaultSpriteSize_;
 }

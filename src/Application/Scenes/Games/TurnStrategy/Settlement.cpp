@@ -32,10 +32,10 @@ namespace turn_strategy {
             // TODO remove this temp cast
             const_cast<Renderer&>(theRenderer).renderTextNormalized(
                 mName_,
-                translationMatrix2, 
-                theCamera, 
-                *(mScene_.getApp().getResources().getResource<Font>("Consolas")), 
-                .005f, 
+                translationMatrix2,
+                theCamera,
+                *(mScene_.getApp().getResources().getResource<Font>("Consolas")),
+                .005f,
                 {1,1,1}
             );
         }
@@ -56,7 +56,7 @@ namespace turn_strategy {
     }
 
     void Settlement::setName(const std::string& newName) {
-        mName_ = newName; 
+        mName_ = newName;
     }
 
     std::string Settlement::getName() {

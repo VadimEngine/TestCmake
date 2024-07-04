@@ -1,8 +1,7 @@
 #include "Renderer.h"
-#include <iostream>
 
 Renderer::Renderer(float screenWidth, float screenHeight, Shader& spriteShader, Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane)
-    :mSpriteShader_(spriteShader), 
+    :mSpriteShader_(spriteShader),
     mMVPShader_(mvpShader),
     mTextShader_(text2Shader),
     mRectPlane_(rectPlane) {
@@ -67,7 +66,7 @@ void Renderer::renderSprite(unsigned int textureId, Camera& theCamera, const glm
     mSpriteShader_.setMat4("uProjection", theCamera.getProjectionMatrix());
 
     // Draw the whole texture
-    mSpriteShader_.setInt("uTexture", 0); 
+    mSpriteShader_.setInt("uTexture", 0);
     mSpriteShader_.setVec2("uSubImageTopLeft", {0.f, 0.f});
     mSpriteShader_.setVec2("uSubImageSize", {1.f, 1.f});
     mSpriteShader_.setVec4("uColor", theColor);
@@ -78,26 +77,26 @@ void Renderer::renderSprite(unsigned int textureId, Camera& theCamera, const glm
 void Renderer::renderSprite(SpriteSheet::Sprite& theSprite, const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const {
     mSpriteShader_.bind();
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, theSprite.parentSpriteSheet->getTextureId());
+    glBindTexture(GL_TEXTURE_2D, theSprite.parentSpriteSheet.getTextureId());
 
     mSpriteShader_.setMat4("uModel", modelMat);
     mSpriteShader_.setMat4("uView", theCamera.getViewMatrix());
     mSpriteShader_.setMat4("uProjection", theCamera.getProjectionMatrix());
 
-    mSpriteShader_.setInt("uTexture", 0); 
-    
-    float subImageTopLeftX = static_cast<float>(theSprite.gridIndex.x * theSprite.spriteSize.x) / theSprite.parentSpriteSheet->getSheetSize()[0];
-    float subImageTopLeftY = static_cast<float>(theSprite.gridIndex.y * theSprite.spriteSize.y) / theSprite.parentSpriteSheet->getSheetSize()[1];
+    mSpriteShader_.setInt("uTexture", 0);
+
+    float subImageTopLeftX = static_cast<float>(theSprite.gridIndex.x * theSprite.spriteSize.x) / theSprite.parentSpriteSheet.getSheetSize()[0];
+    float subImageTopLeftY = static_cast<float>(theSprite.gridIndex.y * theSprite.spriteSize.y) / theSprite.parentSpriteSheet.getSheetSize()[1];
     mSpriteShader_.setVec2("uSubImageTopLeft", {subImageTopLeftX, subImageTopLeftY});
-    float normalWidth = (float)theSprite.spriteSize[0] / (float)theSprite.parentSpriteSheet->getSheetSize()[0];
-    float normalHeight = (float)theSprite.spriteSize[1] / (float)theSprite.parentSpriteSheet->getSheetSize()[1];
+    float normalWidth = (float)theSprite.spriteSize[0] / (float)theSprite.parentSpriteSheet.getSheetSize()[0];
+    float normalHeight = (float)theSprite.spriteSize[1] / (float)theSprite.parentSpriteSheet.getSheetSize()[1];
     mSpriteShader_.setVec2("uSubImageSize", {normalWidth, normalHeight});
     mSpriteShader_.setVec4("uColor", theColor);
 
     mRectPlane_.render(mSpriteShader_);
 }
 
-void Renderer::renderText(const std::string& text, const glm::vec2& position, Font& font, float scale, const glm::vec3& color) {
+void Renderer::renderText(const std::string& text, const glm::vec2& position, const Font& font, float scale, const glm::vec3& color) {
     float xPos = position.x;	
     mTextShader_.bind();
     mTextShader_.setVec3("textColor", color);
@@ -137,18 +136,18 @@ void Renderer::renderText(const std::string& text, const glm::vec2& position, Fo
             glDrawArrays(GL_TRIANGLES, 0, 6);
             // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
             // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-            xPos += (ch->advance >> 6) * scale; 
+            xPos += (ch->advance >> 6) * scale;
         }
     }
 }
 
-void Renderer::renderTextCentered(const std::string& text, const glm::vec2& position, Font& font, float scale, const glm::vec4& color) {
+void Renderer::renderTextCentered(const std::string& text, const glm::vec2& position, const Font& font, float scale, const glm::vec4& color) {
     // activate corresponding render state	
     mTextShader_.bind();
     mTextShader_.setVec3("textColor", color);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(font.getVAO());
-    
+
      // Calculate the total width of the text
     float textWidth = 0;
 
@@ -202,7 +201,7 @@ void Renderer::renderTextCentered(const std::string& text, const glm::vec2& posi
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, Font& font, float scale, const glm::vec3& color) {
+void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, const Font& font, float scale, const glm::vec3& color) {
     // activate corresponding render state	
     mTextShader_.bind();
     mTextShader_.setVec3("textColor", color);
@@ -251,7 +250,7 @@ void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& mo
             mTextShader_.setMat4("uModel", modelMat);
             mTextShader_.setMat4("uView", theCamera.getViewMatrix());
             mTextShader_.setMat4("uProjection", theCamera.getProjectionMatrix());
-            
+
             // render quad
             glDrawArrays(GL_TRIANGLES, 0, 6);
             // now advance cursors for next glyph (note that advance is number of 1/64 pixels)

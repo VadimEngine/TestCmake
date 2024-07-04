@@ -72,8 +72,8 @@ public:
 
     /** Destructor*/
     ~InputHandler();
-    
-    /** 
+
+    /**
      * Track the key that is pressed
      * @param keyCode Keycode for pressed key
      */

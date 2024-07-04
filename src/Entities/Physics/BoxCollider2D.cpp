@@ -40,7 +40,7 @@ bool BoxCollider2D::isColliding(const Collider& other) const {
             std::abs(distance.z) >= minDistance.z) {
             // There is separation on at least one axis, so the rectangles are not colliding
             return false;
-        } else  {
+        } else {
             return true;
         }
     }

@@ -23,7 +23,7 @@ public:
     /** Destructor */
     ~Model();
 
-    /** 
+    /**
      * Add a mesh to the model
      * @param newMesh Mesh to add
      */

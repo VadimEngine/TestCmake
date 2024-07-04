@@ -27,7 +27,7 @@ private:
     // TODO drag
 
     /** Collider used for interacting with other components */
-    ColliderOLD mCollider_; 
+    ColliderOLD mCollider_;
 public:
     /**
      * Constructor
@@ -51,20 +51,20 @@ public:
     ColliderOLD& getCollider();
 
     /**
-     * Do collision actions on the Entity/RigidBody if there is a collision 
+     * Do collision actions on the Entity/RigidBody if there is a collision
      * @param otherCollider Other Collider that may be colliding with this Collider
      */
     bool handleIfCollision(RigidBodyComponent* other);
 
     /**
-     * Do attraction actions on the Entity/RigidBody if there is an attraction 
+     * Do attraction actions on the Entity/RigidBody if there is an attraction
      * @param otherCollider Other Collider that may be attracting
      */
     void applyIfAttraction(RigidBodyComponent* other, float dt);
 
     /** Get the mass of this RigidBody*/
     float getMass();
-    
+
     /** Get the Gravity Scale of this RigidBody*/
     float getGravityScale();
 
@@ -75,13 +75,13 @@ public:
     bool isAttractive();
 
     /**
-     * Set the mass of this rigid body 
+     * Set the mass of this rigid body
      * @param newMass New mass
      */
     void setMass(float newMass);
 
     /**
-     * Set the gravity scale of this rigid body 
+     * Set the gravity scale of this rigid body
      * @param newGravity New gravity
      */
     void setGravityScale(float newGravity);

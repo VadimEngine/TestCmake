@@ -19,7 +19,7 @@ namespace rpg_2d {
         /** Destructor */
         ~RPG2DScene();
 
-        /** 
+        /**
          * Update the Scene
          * @param dt Time since last update in seconds
          */
@@ -31,13 +31,13 @@ namespace rpg_2d {
          */
         void render(Renderer& renderer) override;
 
-        /** 
+        /**
          * On keyboard key press handler
          * @param newColor key code for pressed key
          */
         void onKeyPress(unsigned int code) override;
 
-        /** 
+        /**
          * On keyboard key release handler
          * @param newColor key code for released key
          */

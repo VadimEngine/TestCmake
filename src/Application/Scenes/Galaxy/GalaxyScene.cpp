@@ -1,24 +1,13 @@
 // forward declare headers first
 #include "App.h"
 #include "GalaxyScene.h"
-#include <iostream>
 
 namespace galaxy {
 
-GalaxyScene::GalaxyScene(App& theApp) 
+GalaxyScene::GalaxyScene(App& theApp)
     : Scene(theApp), mGui_(*this), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()) {
     getFocusCamera()->setPosition({0,.1,5});
-    mResources_.loadResource<Model>(
-        {Resource::RESOURCE_PATH / "Torus.obj"},
-        "Torus"
-    );
-    std::unique_ptr<Model> sphereModel = std::make_unique<Model>();
-    sphereModel->addSharedMesh(mApp_.getResources().getResource<Mesh>("Sphere"));
-    mResources_.addResource(
-        std::move(sphereModel),
-        "Sphere"
-    );
-
+    assembleResources();
     // sun
     sunEntity_ = new SunEntity(*this);
     mEntities_.push_back(sunEntity_);
@@ -31,7 +20,6 @@ GalaxyScene::GalaxyScene(App& theApp)
 }
 
 GalaxyScene::~GalaxyScene() {
-    delete mpFocusCamera_;
     // Delete Entities
     for (auto eachEntity: mEntities_) {
         delete eachEntity;
@@ -120,19 +108,32 @@ MoonEntity* GalaxyScene::getMoonEntity() {
     return moonEntity_;
 }
 
+void GalaxyScene::assembleResources() {
+    mResources_.loadResource<Model>(
+        {Resource::RESOURCE_PATH / "Torus.obj"},
+        "Torus"
+    );
+    std::unique_ptr<Model> sphereModel = std::make_unique<Model>();
+    sphereModel->addSharedMesh(mApp_.getResources().getResource<Mesh>("Sphere"));
+    mResources_.addResource(
+        std::move(sphereModel),
+        "Sphere"
+    );
+}
+
 Resource& GalaxyScene::getResources() {
     return mResources_;
 }
 
 void GalaxyScene::onMouseWheel(const InputHandler::MouseEvent& mouseEvent) {
     // Calculate the movement amount based on the scroll amount and the scroll factor
-    float movement =  2;
+    float movement = 2;
     if (mouseEvent.getType() == InputHandler::MouseEvent::Type::SCROLL_DOWN) {
         movement*= -1;
     }
 
     // Move the camera along its forward direction
-    mCameraController_.getCamera()->move( mCameraController_.getCamera()->getForward(), movement);   
+    mCameraController_.getCamera()->move( mCameraController_.getCamera()->getForward(), movement);
 }
 
 } // namespace galaxy

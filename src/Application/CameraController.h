@@ -21,7 +21,7 @@ public:
     CameraController(Camera* pCamera, InputHandler& theInputHandler);
 
     /**
-     * Update the camera based on inputs 
+     * Update the camera based on inputs
      * @param dt Time since last update (in seconds)
      */
     void update(float dt);

@@ -18,7 +18,7 @@ Font::Font(const std::filesystem::path& fontPath) {
 
     // load first 128 characters of ASCII set
     for (unsigned char c = 0; c < 128; c++) {
-        // Load character glyph 
+        // Load character glyph
         if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
             LOG_E("ERROR::FREETYTPE: Failed to load Glyph");
             continue;
@@ -69,7 +69,7 @@ Font::Font(const std::filesystem::path& fontPath) {
     glBindVertexArray(0);
 }
 
-const Font::Character* Font::getCharInfo(GLchar theChar) {
+const Font::Character* Font::getCharInfo(GLchar theChar) const {
     auto it = mCharacterFrontInfo_.find(theChar);
 
     if (it != mCharacterFrontInfo_.end()) {
@@ -79,11 +79,11 @@ const Font::Character* Font::getCharInfo(GLchar theChar) {
     }
 }
 
-unsigned int Font::getVAO() {
+unsigned int Font::getVAO() const {
     return mTextVAO_;
 }
 
-unsigned int Font::getVBO() {
+unsigned int Font::getVBO() const {
     return mTextVBO_;
 }
 

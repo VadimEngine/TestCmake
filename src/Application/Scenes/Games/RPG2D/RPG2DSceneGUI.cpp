@@ -6,7 +6,7 @@ namespace rpg_2d {
 
     RPG2DSceneGUI::RPG2DSceneGUI(RPG2DScene& theScene)
         : mScene_(theScene) {
-        mVSyncEnabled_ =  mScene_.getApp().getWindow().getGLFWSwapInterval();
+        mVSyncEnabled_ = mScene_.getApp().getWindow().getGLFWSwapInterval();
         mVolume_ = mScene_.getApp().getAudioManger().getGain();
     }
 
@@ -21,7 +21,7 @@ namespace rpg_2d {
             mScene_.getApp().setScene(new GamesScene(mScene_.getApp()));
             mScene_.setRemove(true);
         }
-        ImGui::PopStyleColor(); 
+        ImGui::PopStyleColor();
         ImGui::Text("2D RPG Scene");
         ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
         if (ImGui::Checkbox("vSync", &mVSyncEnabled_)) {

@@ -1,15 +1,15 @@
 #include "MenuScene.h"
 #include "App.h"
 
-MenuScene::MenuScene(App& theApp)
-    : Scene(theApp), mGui_(*this) {}
+namespace menu_scene {
+    MenuScene::MenuScene(App& theApp)
+        : Scene(theApp), mGui_(*this) {}
 
-MenuScene::~MenuScene() {
-    delete mpFocusCamera_;
-}
+    MenuScene::~MenuScene() {}
 
-void MenuScene::update(const float dt) {}
+    void MenuScene::update(const float dt) {}
 
-void MenuScene::render(Renderer& renderer) {
-    mGui_.render();
-}
+    void MenuScene::render(Renderer& renderer) {
+        mGui_.render();
+    }
+} // namespace menu_scene

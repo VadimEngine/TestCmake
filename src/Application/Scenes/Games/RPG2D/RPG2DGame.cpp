@@ -7,7 +7,7 @@ namespace rpg_2d {
 
     RPG2DGame::RPG2DGame(RPG2DScene& scene, Camera& focusCamera)
     : mScene_(scene), mApp_(mScene_.getApp()), thePlayer(mScene_), theMOB(mScene_),
-     mCameraController_(&focusCamera, mApp_.getWindow().getInputHandler()), 
+     mCameraController_(&focusCamera, mApp_.getWindow().getInputHandler()),
      mInputHandler_(mApp_.getWindow().getInputHandler()) {}
 
     RPG2DGame::~RPG2DGame() {}
@@ -15,7 +15,7 @@ namespace rpg_2d {
 
     void RPG2DGame::update(const float dt) {
         handleKeyUpdate(dt);
-        
+
         //if (thePlayer.getCollider().getCollisionNormal(&(theMOB.getCollider()))) {
         //    thePlayer.getCollider().onCollisionEnter(theMOB.getCollider());
         //}
@@ -88,9 +88,9 @@ namespace rpg_2d {
         glm::mat4 inverseViewMatrix = glm::inverse(mCameraController_.getCamera()->getViewMatrix());
         glm::vec4 ray_world = inverseViewMatrix * ray_eye;
         glm::vec3 ray_direction = glm::normalize(glm::vec3(ray_world));
-        
+
         glm::vec3 cameraPos = mCameraController_.getCamera()->getPosition();
-        
+
         if (thePlayer.getCollider().rayCollides(cameraPos, ray_direction)) {
             std::cout << "Player collide" << std::endl;
         } else {

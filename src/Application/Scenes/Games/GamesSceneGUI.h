@@ -10,7 +10,7 @@ private:
     GamesScene& mScene_;
 
 public:
-    /** 
+    /**
      * Constructor
      * @param theScene The scene this gui is for
      */

@@ -36,13 +36,13 @@ public:
     /** Destructor */
     ~ColliderOLD();
 
-    /** 
+    /**
      * If there is a collision, get the normal vector from the other Collider
      * @param otherCollider Other Collider that may be colliding with this Collider
      */
     std::optional<glm::vec3> getCollisionNormal(ColliderOLD* otherCollider) const;
 
-    /** 
+    /**
      * If there is a collision, get the Minimum translation vector that should be applied to this collider
      * @param otherCollider Other Collider that may be colliding with this Collider
      */
@@ -51,7 +51,7 @@ public:
     /** Get Shape type of this collider */
     Shape getShape() const;
 
-    /** 
+    /**
      * set Shape type of this collider
      * @param theShape New Shape type
      */

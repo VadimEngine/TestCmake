@@ -4,9 +4,7 @@
 GamesScene::GamesScene(App& theApp)
     : Scene(theApp), mGui_(*this) {}
 
-GamesScene::~GamesScene() {
-    delete mpFocusCamera_;
-}
+GamesScene::~GamesScene() {}
 
 void GamesScene::update(float dt) {}
 

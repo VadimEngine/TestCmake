@@ -26,7 +26,7 @@ public:
     /** Destructor */
     ~SoundSource();
 
-    /** 
+    /**
      * Play the audio of the given id
      * @param xPos X position of paddle
      */
@@ -40,7 +40,7 @@ public:
 
     /** Get Gain of audio */
     float getGain() const;
-    
+
     /** Get the id of this Source */
     ALuint getId() const;
 };
