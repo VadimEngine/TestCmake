@@ -1,16 +1,17 @@
 #include "SoundDevice.h"
-#include <iostream>
 
 SoundDevice::SoundDevice() {
     mpALCDevice_ = alcOpenDevice(nullptr); // nullptr = get default device
     if (!mpALCDevice_) {
         throw("failed to get sound device");
     }
-    mpALCContext_ = alcCreateContext(mpALCDevice_, nullptr);  // create context
+    // create context
+    mpALCContext_ = alcCreateContext(mpALCDevice_, nullptr);
     if (!mpALCContext_) {
         throw("Failed to set sound context");
     }
-    if (!alcMakeContextCurrent(mpALCContext_)) {  // make context current
+    // make context current
+    if (!alcMakeContextCurrent(mpALCContext_)) {
         throw("failed to make context current");
     }
     const ALCchar* name = nullptr;

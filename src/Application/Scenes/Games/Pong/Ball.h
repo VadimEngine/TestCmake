@@ -4,12 +4,6 @@
 
 namespace pong {
     class Ball : public Entity {
-    private:
-        /** Inital ball speed*/
-        float mInitalBallSpeed_ = 4.f;
-        /** Circle plane model*/
-        Model mCircleModel_;
-
     public:
         /** Constructor */
         Ball(Scene& scene);
@@ -34,5 +28,9 @@ namespace pong {
 
         /** Rest the ball position and velocity */
         void reset();
+
+    private:
+        /** Inital ball speed*/
+        float mInitalBallSpeed_ = 4.f;
     };
 } // namespace pong

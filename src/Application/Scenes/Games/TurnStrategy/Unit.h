@@ -27,7 +27,7 @@ namespace turn_strategy {
     public:
         Unit(Scene& scene, TurnStrategyGame& theGame,SpriteSheet::Sprite* pSprite);
 
-        /** 
+        /**
          * Update Unit
          * @param dt Time since last update
          */

@@ -121,7 +121,7 @@ void Camera::updateCameraVectors() {
     glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1), glm::radians(mRotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
     rotationMatrix = glm::rotate(rotationMatrix, glm::radians(mRotation_.y), glm::vec3(0.0f, 1.0f, 0.0f));
     rotationMatrix = glm::rotate(rotationMatrix, glm::radians(mRotation_.z), glm::vec3(0.0f, 0.0f, 1.0f));
-    forward =  rotationMatrix * forward;
+    forward = rotationMatrix * forward;
     mForward_ = glm::normalize(forward);
 
     // also re-calculate the Right and Up vector

@@ -30,10 +30,6 @@ namespace turn_strategy {
 
         std::vector<Settlement*> mSettlementList_;
 
-        /** Sprite Sheet used for this Scene*/
-        SpriteSheet mSpriteSheet_;
-
-        // TODO use textures rect mesh instead
         SpriteSheet::Sprite mSprite1_;
 
         SpriteSheet::Sprite mSprite2_;
@@ -50,19 +46,19 @@ namespace turn_strategy {
         TileMap* mpTileMap_;
 
         int currentTurn = 0;
-    
+
         bool addTerritoryMode = false;
 
     public:
         TurnStrategyGame(TurnStrategyScene& scene, Camera& focusCamera);
 
-        /** 
+        /**
          * Update Game
          * @param dt Time since last update
          */
         void update(const float dt);
-        
-        /** 
+
+        /**
          * Render Game
          * @param renderer Rendering Renderer
          * @param camera Camera to render relative to
@@ -72,15 +68,15 @@ namespace turn_strategy {
         void setTileMap(Texture* texture);
 
         Entity* getSelectedEntity();
-        
-        /** 
+
+        /**
          * On Mouse button press handler
          * @param mousePos Mouse Position at time of the event
          * @param mouseEvent Mouse event details
          */
         void onMousePress(const InputHandler::MouseEvent& mouseEvent);
 
-        /** 
+        /**
          * On Mouse Button release handler
          * @param mousePos Mouse Position at time of the event
          * @param mouseEvent Mouse event details
@@ -90,7 +86,7 @@ namespace turn_strategy {
         void onMouseWheel(const InputHandler::MouseEvent& mouseEvent);
 
         void selectEntity(const glm::vec3& mouseOrigin, const glm::vec3& mouseDirection);
-        
+
         void drawGrid(const Renderer& theRenderer);
 
         void spawnUnit(glm::ivec2 tileLocation);

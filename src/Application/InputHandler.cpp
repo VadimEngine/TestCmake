@@ -7,7 +7,7 @@ InputHandler::KeyEvent::KeyEvent(Type type, unsigned int code)
 
 InputHandler::KeyEvent::KeyEvent::Type InputHandler::KeyEvent::getType() const {
     return mType_;
-}   
+}
 
 unsigned int InputHandler::KeyEvent::getCode() const {
     return mCode_;
@@ -108,7 +108,7 @@ void InputHandler::onMouseMove(int x, int y) {
         button,
         mMousePosition_
     ));
-    
+
     trimBuffer(mMouseEventQueue_);
 }
 
@@ -130,9 +130,9 @@ void InputHandler::onMouseWheel(float yOffset) {
     auto button = InputHandler::MouseEvent::Button::NONE;
 
     mMouseEventQueue_.push(InputHandler::MouseEvent(
-        (yOffset > 0) ? 
+        (yOffset > 0) ?
             InputHandler::MouseEvent::Type::SCROLL_UP :
-            InputHandler::MouseEvent::Type::SCROLL_DOWN, 
+            InputHandler::MouseEvent::Type::SCROLL_DOWN,
         button,
         mMousePosition_
     ));

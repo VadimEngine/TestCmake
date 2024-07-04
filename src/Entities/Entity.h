@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseRenderable.h"
 #include "PhysicsComponentBase.h"
+#include "ModelRenderable.h"
+#include "SpriteRenderable.h"
 #include <vector>
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
@@ -17,28 +19,32 @@ class Scene;
 
 class Entity {
 protected:
-
+    /** Scene this Entity is in*/
     Scene& mScene_;
 
-    /** List of all rendering components*/
-    std::vector<BaseRenderable*> mRenderableComponents_;
-
+    /** Collider TODO fix this*/
     Collider2* mCollider_ = nullptr;
 
     /** Entity Position */
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
-    
+
     /** Entity Rotation in degrees */
     glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
-    
+
     /** Entity Scale */
     glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
 
     /** Velocity*/
     glm::vec3 mVelocity_ = {0.0f, 0.0f, 0.0f};
 
+    /** List of all rendering components attached to this Entity */
+    std::vector<std::unique_ptr<BaseRenderable>> mRenderableComponents_;
+
     /** Physics components attached to this Entity*/
-    std::unordered_map<PhysicsComponentBase::ComponentType, std::vector<PhysicsComponentBase*>> mPhysicsComponents_;
+    std::unordered_map<
+        PhysicsComponentBase::ComponentType,
+        std::vector<std::unique_ptr<PhysicsComponentBase>>
+    > mPhysicsComponents_;
 
 public:
     /** Constructor */
@@ -47,7 +53,11 @@ public:
     /** Destructor */
     virtual ~Entity();
 
-    /** Update this Entity*/
+    /**
+     * @brief Update this Entity
+     *
+     * @param dt Time (is seconds) since last update
+     */
     virtual void update(float dt);
 
     /**
@@ -56,11 +66,6 @@ public:
      * @param theCamera Camera to render relative to
      */
     virtual void render(const Renderer& theRenderer, const Camera& theCamera) const;
-
-    virtual void renderHighlight(const Renderer& theRenderer, const Camera& theCamera) const;
-
-    /** Get the list of renderable component */
-    std::vector<BaseRenderable*>& getRenderableComponents();
 
     /** Get this Entity's position */
     glm::vec3 getPosition() const;
@@ -75,10 +80,31 @@ public:
     glm::vec3 getVelocity() const;
 
     /**
-     * Add a Renderable for this Entity. Renderables are owned by the entity and deleted when the Entity is deleted
-     * @param newPosition New position vector
+     * @brief Render the highlight of this Entity
+     *
+     * @param theRenderer Helping Rendering Object
+     * @param theCamera Camera to render relative to
      */
-    void addRenderable(BaseRenderable* newRenderable); 
+    virtual void renderHighlight(const Renderer& theRenderer, const Camera& theCamera) const;
+
+    /** Get the list of renderable component */
+    std::vector<std::unique_ptr<BaseRenderable>>& getRenderableComponents();
+
+    /**
+     * @brief Add a Renderable for this Entity. Renderables are owned by the entity and deleted when the Entity is deleted
+     *
+     * @param newRenderable New Renderable
+     */
+    void addRenderable(BaseRenderable* newRenderable);
+
+    /**
+     * @brief Add a new Renderable Component to this Entity. This will be owned by the entity
+     *
+     * @tparam T Type of Renderable Component that extends BaseRenderable
+     * @return T* The generated Renderable component
+     */
+    template<typename T>
+    T* addRenderable();
 
     /**
      * Set this Entity's position
@@ -104,29 +130,49 @@ public:
      */
     void setVelocity(const glm::vec3& newVelocity);
 
+    /**
+     * @brief Set the Collider2 object
+     *
+     * @param newCollider New Collider
+     */
     void setCollider2(Collider2* newCollider);
 
     Collider2* getCollider() const;
 
-    /** Add a physics component of the specified class */
+    /**
+     * @brief Add a physics component of the specified class
+     *
+     * @tparam T Physics Component that extends PhysicsComponentBase
+     * @return T* Generated Physics component
+     */
     template<typename T>
     T* addPhysicsComponent();
 
     /**
-     * Add the passed in physics component
-     * @param newVelocity New velocity vector
+     * @brief Add the passed in physics component
+     *
+     * @tparam T Physics Component that extends PhysicsComponentBase
+     * @param component New compontent
      */
     template<typename T>
     void addPhysicsComponent(T* component);
 
     /**
-     * Get a pointer to the physics component of the specified class if it exists. 
-     * If there are multiple then the first instance is returned 
+     * @brief Get a pointer to the physics component of the specified class if it exists.
+     * If there are multiple then the first instance is returned
+     *
+     * @tparam T Physics component that extends PhysicsComponentBase
+     * @return T* Component of the given type
      */
     template<typename T>
     T* getPhysicsComponent();
 
-    /** Get a list of pointers to the physics component of the specified class if it exists */
+    /**
+     * @brief Get a list of pointers to the physics component of the specified class if it exist
+     *
+     * @tparam T Physics component that extends PhysicsComponentBase
+     * @return std::vector<T*> List of Component of the given type
+     */
     template<typename T>
     std::vector<T*> getPhysicsComponents();
 };

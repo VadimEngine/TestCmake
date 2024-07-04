@@ -2,43 +2,44 @@
 #include "ImGuiComponent.h"
 #include <vector>
 
-// Forward declare Scene
-class Scene2d;
+namespace scene_2d {
+  // Forward declare Scene
+  class Scene2d;
 
-class Scene2dGUI : public ImGuiComponent {
-private:
-    /** The Scene this GUI is for */
-    Scene2d& mScene_;
+  class Scene2dGUI : public ImGuiComponent {
+  public:
+      /**
+       * Constructor
+       * @param theScene The scene this gui is for
+       */
+      Scene2dGUI(Scene2d& theScene);
 
-    /** If the GUI is set to enable VSync */
-    bool mVSyncEnabled_;
+      /** Destructor */
+      ~Scene2dGUI();
 
-    /** The Camera Mode this GUI applies*/
-    int mCameraMode_;
+      /** Build the GUI ImGui components every frame */
+      void buildImGui() override;
 
-    /** The Entity index selected from the Entity List */
-    int mSelectedEntityIndex_ = 0;
+    private:
+      /** Build the section to list/control the camera of this scene */
+      void buildCameraSection();
 
-    /** The Renderable index selected from the Entity List */
-    int mSelectedRenderableIndex_ = 0;
+      /** Build the section to list/control the Entities of the Scene*/
+      void buildEntitySection();
 
-public:
-    /** 
-     * Constructor
-     * @param theScene The scene this gui is for
-     */
-    Scene2dGUI(Scene2d& theScene);
+      /** The Scene this GUI is for */
+      Scene2d& mScene_;
 
-    /** Destructor */
-    ~Scene2dGUI();
+      /** If the GUI is set to enable VSync */
+      bool mVSyncEnabled_;
 
-    /** Build the GUI ImGui components every frame */
-    void buildImGui() override;
+      /** The Camera Mode this GUI applies*/
+      int mCameraMode_;
 
-  private:
-    /** Build the section to list/control the camera of this scene */
-    void buildCameraSection();
+      /** The Entity index selected from the Entity List */
+      int mSelectedEntityIndex_ = 0;
 
-    /** Build the section to list/control the Entities of the Scene*/
-    void buildEntitySection();  
-};
+      /** The Renderable index selected from the Entity List */
+      int mSelectedRenderableIndex_ = 0;
+  };
+} // namespace scene_2d

@@ -26,9 +26,9 @@ void GamesSceneGUI::buildImGui() {
     }
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.f, 0.f, 0.f, 0.40f));
     if (ImGui::Button("Back")) {
-        mScene_.getApp().setScene(new MenuScene(mScene_.getApp()));
+        mScene_.getApp().setScene(new menu_scene::MenuScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
-    ImGui::PopStyleColor(); 
+    ImGui::PopStyleColor();
     ImGui::End();
 }

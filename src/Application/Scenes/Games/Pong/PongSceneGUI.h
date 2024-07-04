@@ -17,7 +17,7 @@ namespace pong {
         float mVolume_;
 
     public:
-        /** 
+        /**
          * Constructor
          * @param theScene The scene this gui is for
          */

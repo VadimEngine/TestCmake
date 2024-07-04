@@ -7,26 +7,17 @@ Texture::Texture(const unsigned char* textureData, int width, int height, int ch
     mTextureId_ = genGLTexture(textureData, width, height, channels);
 }
 
-Texture::Texture(const std::string& path) {
+Texture::Texture(const std::filesystem::path& path) {
     mTextureId_ = loadTexture(path, &mWidth_, &mHeight_, &mChannels_);
 }
 
 Texture::~Texture() {
-    LOG_I("Delete Texture: %d", mTextureId_);
     glDeleteTextures(1, &mTextureId_);
 }
 
-unsigned int Texture::loadTexture(const std::string& texturePath, int* width, int* height, int* channels) {
-    // TODO return option if path fails
-    unsigned textureId;
+unsigned int Texture::loadTexture(const std::filesystem::path& texturePath, int* width, int* height, int* channels) {
     // Load image file
-    unsigned char* textureData = SOIL_load_image(
-        texturePath.c_str(),
-        (int*)(width),
-        (int*)(height),
-        (int*)(channels),
-        SOIL_LOAD_AUTO
-    );
+    unsigned char* textureData = SOIL_load_image(texturePath.string().c_str(), width, height, channels, SOIL_LOAD_AUTO);
 
     if (textureData == nullptr) {
         LOG_E("ERROR LOADING TEXTURE: %s", textureData);
@@ -37,14 +28,30 @@ unsigned int Texture::loadTexture(const std::string& texturePath, int* width, in
         throw std::runtime_error("Texture load failed");
     }
 
-    textureId = genGLTexture(textureData, *width, *height, *channels);
+    unsigned textureId = genGLTexture(textureData, *width, *height, *channels);
 
     SOIL_free_image_data(textureData);
     return textureId;
 }
 
-unsigned int Texture::getId() {
+unsigned int Texture::getId() const {
     return mTextureId_;
+}
+
+unsigned int Texture::getWidth() const {
+    return mWidth_;
+}
+
+unsigned int Texture::getHeight() const {
+    return mHeight_;
+}
+
+unsigned int Texture::getChannels() const {
+    return mChannels_;
+}
+
+glm::ivec2 Texture::getShape() const {
+    return {mWidth_, mHeight_};
 }
 
 unsigned int Texture::genGLTexture(const unsigned char* textureData, int width, int height, int channels) {

@@ -14,11 +14,12 @@ void GalaxySceneGUI::buildImGui() {
     ImGui::Begin("Galaxy");
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.f, 0.f, 0.f, 0.40f));
     if (ImGui::Button("Back")) {
-        mScene_.getApp().setScene(new MenuScene(mScene_.getApp()));
+        mScene_.getApp().setScene(new menu_scene::MenuScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
-    ImGui::PopStyleColor(); 
+    ImGui::PopStyleColor();
     ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
+    mSceneRunning_ = mScene_.isRunning();
     if (ImGui::Checkbox("Running", &mSceneRunning_)) {
         mScene_.setRunning(mSceneRunning_);
     }
@@ -90,7 +91,6 @@ void GalaxySceneGUI::buildImGui() {
     if (ImGui::ColorEdit4("Color##Moon", glm::value_ptr(moonColor))) {
         moonEntity->setColor(glm::make_vec4(moonColor));
     }
-    // pause
     // rot speed
     ImGui::End();
 };

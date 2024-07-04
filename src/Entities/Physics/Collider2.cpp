@@ -4,7 +4,7 @@
 #include "Logger.h"
 #include "Entity.h"
 
-Collider2::Collider2(Entity& parentEntity) 
+Collider2::Collider2(Entity& parentEntity)
     : PhysicsComponentBase(parentEntity) {
     mShape_ = Collider2::Shape::RECTANGLE;
 }
@@ -39,7 +39,7 @@ std::optional<glm::vec3> Collider2::getCollisionNormal(Collider2* otherCollider)
         float closestY = glm::clamp(circleCenter.y, rectP2.y, rectP1.y);
 
         glm::vec3 posDiff = glm::vec3{closestX, closestY, 0} - circleCenter;
-        
+
         if (abs(posDiff.x) <= this->getWidthDiv2() && abs(posDiff.y) <= this->getHeightDiv2()) {
             // To get vector from A to B you do B - A
             // find normal pointing from Rectangle to circle (from other pointing to this)
@@ -53,7 +53,7 @@ std::optional<glm::vec3> Collider2::getCollisionNormal(Collider2* otherCollider)
         glm::vec3 rectP1 = this->getAbsolutePosition() - glm::vec3(this->getWidthDiv2(), -this->getHeightDiv2(), 0);
         glm::vec3 rectP2 = this->getAbsolutePosition() + glm::vec3(this->getWidthDiv2(), -this->getHeightDiv2(), 0);
 
-        // Closest point in rectangle to 
+        // Closest point in rectangle to
         float closestX = glm::clamp(circleCenter.x, rectP1.x, rectP2.x);
         // p1 is top left which is greater than p2 on y axis
         float closestY = glm::clamp(circleCenter.y, rectP2.y, rectP1.y);
@@ -79,7 +79,7 @@ std::optional<glm::vec3> Collider2::getCollisionNormal(Collider2* otherCollider)
             return norm;
         }
     }
-  
+
     // no collision
     return std::nullopt;
 }
@@ -201,12 +201,12 @@ void Collider2::onCollisionEnter(Collider2& other) {
     // TODO keep a list of current collision and only call the function if the collision is new
     for (const auto& func : mOnCollisionEnterCallbacks_) {
         func(other, other);
-    } 
+    }
 }
 
 void Collider2::onCollisionExit(Collider2& other) {
     // this can be called in update once an item is removed from the collision list (check on every update)
     for (const auto& func : mOnCollisionExitCallbacks_) {
         func(other, other);
-    } 
+    }
 }

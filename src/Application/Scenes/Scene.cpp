@@ -2,10 +2,10 @@
 #include "App.h"
 
 Scene::Scene(App& theApp)
-    : mApp_(theApp), mpFocusCamera_(new Camera()) {
+    : mApp_(theApp), mpSceneCamera_(std::make_unique<Camera>()), mpFocusCamera_(mpSceneCamera_.get()) {
     // Set camera aspect ratio
     glm::vec2 screenDim = mApp_.getWindow().getWindowDimensions();
-    mpFocusCamera_->setAspectRatio(static_cast<float>(screenDim.x)/static_cast<float>(screenDim.y));
+    mpSceneCamera_->setAspectRatio(static_cast<float>(screenDim.x)/static_cast<float>(screenDim.y));
 }
 
 void Scene::setBackgroundColor(glm::vec4 newColor) {

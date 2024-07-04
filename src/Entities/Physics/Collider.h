@@ -15,7 +15,7 @@ public:
 protected:
     // center position
     glm::vec3 mPosition_;
-    
+
     glm::vec3 mScale_;
 
     std::unordered_set<Collider*> mCurrentCollides;

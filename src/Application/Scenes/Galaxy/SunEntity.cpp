@@ -3,7 +3,7 @@
 
 namespace galaxy {
 
-SunEntity::SunEntity(Scene& scene) 
+SunEntity::SunEntity(Scene& scene)
     : Entity(scene) {
     mpRenderable_ = new ModelRenderable(
         mScene_.getResources().getResource<Model>("Sphere"),
@@ -15,8 +15,7 @@ SunEntity::SunEntity(Scene& scene)
     setPosition({0.f, 0.f, 0.f});
 }
 
-SunEntity::~SunEntity() {
-}
+SunEntity::~SunEntity() {}
 
 float SunEntity::getRadius() const {
     return mRadius_;
@@ -31,7 +30,7 @@ glm::vec4 SunEntity::getColor() const {
     return mpRenderable_->getColor();
 }
 
-void SunEntity::setColor(glm::vec4 color) {
+void SunEntity::setColor(const glm::vec4& color) {
     mpRenderable_->setColor(color);
 }
 

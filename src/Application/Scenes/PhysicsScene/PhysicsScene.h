@@ -11,55 +11,56 @@
 // Forward Declare App
 class App;
 
-class PhysicsScene : public Scene {
-private:
-    /** Camera Controller */
-    CameraController mCameraController_;
+namespace physics_scene {
+    class PhysicsScene : public Scene {
+    public:
+        /**
+         * Constructor
+         * @param theApp Parent app handling this Scene
+         */
+        PhysicsScene(App& theApp);
 
-    /** GUI for this Scene*/
-    PhysicsSceneGUI mGui_;
+        /** Destructor */
+        ~PhysicsScene();
 
-    /** Entities rendered in this Scene */
-    std::vector<Entity*> mEntities_;
+        /**
+         * Update the Scene
+         * @param dt Time since last update in seconds
+         */
+        void update(const float dt) override;
 
-    /** Circle Plane Model*/
-    Model mCircleModel_;
+        /**
+         * Render this scene
+         * @param renderer Rendering helper
+         */
+        void render(Renderer& renderer) override;
 
-    /** Rectangle Plane Model*/
-    Model mRectModel_;
+        /** get the entities in this scene*/
+        std::vector<std::unique_ptr<Entity>>& getEntities();
 
-public:
-    /**  
-     * Constructor
-     * @param theApp Parent app handling this Scene
-     */
-    PhysicsScene(App& theApp);
+        /** Spawn an Entity*/
+        void addEntity(const glm::vec3 position);
 
-    /** Destructor */
-    ~PhysicsScene();
-    
-    /** 
-     * Update the Scene
-     * @param dt Time since last update in seconds
-     */
-    void update(const float dt) override;
+        /**
+         * @brief Load/Build resources for this scene
+         */
+        void assembleResources();
 
-    /**
-     * Render this scene
-     * @param renderer Rendering helper
-     */
-    void render(Renderer& renderer) override;
+    private:
+        /** Resolve collisions to avoid overlapping */
+        void handleEntityOverlap();
 
-    /** get the entities in this scene*/
-    std::vector<Entity*>& getEntities();
+        /** Check and enact collision actions between Entities */
+        void handleEntityCollision(const float dt);
 
-    /** Spawn an Entity*/
-    void addEntity();
+        /** Camera Controller */
+        CameraController mCameraController_;
 
-private:
-    /** Resolve collisions to avoid overlapping */
-    void handleEntityOverlap();
+        /** GUI for this Scene*/
+        PhysicsSceneGUI mGui_;
 
-    /** Check and enact collision actions between Entities */
-    void handleEntityCollision(const float dt);
-};
+        /** Entities rendered in this Scene */
+        std::vector<std::unique_ptr<Entity>> mEntities_;
+    };
+
+} // namespace physics_scene 

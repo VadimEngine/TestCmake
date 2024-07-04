@@ -21,7 +21,7 @@ namespace turn_strategy {
         int mCameraMode_;
 
     public:
-        /** 
+        /**
          * Constructor
          * @param theScene The scene this gui is for
          */

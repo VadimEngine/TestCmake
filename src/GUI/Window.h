@@ -27,7 +27,7 @@ public:
     /** Destructor */
     ~Window();
 
-    /** 
+    /**
      * Update the window (mainly polls for inputs)
      * @param dt Time since last update in seconds
      */
@@ -42,13 +42,13 @@ public:
     /** If the Window is currently running */
     bool isRunning() const;
 
-    /** 
+    /**
      * Enable/Disable VSync
      * @param enabled VSync status
      */
     void setVSync(const bool enabled);
 
-    /** Get the GLFW swap interval */
+    /** Get the GLFW swap interval. 0 means disabled, 1 means enabled */
     int getGLFWSwapInterval();
 
     /** Get the screen dimension of this window*/

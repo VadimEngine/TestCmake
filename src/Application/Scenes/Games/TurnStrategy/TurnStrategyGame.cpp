@@ -4,11 +4,11 @@
 
 namespace turn_strategy {
 
-    TurnStrategyGame::TurnStrategyGame(TurnStrategyScene& scene, Camera& focusCamera) 
+    TurnStrategyGame::TurnStrategyGame(TurnStrategyScene& scene, Camera& focusCamera)
     : mScene_(scene), mApp_(mScene_.getApp()), mCameraController_(&focusCamera, mApp_.getWindow().getInputHandler()),
-      mSpriteSheet_(mApp_.getResources().getResource<Texture>("SpriteSheet")->getId(), {512, 512}, {16,16}),
-      mSprite1_(&mSpriteSheet_, glm::ivec2(0, 0)),
-      mSprite2_(&mSpriteSheet_, glm::ivec2(5, 21)), mUnit_(mScene_, *this, &mSprite1_) {
+      mSprite1_(*mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), glm::ivec2(0, 0)),
+      mSprite2_(*mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), glm::ivec2(5, 21)),
+      mUnit_(mScene_, *this, &mSprite1_) {
         // set camera position
         focusCamera.setPosition({5, 5, 11});
         // create first unit
@@ -25,12 +25,12 @@ namespace turn_strategy {
     }
 
     void TurnStrategyGame::setTileMap(Texture* texture) {
-        mpTileMap_ = new TileMap(texture, &mSpriteSheet_);
+        mpTileMap_ = new TileMap(texture, mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"));
     }
 
     void TurnStrategyGame::update(const float dt) {
         updateCamera(dt);
-        
+
         // update units
         for (const auto& eachUnit : mUnitList_) {
             eachUnit->update(dt);
@@ -42,10 +42,10 @@ namespace turn_strategy {
 
         // draw minimap
     }
-    
+
     // TODO maybe this should not take in the camera here and just use the games current focus camera which is needed for input handling (get mouse position)
     void TurnStrategyGame::render(const Renderer& renderer, const Camera& camera) {
-        
+
         mpTileMap_->render(renderer, camera);
         drawGrid(renderer);
 
@@ -71,7 +71,6 @@ namespace turn_strategy {
         return selectedEntity;
     }
 
-    
     void TurnStrategyGame::onMousePress(const InputHandler::MouseEvent& mouseEvent) {
         if (ImGuiComponent::mouseOnGUI()) {
             return;
@@ -140,7 +139,7 @@ namespace turn_strategy {
         // Horizontal lines
         for (float i = -.5; i < 20; i+=1.f) {
             theRenderer.renderLineSimple(
-                {0*cellWidth, i*cellHeight,0}, {20*cellWidth, i*cellHeight,0}, 
+                {0*cellWidth, i*cellHeight,0}, {20*cellWidth, i*cellHeight,0},
                 *(mCameraController_.getCamera()), translationMatrix, lineColor
             );
         }
@@ -148,7 +147,7 @@ namespace turn_strategy {
         // Vertical lines
         for (float i = -.5; i < 20; i+=1.f) {
             theRenderer.renderLineSimple(
-                {i*cellWidth, 0*cellHeight,0}, {i*cellWidth, 20*cellHeight,0}, 
+                {i*cellWidth, 0*cellHeight,0}, {i*cellWidth, 20*cellHeight,0},
                 *(mCameraController_.getCamera()), translationMatrix, lineColor
             );
         }
@@ -181,7 +180,7 @@ namespace turn_strategy {
         }
         if (mApp_.getWindow().getInputHandler().isKeyPressed(GLFW_KEY_A)) {
             theCamera.move(theCamera.getRight(), -theCamera.getMoveSpeed() * dt);
-        } 
+        }
         if (mApp_.getWindow().getInputHandler().isKeyPressed(GLFW_KEY_D)) {
             theCamera.move(theCamera.getRight(), theCamera.getMoveSpeed() * dt);
         }

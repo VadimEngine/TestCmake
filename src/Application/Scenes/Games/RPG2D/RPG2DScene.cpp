@@ -10,9 +10,7 @@ namespace rpg_2d {
         getFocusCamera()->setPosition({0,0,10});
     }
 
-    RPG2DScene::~RPG2DScene() {
-        delete mpFocusCamera_;
-    }
+    RPG2DScene::~RPG2DScene() {}
 
     void RPG2DScene::update(const float dt) {
         mGame_.update(dt);

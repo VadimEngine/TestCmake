@@ -12,7 +12,7 @@ namespace turn_strategy {
     }
 
     void Unit::setName(const std::string& newName) {
-        mName_ = newName; 
+        mName_ = newName;
     }
 
     std::string Unit::getName() {
@@ -45,13 +45,13 @@ namespace turn_strategy {
                 if (!validTiles.contains(glm::ivec2(eachTile.x + dir.x, eachTile.y + dir.y))) {
                     //draw border line
                     glm::vec3 p1 = {
-                            eachTile.x + dir.x/2.f - dir.y / 2.f, 
+                            eachTile.x + dir.x/2.f - dir.y / 2.f,
                             eachTile.y + dir.y/2.f - dir.x / 2.f,
                             0.f
                     };
 
                     glm::vec3 p2 = {
-                            eachTile.x + dir.x/2.f + dir.y / 2.f, 
+                            eachTile.x + dir.x/2.f + dir.y / 2.f,
                             eachTile.y + dir.y/2.f + dir.x / 2.f,
                             0.f
                     };
@@ -102,7 +102,7 @@ namespace turn_strategy {
                 }
             }
         }
-        
+
         return validTiles;
     }
 
@@ -110,19 +110,19 @@ namespace turn_strategy {
         auto validTiles = getMoveableTiles();
         if (validTiles.contains(newPosition)) {
             int distance = static_cast<int>(abs(newPosition.x - mPosition_.x) + abs(newPosition.y - mPosition_.y));
-            
+
             // now check the tile is not occupied
             for (auto& eachUnit: mGame_.getUnitList()) {
                 if (eachUnit->getPosition().x == newPosition.x && eachUnit->getPosition().y == newPosition.y) {
                     return;
                 }
             }
-            
+
             setPosition({newPosition.x, newPosition.y, 0});
             doAction(distance);
         }
     }
-    
+
     void Unit::resetForTurn() {
         moves = maxMoves;
     }

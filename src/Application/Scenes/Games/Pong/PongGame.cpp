@@ -1,15 +1,21 @@
 // forward declare headers first
 #include "App.h"
-#include "PongScene.h"
 // class header
 #include "PongGame.h"
 
+// TODO reduce magic numbers
 namespace pong {
-    PongGame::PongGame(PongScene& scene) 
-    : mScene_(scene), mApp_(mScene_.getApp()), mPaddleLeft_(mScene_, -5.f, 5.f, -5.f), 
-    mPaddleRight_(mScene_, 5.f, 5.f, -5.f), mBall_(mScene_), 
-    mInputHandler_(mApp_.getWindow().getInputHandler()) {
-        
+    /** Message displayed when Game is at inital state */
+    const std::string PongGame::kInitalMsg = "Press Space to Begin";
+    /** Message displayed when Game is paused */
+    const std::string PongGame::kPauseMsg = "Paused. Press Space to Resume";
+    /** Game displayed when game is over*/
+    const std::string PongGame::kEndMsg = "Game Over! Press Space to Continue";
+
+    PongGame::PongGame(Scene& scene)
+    : mScene_(scene), mApp_(mScene_.getApp()), mPaddleLeft_(mScene_, -5.f, 5.f, -5.f),
+      mPaddleRight_(mScene_, 5.f, 5.f, -5.f), mBall_(mScene_),
+      mInputHandler_(mApp_.getWindow().getInputHandler()) {
         mEntities_.push_back(&mPaddleLeft_);
         mEntities_.push_back(&mPaddleRight_);
         mEntities_.push_back(&mBall_);
@@ -29,18 +35,18 @@ namespace pong {
                 // If the ball is out of left/right bound
                 // Set score
                 if (ballPos.x < -5) {
-                    leftScore++;
+                    mScores_[0]++;
                 } else {
-                    rightScore++;
+                    mScores_[1]++;
                 }
                 // Rest ball and start it into opposite direction
                 mBall_.setPosition({0,0,0});
                 glm::vec3 newBallDir = -glm::normalize(mBall_.getVelocity());
                 mBall_.reset();
-                mBall_.start(newBallDir); 
+                mBall_.start(newBallDir);
             }
             // If end of game
-            if (leftScore == maxScore || rightScore == maxScore) {
+            if (mScores_[0] == maxScore || mScores_[1] == maxScore) {
                 currentState = GameState::END;
                 mBall_.reset();
             }
@@ -55,26 +61,56 @@ namespace pong {
         }
         // Display text
         renderer.renderText(
-            "PONG", 
-            {350.0f, 500.0f}, 
+            "PONG",
+            {350.0f, 500.0f},
             *(mApp_.getResources().getResource<Font>("Consolas")),
-            1.0f, 
+            1.0f,
             {1.f, 1.f, 1.f}
         );
 
         glm::vec2 windowDimension = mApp_.getWindow().getWindowDimensions();
-
+        // Display game state specific text
         if (currentState == GameState::INITIAL) {
-            renderer.renderTextCentered(initalMsg, {windowDimension.x/2.f, 400.0f}, *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
+            renderer.renderTextCentered(
+                kInitalMsg,
+                {windowDimension.x/2.f, 400.0f},
+                *(mApp_.getResources().getResource<Font>("Consolas")),
+                .5f,
+                {1.f, 1.f, 1.f, 1.f}
+            );
         } else if (currentState == GameState::PLAYING) {
-            std::string playMsg = std::to_string(leftScore) + ":" + std::to_string(rightScore);
-            renderer.renderTextCentered(playMsg,  {windowDimension.x/2.f, 400.0f},  *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
+            std::string playMsg = std::to_string(mScores_[0]) + ":" + std::to_string(mScores_[1]);
+            renderer.renderTextCentered(
+                playMsg,
+                {windowDimension.x/2.f, 400.0f},
+                *(mApp_.getResources().getResource<Font>("Consolas")),
+                .5f,
+                {1.f, 1.f, 1.f, 1.f}
+            );
         } else if (currentState == GameState::PAUSE) {
-            renderer.renderTextCentered(pauseMsg, {windowDimension.x/2.f, 400.f}, *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
+            renderer.renderTextCentered(
+                kPauseMsg,
+                {windowDimension.x/2.f, 400.f},
+                *(mApp_.getResources().getResource<Font>("Consolas")),
+                .5f,
+                {1.f, 1.f, 1.f, 1.f}
+            );
         } else if (currentState == GameState::END) {
-            renderer.renderTextCentered(endMsg,  {windowDimension.x/2.f, 400.0f}, *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
-            std::string playMsg = std::to_string(leftScore) + ":" + std::to_string(rightScore);
-            renderer.renderTextCentered(playMsg, {windowDimension.x/2.f, 350.0f}, *(mApp_.getResources().getResource<Font>("Consolas")), .5f, {1.f, 1.f, 1.f, 1.f});
+            renderer.renderTextCentered(
+                kEndMsg,
+                {windowDimension.x/2.f, 400.0f},
+                *(mApp_.getResources().getResource<Font>("Consolas")),
+                .5f,
+                {1.f, 1.f, 1.f, 1.f}
+            );
+            std::string playMsg = std::to_string(mScores_[0]) + ":" + std::to_string(mScores_[1]);
+            renderer.renderTextCentered(
+                playMsg,
+                {windowDimension.x/2.f, 350.0f},
+                *(mApp_.getResources().getResource<Font>("Consolas")),
+                .5f,
+                {1.f, 1.f, 1.f, 1.f}
+            );
         }
     }
 
@@ -112,8 +148,7 @@ namespace pong {
                     mPaddleLeft_.reset();
                     mPaddleRight_.reset();
                     mBall_.reset();
-                    leftScore = 0;
-                    rightScore = 0;
+                    mScores_ = {0,0};
 
                     currentState = GameState::INITIAL;
                 }

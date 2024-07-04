@@ -4,18 +4,7 @@
 Entity::Entity(Scene& scene)
 : mScene_(scene) {}
 
-Entity::~Entity() {
-    // Delete Renderables
-    for (auto& it: mRenderableComponents_) {
-        delete it;
-    }
-    // Delete Physics Components
-    for (auto& pair : mPhysicsComponents_) {
-        for (auto& ptr: pair.second) {
-            delete ptr;
-        }
-    }
-}
+Entity::~Entity() {}
 
 void Entity::update(float dt) {
     for (auto& pair : mPhysicsComponents_) {
@@ -28,8 +17,6 @@ void Entity::update(float dt) {
 }
 
 void Entity::render(const Renderer& theRenderer, const Camera& theCamera) const{
-    glm::mat4 model = glm::mat4(1.0f);
-    
     // translation matrix for position
     glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), mPosition_);
     // rotation matrix
@@ -40,7 +27,7 @@ void Entity::render(const Renderer& theRenderer, const Camera& theCamera) const{
     glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), mScale_);
 
     const glm::mat4 modelMat = translationMatrix * rotationMatrix * scaleMatrix;
-    for (const BaseRenderable* eachRenderable : mRenderableComponents_) {
+    for (const auto& eachRenderable : mRenderableComponents_) {
         if (eachRenderable->isEnabled()) {
             eachRenderable->render(theRenderer, theCamera, modelMat);
         }
@@ -52,12 +39,19 @@ void Entity::renderHighlight(const Renderer& theRenderer, const Camera& theCamer
     getCollider()->render(theRenderer, theCamera);
 }
 
-std::vector<BaseRenderable*>& Entity::getRenderableComponents() {
+ std::vector<std::unique_ptr<BaseRenderable>>& Entity::getRenderableComponents() {
     return mRenderableComponents_;
 }
 
 void Entity::addRenderable(BaseRenderable* newRenderable) {
-    mRenderableComponents_.push_back(newRenderable);
+    mRenderableComponents_.emplace_back(newRenderable);
+}
+
+template<typename T>
+T* Entity::addRenderable() {
+    T* component = new T();
+    mRenderableComponents_.emplace_back(component);
+    return component;
 }
 
 glm::vec3 Entity::getPosition() const {
@@ -106,19 +100,13 @@ Collider2* Entity::getCollider() const {
 template<typename T>
 T* Entity::addPhysicsComponent() {
     T* component = new T(*this);
-    if (mPhysicsComponents_.find(component->getType()) == mPhysicsComponents_.end()) {
-        mPhysicsComponents_[component->getType()] = {}; 
-    }
-    mPhysicsComponents_[component->getType()].push_back(component);
+    mPhysicsComponents_[component->getType()].emplace_back(component);
     return component;
 }
 
 template<typename T>
 void Entity::addPhysicsComponent(T* component) {
-    if (mPhysicsComponents_.find(component->getType()) == mPhysicsComponents_.end()) {
-        mPhysicsComponents_[component->getType()] = {}; 
-    }
-    mPhysicsComponents_[component->getType()].push_back(component);
+    mPhysicsComponents_[component->getType()].emplace_back(component);
 }
 
 template<typename T>
@@ -126,7 +114,7 @@ T* Entity::getPhysicsComponent() {
     // Use a temporary Component to get the seeking type
     auto it = mPhysicsComponents_.find(T(*this).getType());
     if (it != mPhysicsComponents_.end() && !it->second.empty()) {
-        return dynamic_cast<T*>(it->second[0]);
+        return dynamic_cast<T*>(it->second[0].get());
     }
     // Component type not found
     return nullptr;
@@ -138,7 +126,7 @@ std::vector<T*> Entity::getPhysicsComponents() {
     auto it = mPhysicsComponents_.find(T(*this).getType());
     if (it != mPhysicsComponents_.end()) {
         for (auto& component : it->second) {
-            T* castedComponent = dynamic_cast<T*>(component);
+            T* castedComponent = dynamic_cast<T*>(component.get());
             if (castedComponent != nullptr) {
                 result.push_back(castedComponent);
             }
@@ -148,6 +136,9 @@ std::vector<T*> Entity::getPhysicsComponents() {
 }
 
 // Explicit instantiate template for expected types
+template ModelRenderable* Entity::addRenderable<ModelRenderable>();
+template SpriteRenderable* Entity::addRenderable<SpriteRenderable>();
+
 template RigidBodyComponent* Entity::addPhysicsComponent<RigidBodyComponent>();
 template void Entity::addPhysicsComponent(RigidBodyComponent* component);
 template RigidBodyComponent* Entity::getPhysicsComponent<RigidBodyComponent>();

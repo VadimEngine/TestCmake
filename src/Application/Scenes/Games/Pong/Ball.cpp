@@ -5,9 +5,10 @@
 namespace pong {
     Ball::Ball(Scene& scene)
     : Entity(scene) {
-        mCircleModel_.addSharedMesh(mScene_.getApp().getResources().getResource<Mesh>("CircularPlane"));
-
-        addRenderable(new ModelRenderable(&mCircleModel_, mScene_.getApp().getResources().getResource<Shader>("Assimp")));
+        addRenderable(new ModelRenderable(
+            mScene_.getResources().getResource<Model>("CircularPlane"),
+            mScene_.getApp().getResources().getResource<Shader>("Assimp")
+        ));
         mPosition_ = {0.f,0.f,0.f};
         mScale_ = {.25, .25, 1};
         RigidBodyComponent* rigid3 = addPhysicsComponent<RigidBodyComponent>();
@@ -27,8 +28,13 @@ namespace pong {
     }
 
     void Ball::start(const glm::vec3& dir) {
-        // TODO check before normalize
-        setVelocity(glm::normalize(dir) * mInitalBallSpeed_);
+        const float epsilon = 1e-6f;
+        if (glm::length2(dir) > epsilon) {
+            setVelocity(glm::normalize(dir) * mInitalBallSpeed_);
+        } else {
+            // if dir is zero, then set velocity to zero
+            setVelocity(glm::vec3(0.0f, 0.0f, 0.0f));
+        }
     }
 
     float Ball::getSpeed() {
@@ -36,8 +42,14 @@ namespace pong {
     }
 
     void Ball::setSpeed(float newSpeed) {
-        // TODO check before normalize
+        const float epsilon = 1e-6f;
         setVelocity(glm::normalize(mVelocity_) * newSpeed);
+        if (glm::length2(mVelocity_) > epsilon) {
+            setVelocity(glm::normalize(mVelocity_) * newSpeed);
+        } else {
+            // if velocity is zero, then set velocity to zero
+            setVelocity(glm::vec3(0.0f, 0.0f, 0.0f));
+        }
     }
 
     void Ball::reset() {

@@ -14,7 +14,7 @@ namespace rpg_2d {
     private:
         RPG2DScene& mScene_;
         App& mApp_;
-        
+
         Player thePlayer;
 
         MOB theMOB;
@@ -28,13 +28,13 @@ namespace rpg_2d {
 
         ~RPG2DGame();
 
-        /** 
+        /**
          * Update Game
          * @param dt Time since last update
          */
         void update(const float dt);
 
-        /** 
+        /**
          * Render Game
          * @param renderer Rendering Renderer
          * @param camera Camera to render relative to
@@ -47,13 +47,13 @@ namespace rpg_2d {
         */
         void handleKeyUpdate(float dt);
 
-        /** 
+        /**
          * Update the game based on certain key pressed events
          * @param code Keycode of press key
          */
         void onKeyPress(unsigned int code);
 
-        /** 
+        /**
          * Update the game based on certain key release events
          * @param code Keycode of released key
          */

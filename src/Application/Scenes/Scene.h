@@ -12,23 +12,8 @@
 class App;
 
 class Scene {
-protected:
-    /** Parent app handling this Scene*/
-    App& mApp_;
-
-    Resource mResources_;
-
-    /** The current focused camera the scene is rendered through */
-    Camera* mpFocusCamera_;
-    /** Background color when rendering this scene */
-    glm::vec4 mBackgroundColor_ = {0.0f, 0.0f, 0.0f, 1.0f};
-    /** If this scene should be deleted */
-    bool mIsRemove_ = false;
-
-    bool mIsRunning_ = true;
-
 public:
-    /**  
+    /**
      * Constructor
      * @param theApp Parent app handling this Scene
      */
@@ -36,13 +21,13 @@ public:
 
     /** Destructor */
     virtual ~Scene() = default;
-    
+
     /**
      * Update scene content
      * @param dt time since last update in seconds
      */
     virtual void update(const float dt) = 0;
-    
+
     /**
      * Render this scene
      * @param renderer Rendering helper
@@ -56,7 +41,7 @@ public:
     void setBackgroundColor(glm::vec4 newColor);
 
     /**
-     * Get this Scene background color 
+     * Get this Scene background color
      */
     glm::vec4 getBackgroundColor() const;
 
@@ -78,28 +63,29 @@ public:
     /** If this scene is set for removal */
     bool isRunning() const;
 
+    /** @brief Get this scene's resources */
     Resource& getResources();
 
-    /** 
+    /**
      * On keyboard key press handler
      * @param code key code for pressed key
      */
     virtual void onKeyPress(unsigned int code);
 
-    /** 
+    /**
      * On keyboard key release handler
      * @param code key code for released key
      */
     virtual void onKeyRelease(unsigned int code);
 
-    /** 
+    /**
      * On Mouse button press handler
      * @param mousePos Mouse Position at time of the event
      * @param mouseEvent Mouse event details
      */
     virtual void onMousePress(const InputHandler::MouseEvent& mouseEvent);
 
-    /** 
+    /**
      * On Mouse Button release handler
      * @param mousePos Mouse Position at time of the event
      * @param mouseEvent Mouse event details
@@ -108,4 +94,19 @@ public:
 
     virtual void onMouseWheel(const InputHandler::MouseEvent& mouseEvent);
 
+protected:
+    /** Parent app handling this Scene*/
+    App& mApp_;
+    /** Resource for this Scene */
+    Resource mResources_;
+    /** Camera for this scene */
+    std::unique_ptr<Camera> mpSceneCamera_;
+    /** The current focused camera the scene is rendered through */
+    Camera* mpFocusCamera_;
+    /** Background color when rendering this scene */
+    glm::vec4 mBackgroundColor_ = {0.0f, 0.0f, 0.0f, 1.0f};
+    /** If this scene should be deleted */
+    bool mIsRemove_ = false;
+    /** If this scene is currently updating */
+    bool mIsRunning_ = true;
 };

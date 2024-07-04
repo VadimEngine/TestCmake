@@ -1,6 +1,8 @@
 #pragma once
 #include "ImGuiComponent.h"
 
+
+namespace basic_scene {
 // Forward declare Scene
 class BasicScene;
 
@@ -22,12 +24,12 @@ private:
     int mSelectedRenderableIndex_ = 0;
 
 public:
-    /** 
+    /**
      * Constructor
      * @param theScene The scene this gui is for
      */
     BasicSceneGUI(BasicScene& theScene);
-    
+
     /** Destructor */
     ~BasicSceneGUI();
 
@@ -41,3 +43,5 @@ private:
     /** Build the section to list/control the Entities of the Scene*/
     void buildEntitySection();
 };
+
+} // namespace basic_scene

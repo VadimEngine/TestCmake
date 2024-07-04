@@ -5,9 +5,9 @@
 namespace rpg_2d {
 
     Player::Player(Scene& scene)
-    : Entity(scene), mSpriteSheet_(mScene_.getApp().getResources().getResource<Texture>("SpriteSheet")->getId(), {512, 512}, {16,16}) {
+    : Entity(scene), mSprite_(*mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), glm::ivec2(3, 0)) {
         // TODO use sprite sheet to add sprite
-        addRenderable(new SpriteRenderable(new SpriteSheet::Sprite(&mSpriteSheet_, glm::ivec2(3, 0))));
+        addRenderable(new SpriteRenderable(&mSprite_));
         mpCollider_ = addPhysicsComponent<Collider2>();
         mpCollider_->setShape(Collider2::Shape::RECTANGLE);
         mpCollider_->addOnCollisionEnterCallback(std::bind(&Player::separateFromMOB2, this, std::placeholders::_1, std::placeholders::_2));

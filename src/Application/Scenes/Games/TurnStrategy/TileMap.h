@@ -25,7 +25,7 @@ namespace turn_strategy {
         // Create a 2D vector of Tile objects
         std::vector<std::vector<Tile>> tiles;
 
-
+        // Texture of tilemap. SpriteSheet containing sprites for each tile
         TileMap(Texture* texture, SpriteSheet* spriteSheet);
 
         ~TileMap();

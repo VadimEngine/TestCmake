@@ -5,7 +5,7 @@
 namespace turn_strategy {
     TurnStrategyGUI::TurnStrategyGUI(TurnStrategyScene& theScene)
         : mScene_(theScene) {
-        mVSyncEnabled_ =  mScene_.getApp().getWindow().getGLFWSwapInterval();
+        mVSyncEnabled_ = mScene_.getApp().getWindow().getGLFWSwapInterval();
         mVolume_ = mScene_.getApp().getAudioManger().getGain();
         mCameraMode_ = static_cast<int>(mScene_.getFocusCamera()->getMode());
     }
@@ -21,7 +21,7 @@ namespace turn_strategy {
             mScene_.getApp().setScene(new GamesScene(mScene_.getApp()));
             mScene_.setRemove(true);
         }
-        ImGui::PopStyleColor(); 
+        ImGui::PopStyleColor();
         ImGui::Text("Turn Based Strategy Scene 1.0");
         ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
         if (ImGui::Checkbox("vSync", &mVSyncEnabled_)) {
@@ -63,11 +63,11 @@ namespace turn_strategy {
 
                 bool canMoves = dynamic_cast<Unit*>(selectedEntity)->getMoves() > 0;
                 bool canSettle = dynamic_cast<Unit*>(selectedEntity)->canSettle();
-                ImGui::BeginDisabled(!canMoves || !canSettle); 
+                ImGui::BeginDisabled(!canMoves || !canSettle);
                 if (ImGui::Button("Settle")) {
                     glm::ivec2 position = {
                       static_cast<int>(std::round(selectedEntity->getPosition().x)),
-                      static_cast<int>(std::round(selectedEntity->getPosition().y))  
+                      static_cast<int>(std::round(selectedEntity->getPosition().y))
                     };
                     dynamic_cast<Unit*>(selectedEntity)->doAction(1);
                     mScene_.getGame().spawnSettlement(position);
@@ -81,11 +81,11 @@ namespace turn_strategy {
 
                 bool canSpawn = dynamic_cast<Settlement*>(selectedEntity)->canSpawnUnit();
                 // TODO check that there are no units on the tile
-                ImGui::BeginDisabled(!canSpawn); 
+                ImGui::BeginDisabled(!canSpawn);
                 if (ImGui::Button("Spawn Unit")) {
                     glm::ivec2 position = {
                       static_cast<int>(std::round(selectedEntity->getPosition().x)),
-                      static_cast<int>(std::round(selectedEntity->getPosition().y))  
+                      static_cast<int>(std::round(selectedEntity->getPosition().y))
                     };
                     mScene_.getGame().spawnUnit(position);
                     dynamic_cast<Settlement*>(selectedEntity)->setPopulation(dynamic_cast<Settlement*>(selectedEntity)->getPopulation() - 1);
@@ -93,7 +93,7 @@ namespace turn_strategy {
                 ImGui::EndDisabled();
 
                 bool canAddTerritory = dynamic_cast<Settlement*>(selectedEntity)->getPopulation() > dynamic_cast<Settlement*>(selectedEntity)->getSize();
-                ImGui::BeginDisabled(!canAddTerritory); 
+                ImGui::BeginDisabled(!canAddTerritory);
                 if (ImGui::Button("Add Territory")) {
                     mScene_.getGame().addTerritoryMode = true;
                 }
@@ -108,7 +108,7 @@ namespace turn_strategy {
         ImGui::Text("Camera");
 
         ImGui::Text("Camera Mode");
-        
+
         if (ImGui::RadioButton("Perspective", &mCameraMode_, 0)) {
             mScene_.getFocusCamera()->setMode(static_cast<Camera::CameraMode>(mCameraMode_));
         }
@@ -116,7 +116,7 @@ namespace turn_strategy {
         if (ImGui::RadioButton("Orthogonal", &mCameraMode_, 1)) {
             mScene_.getFocusCamera()->setMode(static_cast<Camera::CameraMode>(mCameraMode_));
         }
-        
+
         ImGui::Text("Camera Movement");
         glm::vec3 camPosition = mScene_.getFocusCamera()->getPosition();
         ImGui::Text(

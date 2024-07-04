@@ -38,7 +38,7 @@ namespace turn_strategy {
         Settlement(Scene& scene, TurnStrategyGame& theGame, SpriteSheet::Sprite* pSprite, glm::ivec2 tilePosition);
 
 
-        /** 
+        /**
          * Update Unit
          * @param dt Time since last update
          */
