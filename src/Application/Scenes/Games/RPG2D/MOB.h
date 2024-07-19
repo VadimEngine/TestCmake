@@ -8,10 +8,7 @@
 #include "Entity.h"
 
 namespace rpg_2d {
-
     class MOB : public Entity {
-    private:
-        float speed = 5.0f;
     public:
         // TODO try Collider2.h
         Collider2* mpCollider_ = nullptr;
@@ -32,6 +29,9 @@ namespace rpg_2d {
         Collider2& getCollider();
 
         Collider& getColliderNew();
+
+    private:
+        float speed = 5.0f;
     };
 
 } // namespace rpg_2d

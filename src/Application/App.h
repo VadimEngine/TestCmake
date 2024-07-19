@@ -71,7 +71,6 @@ private:
     /** Initialize OpenGL if not already initialized */
     static void initializeOpenGL();
 
-private:
     /** If OpenGL is already initalized. Used to prevent redundant initialization */
     static bool sOpenGLInitialized_;
     /** Time of last update call */

@@ -48,7 +48,7 @@ private:
     float mOrbitRadius_ = 5.f;
     /** Speed this plant rotates around its center */
     float mRotationSpeed_ = 1.f;
-
+    /** Pointer to the model renderable this Entity has */
     ModelRenderable* mpRenderable_ = nullptr;
 };
 

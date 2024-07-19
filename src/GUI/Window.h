@@ -8,18 +8,6 @@
 #include <glm/vec2.hpp>
 
 class Window {
-private:
-    /** Default Screen Width */
-    static constexpr unsigned int SCR_WIDTH = 800;
-    /** Default Screen Height */
-    static constexpr unsigned int SCR_HEIGHT = 600;
-    /** GLFW window this window wraps */
-    GLFWwindow* mpGLFWWindow_ = nullptr;
-    /** Input handler listening to inputs on this window*/
-    InputHandler mInputHandler_;
-    /** GLFW swap interval for VSync */
-    unsigned int mSwapInterval_ = 1;
-
 public:
     /** Constructor */
     Window(const std::string& windowLbl = "", int width = SCR_WIDTH, int height = SCR_HEIGHT);
@@ -56,4 +44,16 @@ public:
 
     /** Get the input handler listening to this Window's inputs */
     InputHandler& getInputHandler();
+
+private:
+    /** Default Screen Width */
+    static constexpr unsigned int SCR_WIDTH = 800;
+    /** Default Screen Height */
+    static constexpr unsigned int SCR_HEIGHT = 600;
+    /** GLFW window this window wraps */
+    GLFWwindow* mpGLFWWindow_ = nullptr;
+    /** Input handler listening to inputs on this window*/
+    InputHandler mInputHandler_;
+    /** GLFW swap interval for VSync */
+    unsigned int mSwapInterval_ = 1;
 };

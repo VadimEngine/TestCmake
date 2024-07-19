@@ -7,17 +7,17 @@ namespace pong {
     public:
         /**
          * Constructor
-         * @param xPos X position of paddle
-         * @param maxY Upper position bound
-         * @param minY Lower position bound
+         * @param scene Scene this Entity is in
+         * @param dimension Paddle size scale
          */
-        Paddle(Scene& scene, float xPos, float maxY, float minY);
+        Paddle(Scene& scene, glm::vec2 dimension);
 
         /** Destructor */
         ~Paddle();
 
         /**
          * Update paddle
+         * 
          * @param dt Time since last update
          */
         void update(float dt) override;
@@ -25,20 +25,31 @@ namespace pong {
         /** Rest the paddle position */
         void reset();
 
-        /** Move up at the paddle's speed */
+        /**
+         * @brief Move up at the paddle's speed
+         * 
+         * @param dt Time since last update
+         */
         void moveUp(float dt);
 
-        /** Move down at the paddle's speed */
+        /**
+         * @brief Move down at the paddle's speed
+         * 
+         * @param dt Time since last update
+         */
         void moveDown(float dt);
 
+        /**
+         * @brief Set the Default Position of the paddle when the game starts
+         * 
+         * @param newPosition x/y position
+         */
+        void setDefaultPosition(glm::vec2 newPosition);
+
     private:
-        /** Paddle upper position bound */
-        float mMaxHeight_ = 5.f;
-        /** Paddle lower position bound */
-        float mMinHeight_ = -5.f;
-        /** X position of the paddle*/
-        float mXPosition_ = -5.f;
+        /** Default position of this paddle. Used for reset */
+        glm::vec3 mDefaultPos_;
         /** Movement speed of the paddle*/
-        float mMovementSpeed_ = 5.f;
+        float mMovementSpeed_ = 3.f;
     };
 } // namespace pong

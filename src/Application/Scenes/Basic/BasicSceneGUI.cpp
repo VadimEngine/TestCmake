@@ -73,7 +73,7 @@ namespace basic_scene {
         ImGui::Text("Entities");
 
         if (ImGui::BeginListBox("##Entities")) {
-            for (unsigned int i = 0; i < mScene_.getEntities().size(); i++) {
+            for (unsigned int i = 0; i < mScene_.getEntities().size(); ++i) {
                 std::string tempName = "Entity " + std::to_string(i);
                 if (ImGui::Selectable(tempName.c_str(), i == mSelectedEntityIndex_)) {
                     mSelectedEntityIndex_ = i;
@@ -130,7 +130,7 @@ namespace basic_scene {
             ImGui::Text("Renderable Components");
 
             if (ImGui::BeginListBox("##Renderables")) {
-                for (unsigned int i = 0; i < selectedEntity->getRenderableComponents().size(); i++) {
+                for (unsigned int i = 0; i < selectedEntity->getRenderableComponents().size(); ++i) {
                     std::string tempName = "Renderable " + std::to_string(i);
                     if (ImGui::Selectable(tempName.c_str(), i == mSelectedRenderableIndex_)) {
                         mSelectedRenderableIndex_ = i;

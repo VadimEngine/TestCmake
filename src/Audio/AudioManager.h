@@ -9,11 +9,6 @@
 #include "Resource.h"
 
 class AudioManager {
-private:
-    /** Sound Device*/
-    SoundDevice* mSoundDevice_;
-    /** Sound Source */
-    SoundSource* mSoundSource_;
 public:
     /** Constructor */
     AudioManager();
@@ -35,4 +30,10 @@ public:
 
     /** Get the current Gain */
     float getGain() const;
+
+private:
+    /** Sound Device*/
+    SoundDevice* mSoundDevice_;
+    /** Sound Source */
+    SoundSource* mSoundSource_;
 };

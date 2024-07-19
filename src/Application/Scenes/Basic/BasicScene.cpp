@@ -63,6 +63,7 @@ namespace basic_scene {
             // Add renderable to floor entity
             mEntities_.push_back(std::move(floorEntity));
         }
+        // Forth Entity (Sphere)
         {
             std::unique_ptr<Entity> assimpEntity = std::make_unique<Entity>(*this);
             ModelRenderable* assimpRenderable = assimpEntity->addRenderable<ModelRenderable>();
@@ -72,6 +73,7 @@ namespace basic_scene {
             assimpEntity->setPosition({0.f, 5.f, 0.f});
             mEntities_.push_back(std::move(assimpEntity));
         }
+        // Fifth Entity (Textured rectangle)
         {
             std::unique_ptr<Entity> planeTextureEntity = std::make_unique<Entity>(*this);
             ModelRenderable* planeTextureRenderable = planeTextureEntity->addRenderable<ModelRenderable>();
@@ -89,6 +91,17 @@ namespace basic_scene {
             planeTextureEntity->setPosition({-2.f, 2.f, 0.f});
             mEntities_.push_back(std::move(planeTextureEntity));
         }
+        // Sixth Entity (Text rectangle)
+        {
+            std::unique_ptr<Entity> entity = std::make_unique<Entity>(*this);
+            TextRenderable* textRenderable = entity->addRenderable<TextRenderable>();
+            textRenderable->setText("TEST STRING");
+            textRenderable->setFont(mApp_.getResources().getResource<Font>("Consolas"));
+            textRenderable->setScale({.1f, .1f, 1});
+            textRenderable->setColor({1, 0, 0, 1});
+
+            mEntities_.push_back(std::move(entity));
+        }
     }
 
     BasicScene::~BasicScene() {}
@@ -98,21 +111,9 @@ namespace basic_scene {
     }
 
     void BasicScene::render(Renderer& renderer) {
-        for (int i = 0; i < mEntities_.size(); i++) {
+        for (int i = 0; i < mEntities_.size(); ++i) {
             mEntities_[i]->render(renderer, *getFocusCamera());
         }
-
-        glm::mat4 translationMatrix2 = glm::translate(glm::mat4(1.0f), {0.f, 0.f, 0.f});
-        renderer.renderTextNormalized(
-            "TEST STRING",
-            translationMatrix2,
-            *getFocusCamera(),
-            *(mApp_.getResources().getResource<Font>("Consolas")),
-            .01f,
-            {1,0,0}
-        );
-
-
         mGui_.render();
     }
 

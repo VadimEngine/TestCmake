@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "SpriteSheet.h"
 #include "CameraController.h"
+#include "TextRenderable.h"
 
 namespace scene_2d {
     class Scene2d : public Scene {
@@ -30,7 +31,8 @@ namespace scene_2d {
          */
         void render(Renderer& renderer) override;
 
-        void assembleResources();
+        /** Build/load resources for this scene */
+        void assembleResources() override;
 
         /** get the entities in this scene*/
         std::vector<std::unique_ptr<Entity>>& getEntities();
@@ -38,18 +40,13 @@ namespace scene_2d {
     private:
         /** Camera Controller */
         CameraController mCameraController_;
-
         /** GUI for this Scene*/
         Scene2dGUI mGui_;
-
         /** Entities rendered in this Scene */
         std::vector<std::unique_ptr<Entity>> mEntities_;
-
         /** First Sprite used in this Scene*/
         SpriteSheet::Sprite mSprite1_;
-
         /** Second Sprite used in this Scene*/
         SpriteSheet::Sprite mSprite2_;
     };
-
 } // namespace scene_2d

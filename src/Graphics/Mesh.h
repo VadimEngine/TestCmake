@@ -21,22 +21,6 @@ public:
      */
     static void loadMeshes(const std::filesystem::path& path, std::vector<Mesh>& meshList);
 
-private:
-    /**
-     * Process a node (and child nodes recursively) in a assimp object and add to
-     * @param aiNode Assimp node
-     * @param aiScene Assimp scene
-     */
-    static void processNode(aiNode *node, const aiScene *scene, std::vector<Mesh>& meshList);
-
-    /**
-     * Process an Assimp Mesh and add to list of meshes
-     * @param mesh Child node
-     * @param scene Assimp Scene
-     */
-    static Mesh processMesh(aiMesh *mesh, const aiScene *scene);
-
-public:
     /** Mesh Vertex info*/
     struct Vertex {
         glm::vec3 position;
@@ -80,9 +64,25 @@ public:
     void render(const Shader& theShader) const;
 
 private:
-    /** Vertex Buffer Object and Element Buffer Object for this Mesh*/
-    unsigned int mVBO_, mEBO_;
+    /**
+     * Process a node (and child nodes recursively) in a assimp object and add to
+     * @param aiNode Assimp node
+     * @param aiScene Assimp scene
+     */
+    static void processNode(aiNode *node, const aiScene *scene, std::vector<Mesh>& meshList);
+
+    /**
+     * Process an Assimp Mesh and add to list of meshes
+     * @param mesh Child node
+     * @param scene Assimp Scene
+     */
+    static Mesh processMesh(aiMesh *mesh, const aiScene *scene);
 
     /** Initializes the OpenGl properties for this mesh*/
     void buildOpenGLproperties();
+
+    /** Vertex Buffer Object for this mesh*/
+    unsigned int mVBO_;
+    /** Element Buffer Object for this Mesh */
+    unsigned int mEBO_;
 };

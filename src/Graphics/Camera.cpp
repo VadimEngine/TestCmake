@@ -53,6 +53,7 @@ glm::mat4 Camera::getProjectionMatrix() const {
     if (mMode_ == CameraMode::PERSPECTIVE) {
         return glm::perspective(glm::radians(mFOV_), mAspectRatio_, 0.1f, 100.0f);
     } else if (mMode_ == CameraMode::ORTHOGONAL) {
+        // 4 x 3
         return glm::ortho(-2.0f, +2.0f, -1.5f, +1.5f, 0.1f, 100.0f);
     }
     return glm::mat4(1);
@@ -85,6 +86,10 @@ glm::vec3 Camera::getUp() const {
 
 float Camera::getFOV() const {
     return mFOV_;
+}
+
+float Camera::getAspectRatio() const {
+    return mAspectRatio_;
 }
 
 Camera::CameraMode Camera::getMode() const {

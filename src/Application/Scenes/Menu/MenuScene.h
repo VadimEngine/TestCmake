@@ -7,9 +7,6 @@ class App;
 
 namespace menu_scene {
     class MenuScene : public Scene {
-    private:
-        /** GUI for this scene*/
-        MenuGUI mGui_;
     public:
         /**
          * Constructor
@@ -31,5 +28,9 @@ namespace menu_scene {
          * @param renderer Rendering helper
          */
         void render(Renderer& renderer) override;
+        
+    private:
+        /** GUI for this scene*/
+        MenuGUI mGui_;
     };
 } // namespace menu_scene

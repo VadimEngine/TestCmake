@@ -8,26 +8,6 @@
 class Entity;
 
 class RigidBodyComponent : public PhysicsComponentBase {
-private:
-    /** Max speed */
-    float mMaxSpeed_ = 100.f;
-
-    /** Mass of this component */
-    float mMass_ = 1.f;
-
-    /** Scale of gravity applied */
-    float mGravityScale_ = 0.f;
-
-    /** If this component moves when responding to interactions. TODO better name? static/Kinematic? */
-    bool mMobile_ = true;
-
-    /** If this component applies and responds to attractive forces with other attractive components*/
-    bool mAttractive_ = false;
-
-    // TODO drag
-
-    /** Collider used for interacting with other components */
-    ColliderOLD mCollider_;
 public:
     /**
      * Constructor
@@ -97,4 +77,25 @@ public:
      * @param newMobile new attractive status
      */
     void setAttractive(bool newAttractive);
+
+private:
+    /** Max speed */
+    float mMaxSpeed_ = 100.f;
+
+    /** Mass of this component */
+    float mMass_ = 1.f;
+
+    /** Scale of gravity applied */
+    float mGravityScale_ = 0.f;
+
+    /** If this component moves when responding to interactions. TODO better name? static/Kinematic? */
+    bool mMobile_ = true;
+
+    /** If this component applies and responds to attractive forces with other attractive components*/
+    bool mAttractive_ = false;
+
+    // TODO drag
+
+    /** Collider used for interacting with other components */
+    ColliderOLD mCollider_;
 };

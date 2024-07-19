@@ -7,31 +7,6 @@ class Camera {
 public:
     /** Camera mode options */
     enum class CameraMode {PERSPECTIVE=0, ORTHOGONAL};
-private:
-    /** World up vector */
-    glm::vec3 mWorldUp_;
-    /** Camera Position */
-    glm::vec3 mPosition_;
-    /** Camera forward vector */
-    glm::vec3 mForward_;
-    /** Camera up vector */
-    glm::vec3 mUp_;
-    /** Camera right vector */
-    glm::vec3 mRight_;
-    /** Camera FOV in degrees */
-    float mFOV_ = 45.0f;
-    /** Aspect ratio for perspective matrix */
-    float mAspectRatio_ = 1.f;
-    /** Camera rotation vector (TODO try quaternions) */
-    glm::vec3 mRotation_ = glm::vec3(0.0, 0.0f, 0.0f);
-    /** The camera's mode */
-    CameraMode mMode_ = CameraMode::PERSPECTIVE;
-    /** Speed the camera moves */
-    float mMoveSpeed_ = 20.f;
-    /** Speed the camera rotates */
-    float mRotationSpeed_ = 40.f;
-    /** Speed the camera Zooms (adjust the FOV) */
-    float mZoomSpeed_ = 2.f;
 
 public:
     /** Constructor */
@@ -86,7 +61,7 @@ public:
 
     /**
      * Adjust the FOV with the given amount
-     * @param zoomAdjust FOV adjustment amount
+     * @param zoomAdjust FOV adjustment amount in degrees
      */
     void zoom(const float zoomAdjust);
 
@@ -119,6 +94,9 @@ public:
 
     /** Get the Camera FOV in degrees */
     float getFOV() const;
+
+    /** Get the Camera aspect ratio */
+    float getAspectRatio() const;
 
     /** Get the Cameras mode */
     CameraMode getMode() const;
@@ -159,4 +137,29 @@ public:
 private:
     /** Update the forward, Right and Up vector based on the camera's rotation*/
     void updateCameraVectors();
+
+    /** World up vector */
+    glm::vec3 mWorldUp_;
+    /** Camera Position */
+    glm::vec3 mPosition_;
+    /** Camera forward vector */
+    glm::vec3 mForward_;
+    /** Camera up vector */
+    glm::vec3 mUp_;
+    /** Camera right vector */
+    glm::vec3 mRight_;
+    /** Camera FOV-Y in degrees */
+    float mFOV_ = 45.0f;
+    /** Aspect ratio for perspective matrix */
+    float mAspectRatio_ = 1.f;
+    /** Camera rotation vector (TODO try quaternions) */
+    glm::vec3 mRotation_ = glm::vec3(0.0, 0.0f, 0.0f);
+    /** The camera's mode */
+    CameraMode mMode_ = CameraMode::PERSPECTIVE;
+    /** Speed the camera moves */
+    float mMoveSpeed_ = 20.f;
+    /** Speed the camera rotates */
+    float mRotationSpeed_ = 40.f;
+    /** Speed the camera Zooms (adjust the FOV) */
+    float mZoomSpeed_ = 2.f;
 };

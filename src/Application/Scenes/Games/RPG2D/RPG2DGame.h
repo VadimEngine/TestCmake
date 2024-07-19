@@ -11,18 +11,6 @@ class RPG2DScene;
 
 namespace rpg_2d {
     class RPG2DGame {
-    private:
-        RPG2DScene& mScene_;
-        App& mApp_;
-
-        Player thePlayer;
-
-        MOB theMOB;
-
-        CameraController mCameraController_;
-
-        InputHandler& mInputHandler_;
-
     public:
         RPG2DGame(RPG2DScene& scene, Camera& focusCamera);
 
@@ -60,6 +48,18 @@ namespace rpg_2d {
         void onKeyRelease(unsigned int code);
 
         void onMousePress(const InputHandler::MouseEvent& mouseEvent);
+
+    private:
+        RPG2DScene& mScene_;
+        App& mApp_;
+
+        Player thePlayer;
+
+        MOB theMOB;
+
+        CameraController mCameraController_;
+
+        InputHandler& mInputHandler_;
     };
 
 } // namespace rpg_2d

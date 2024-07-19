@@ -5,10 +5,6 @@
 class GamesScene;
 
 class GamesSceneGUI : public ImGuiComponent {
-private:
-    /** The Scene this GUI is for */
-    GamesScene& mScene_;
-
 public:
     /**
      * Constructor
@@ -21,4 +17,8 @@ public:
 
     /** Build the GUI ImGui components every frame */
     void buildImGui() override;
+    
+private:
+    /** The Scene this GUI is for */
+    GamesScene& mScene_;
 };

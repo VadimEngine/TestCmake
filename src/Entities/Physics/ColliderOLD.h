@@ -15,18 +15,6 @@ public:
     /** Possible shapes for a collider */
     enum class Shape {CIRCLE, RECTANGLE};
 
-private:
-    /** Description of the shape of this collider */
-    Shape mShape_;
-
-    /** The rigid body this collider is tied to */
-    // TODO remove this since a collider should be applyable without a rigidbody
-    RigidBodyComponent& mRigidBody_;
-
-    /** Dimensions of this Collider */
-    glm::vec3 mDimension_ = {1.f, 1.f, 1.f};
-
-public:
     /**
      * Constructor
      * @param theRigidBody Rigid body this Collider is for
@@ -84,4 +72,14 @@ private:
 
     /** Get the absolute Center position of this collider*/
     glm::vec3 getAbsolutePosition() const;
+
+    /** Description of the shape of this collider */
+    Shape mShape_;
+
+    /** The rigid body this collider is tied to */
+    // TODO remove this since a collider should be applyable without a rigidbody
+    RigidBodyComponent& mRigidBody_;
+
+    /** Dimensions of this Collider */
+    glm::vec3 mDimension_ = {1.f, 1.f, 1.f};
 };

@@ -10,12 +10,6 @@
 #include <filesystem>
 
 class Model {
-private:
-    /** Meshes this model is made up of and owns*/
-    std::vector<Mesh> mMeshes_;
-    /** Meshes owned by another object (likely Resource) and can be shared between mutiple objects */
-    std::vector<Mesh*> mSharedMeshes_;
-
 public:
     /** Constructor */
     Model();
@@ -44,4 +38,10 @@ public:
      * @param shader Shader to render the meshes with
      */
     void render(const Shader& shader) const;
+
+private:
+    /** Meshes this model is made up of and owns*/
+    std::vector<Mesh> mMeshes_;
+    /** Meshes owned by another object (likely Resource) and can be shared between mutiple objects */
+    std::vector<Mesh*> mSharedMeshes_;
 };

@@ -3,10 +3,6 @@
 #include "SpriteSheet.h"
 
 class SpriteRenderable : public BaseRenderable {
-private:
-    /** The Sprite for this Renderable. */
-    SpriteSheet::Sprite* mpSprite_;
-
 public:
     /**
      * Constructor
@@ -33,4 +29,8 @@ public:
 
     /** Get the Sprite for this Renderable */
     SpriteSheet::Sprite* getSprite() const;
+    
+private:
+    /** The Sprite for this Renderable */
+    SpriteSheet::Sprite* mpSprite_;
 };

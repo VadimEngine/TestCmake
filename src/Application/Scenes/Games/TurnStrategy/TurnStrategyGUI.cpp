@@ -30,8 +30,7 @@ namespace turn_strategy {
         if (ImGui::SliderFloat("Volume", &mVolume_, 0.f, 1.f)) {
             mScene_.getApp().getAudioManger().setGain(mVolume_);
         }
-
-        ImGui::Text("Camera");
+        ImGui::Separator();
         buildCameraSection();
         ImGui::Separator();
 
@@ -95,7 +94,7 @@ namespace turn_strategy {
                 bool canAddTerritory = dynamic_cast<Settlement*>(selectedEntity)->getPopulation() > dynamic_cast<Settlement*>(selectedEntity)->getSize();
                 ImGui::BeginDisabled(!canAddTerritory);
                 if (ImGui::Button("Add Territory")) {
-                    mScene_.getGame().addTerritoryMode = true;
+                    mScene_.getGame().setTerritoryMode(true);
                 }
                 ImGui::EndDisabled();
             }

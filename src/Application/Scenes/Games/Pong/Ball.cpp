@@ -1,16 +1,16 @@
 #include "Ball.h"
-#include "Scene.h"
+#include "PongScene.h"
 #include "App.h"
 
 namespace pong {
-    Ball::Ball(Scene& scene)
-    : Entity(scene) {
+    Ball::Ball(Scene& scene, float radius)
+    : Entity(scene), mRadius_(radius) {
         addRenderable(new ModelRenderable(
             mScene_.getResources().getResource<Model>("CircularPlane"),
             mScene_.getApp().getResources().getResource<Shader>("Assimp")
         ));
         mPosition_ = {0.f,0.f,0.f};
-        mScale_ = {.25, .25, 1};
+        mScale_ = {radius, radius, 1};
         RigidBodyComponent* rigid3 = addPhysicsComponent<RigidBodyComponent>();
         rigid3->getCollider().setShape(ColliderOLD::Shape::CIRCLE);
     }
@@ -19,8 +19,10 @@ namespace pong {
 
     void Ball::update(float dt) {
         Entity::update(dt);
+        float boardHeight = ((PongScene&)(mScene_)).getGame().getBoardSize().y;
+
         // Bounce off top/bottom
-        if (mPosition_.y < (-5.f +1.f) || mPosition_.y > (5.f - 1.f)) {
+        if (mPosition_.y < (-boardHeight/2 + mRadius_) || mPosition_.y > ((boardHeight/2 - mRadius_))) {
             glm::vec3 ballVel = getVelocity();
             ballVel.y *= -1;
             setVelocity(ballVel);

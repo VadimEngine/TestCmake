@@ -138,6 +138,7 @@ std::vector<T*> Entity::getPhysicsComponents() {
 // Explicit instantiate template for expected types
 template ModelRenderable* Entity::addRenderable<ModelRenderable>();
 template SpriteRenderable* Entity::addRenderable<SpriteRenderable>();
+template TextRenderable* Entity::addRenderable<TextRenderable>();
 
 template RigidBodyComponent* Entity::addPhysicsComponent<RigidBodyComponent>();
 template void Entity::addPhysicsComponent(RigidBodyComponent* component);

@@ -44,6 +44,7 @@ namespace galaxy {
          * @param rotation
          */
         void setRotationSpeed(float rotation);
+        
     private:
         /** Radius of the model */
         float mRadius_ = 0.25f;

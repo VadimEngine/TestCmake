@@ -3,19 +3,19 @@
 
 namespace pong {
     PongScene::PongScene(App& theApp)
-        : Scene(theApp), mGui_(*this), mGame_((assembleResources(), *this)) {
-        // maybe better game design to load then pass the resources in
-        getFocusCamera()->setPosition({0,0,10});
+    : Scene(theApp), mGui_(*this) {
+        assembleResources();
+        mpGame_ = std::make_unique<PongGame>(*this);
     }
 
     PongScene::~PongScene() {}
 
     void PongScene::update(const float dt) {
-        mGame_.update(dt);
+        mpGame_->update(dt);
     }
 
     void PongScene::render(Renderer& renderer) {
-        mGame_.render(renderer, *getFocusCamera());
+        mpGame_->render(renderer, *getFocusCamera());
         mGui_.render();
     }
 
@@ -35,8 +35,15 @@ namespace pong {
     }
 
     void PongScene::onKeyPress(unsigned int code) {
-        mGame_.onKeyPress(code);
+        if (!ImGuiComponent::keyboardGUIFocus()) {
+            mpGame_->onKeyPress(code);
+        }
     }
 
     void PongScene::onKeyRelease(unsigned int code) {}
+
+    PongGame& PongScene::getGame() {
+        return *(mpGame_.get());
+    }
+
 } // namespace pong
