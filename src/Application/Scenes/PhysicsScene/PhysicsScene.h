@@ -44,7 +44,7 @@ namespace physics_scene {
         /**
          * @brief Load/Build resources for this scene
          */
-        void assembleResources();
+        void assembleResources() override;
 
     private:
         /** Resolve collisions to avoid overlapping */

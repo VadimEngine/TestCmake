@@ -14,7 +14,7 @@ GalaxyScene::GalaxyScene(App& theApp)
     // planet
     planetEntity_ = new PlanetEntity(*this);
     mEntities_.push_back(planetEntity_);
-    //moon
+    // moon
     moonEntity_ = new MoonEntity(*this);
     mEntities_.push_back(moonEntity_);
 }
@@ -48,12 +48,13 @@ void GalaxyScene::update(const float dt) {
 
             // Update angle if planet is not at the center
             if (radius > 0.0f) {
-                planetAngle += planetEntity_->getRotationSpeed() * dt; // Adjust the speed of rotation as needed
+                // Adjust the speed of rotation as needed
+                planetAngle += planetEntity_->getRotationSpeed() * dt;
             }
 
             // Calculate new position of the planet
-            float x = orbitCenter.x + radius * glm::cos(planetAngle); // OrbitCenter.x + Radius * cos(angle)
-            float z = orbitCenter.z + radius * glm::sin(planetAngle); // OrbitCenter.z + Radius * sin(angle)
+            float x = orbitCenter.x + radius * glm::cos(planetAngle);
+            float z = orbitCenter.z + radius * glm::sin(planetAngle);
             glm::vec3 newPos = glm::vec3(x, orbitCenter.y, z); // Y-coordinate remains the same as orbit center
 
             planetDiff = newPos - planetPos;
@@ -76,11 +77,12 @@ void GalaxyScene::update(const float dt) {
 
             // Update angle if moon is not at the center
             if (radius > 0.0f) {
-                moonAngle += moonEntity_->getRotationSpeed() * dt; // Adjust the speed of rotation as needed
+                // Adjust the speed of rotation as needed
+                moonAngle += moonEntity_->getRotationSpeed() * dt; 
             }
             // Calculate new position of the planet
-            float x = orbitCenter.x + radius * glm::cos(moonAngle); // OrbitCenter.x + Radius * cos(angle)
-            float z = orbitCenter.z + radius * glm::sin(moonAngle); // OrbitCenter.z + Radius * sin(angle)
+            float x = orbitCenter.x + radius * glm::cos(moonAngle);
+            float z = orbitCenter.z + radius * glm::sin(moonAngle); 
             glm::vec3 newPos = glm::vec3(x, orbitCenter.y, z); // Y-coordinate remains the same as orbit center
 
             // Update planet position
@@ -90,7 +92,7 @@ void GalaxyScene::update(const float dt) {
 }
 
 void GalaxyScene::render(Renderer& renderer) {
-    for (int i = 0; i < mEntities_.size(); i++) {
+    for (int i = 0; i < mEntities_.size(); ++i) {
         mEntities_[i]->render(renderer, *getFocusCamera());
     }
     mGui_.render();

@@ -6,6 +6,7 @@
 #include <string>
 #include <unordered_set>
 #include "ModelRenderable.h"
+#include "TextRenderable.h"
 #include <vector>
 #include "Utils.h"
 
@@ -15,28 +16,8 @@ namespace turn_strategy {
     class TurnStrategyGame;
 
     class Settlement : public Entity {
-
-        std::vector<int> test;
-        std::string mName_;
-
-        // natural settlement size that grows ever few turns
-        int population = 1;
-        // how many tiles this settlement has (proportionate to population)
-        int size = 1;
-
-        Model mRectModel_;
-        ModelRenderable* borderRenderable;
-        ModelRenderable* labelRectRenderable;
-
-        TurnStrategyGame& mGame_;
-
-
     public:
-
-        std::unordered_set<glm::ivec2, utils::Vec2Hash> territoryTiles;
-
-        Settlement(Scene& scene, TurnStrategyGame& theGame, SpriteSheet::Sprite* pSprite, glm::ivec2 tilePosition);
-
+        Settlement(TurnStrategyGame& theGame, SpriteSheet::Sprite* pSprite, glm::ivec2 tilePosition);
 
         /**
          * Update Unit
@@ -48,19 +29,34 @@ namespace turn_strategy {
 
         void setName(const std::string& newName);
 
-        std::string getName();
+        std::string getName() const;
 
         void addTerritory(glm::ivec2 tilePosition);
 
         void resetForTurn();
 
-        int getSize();
+        int getSize() const;
 
-        int getPopulation();
+        int getPopulation() const;
 
         void setPopulation(int newPopulation);
 
         bool canSpawnUnit();
 
+    private:
+        /** Map of territory tiles */
+        std::unordered_set<glm::ivec2, utils::Vec2Hash> territoryTiles;
+        /** Settlement name */
+        std::string mName_;
+        /** Settlement size that grows ever few turns */
+        int population = 1;
+        /** how many tiles this settlement has (proportionate to population) */
+        int size = 1;
+        /** Renderable to shade in territory tiles */
+        ModelRenderable borderRenderable;
+        /** Reference to the Label Text renderable */
+        TextRenderable* mLabelTextRenderable_ = nullptr;
+        /** Game this Settlement is in */
+        TurnStrategyGame& mGame_;
     };
 } // namespace turn_strategy

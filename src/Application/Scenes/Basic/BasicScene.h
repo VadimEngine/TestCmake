@@ -7,6 +7,7 @@
 #include "BasicSceneGUI.h"
 #include "ModelRenderable.h"
 #include "SpriteRenderable.h"
+#include "TextRenderable.h"
 
 // Forward Declare App
 class App;
@@ -38,7 +39,7 @@ namespace basic_scene {
         /**
          * @brief Loads and builds resources that are used for this scene
          */
-        void assembleResources();
+        void assembleResources() override;
 
         /** Get the entities in this scene*/
         std::vector<std::unique_ptr<Entity>>& getEntities();

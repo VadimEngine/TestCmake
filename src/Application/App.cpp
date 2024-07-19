@@ -48,14 +48,14 @@ void App::update() {
             it = std::list<Scene*>::reverse_iterator(mScenes_.erase(std::next(it).base()));
         } else {
             (*it)->update(dt.count());
-            it++;
+            ++it;
         }
     }
     InputHandler& handler = getWindow().getInputHandler();
 
     // Propagate key events to the scenes
     while (const auto keyEvent = handler.getKeyEvent()) {
-        for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); it++) {
+        for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); ++it) {
             if (keyEvent.value().getType() == InputHandler::KeyEvent::Type::PRESS) {
                 (*it)->onKeyPress(keyEvent.value().getCode());
             } else if (keyEvent.value().getType() == InputHandler::KeyEvent::Type::RELEASE) {
@@ -66,7 +66,7 @@ void App::update() {
 
     // Propagate mouse events to scenes
     while (const auto mouseEvent = handler.getMouseEvent()) {
-        for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); it++) {
+        for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); ++it) {
             if (mouseEvent.value().getType() == InputHandler::MouseEvent::Type::PRESS) {
                 (*it)->onMousePress(mouseEvent.value());
             } else if (mouseEvent.value().getType() == InputHandler::MouseEvent::Type::RELEASE) {
@@ -89,7 +89,7 @@ void App::render() {
     }
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     // Render list in reverse order
-    for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); it++) {
+    for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); ++it) {
        (*it)->render(*mpRenderer_);
     }
     mWindow_.render();

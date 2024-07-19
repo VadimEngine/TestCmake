@@ -7,13 +7,6 @@
 #include <stdexcept>
 
 class ImGuiComponent {
-private:
-    /** If imgui is already initalized */
-    static bool sImguiInitialized_;
-protected:
-    /** If this component should be deleted */
-    bool mIsRemove_ = false;
-
 public:
     /** Constructor */
     ImGuiComponent();
@@ -56,4 +49,12 @@ public:
 
     /** If the keyboard is focusing on a GUI component */
     static bool keyboardGUIFocus();
+
+protected:
+    /** If this component should be deleted */
+    bool mIsRemove_ = false;
+
+private:
+    /** If imgui is already initalized */
+    static bool sImguiInitialized_;
 };

@@ -201,7 +201,7 @@ void Renderer::renderTextCentered(const std::string& text, const glm::vec2& posi
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, const Font& font, float scale, const glm::vec3& color) {
+void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, const Font& font, const glm::vec3& scale, const glm::vec3& color) {
     // activate corresponding render state	
     mTextShader_.bind();
     mTextShader_.setVec3("textColor", color);
@@ -213,7 +213,7 @@ void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& mo
     for (const char& c : text) {
         const Font::Character* ch = font.getCharInfo(c);
         if (ch != nullptr) {
-            totalWidth += (ch->advance >> 6) * scale;
+            totalWidth += (ch->advance >> 6) * scale.x;
         }
     }
 
@@ -224,11 +224,11 @@ void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& mo
         const Font::Character* ch = font.getCharInfo(c);
 
         if (ch != nullptr) {
-            float xpos = startX + ch->bearing.x * scale;
-            float ypos = - (ch->size.y - ch->bearing.y) * scale; // Adjust for Y-axis to center vertically around the origin
+            float xpos = startX + ch->bearing.x * scale.x;
+            float ypos = - (ch->size.y - ch->bearing.y) * scale.y; // Adjust for Y-axis to center vertically around the origin
 
-            float w = ch->size.x * scale;
-            float h = ch->size.y * scale;
+            float w = ch->size.x * scale.x;
+            float h = ch->size.y * scale.y;
             // update VBO for each character
             float vertices[6][4] = {
                 { xpos,     ypos + h,   0.0f, 0.0f },
@@ -254,7 +254,7 @@ void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& mo
             // render quad
             glDrawArrays(GL_TRIANGLES, 0, 6);
             // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-            startX += (ch->advance >> 6) * scale; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+            startX += (ch->advance >> 6) * scale.x; // bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
         }
     }
     glBindVertexArray(0);

@@ -96,7 +96,7 @@ void InputHandler::onMouseRelease(InputHandler::MouseEvent::Button button) {
 void InputHandler::onMouseMove(int x, int y) {
     auto button = InputHandler::MouseEvent::Button::NONE;
 
-    for (int i = 0; i < static_cast<int>(InputHandler::MouseEvent::Button::NUM_BUTTONS); i++) {
+    for (int i = 0; i < static_cast<int>(InputHandler::MouseEvent::Button::NUM_BUTTONS); ++i) {
         if (mMouseStates_[i]) {
             button = static_cast<InputHandler::MouseEvent::Button>(i);
             break;

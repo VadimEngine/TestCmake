@@ -12,25 +12,6 @@
 #include "Mesh.h"
 
 class Renderer {
-private:
-    /* VAO for a texture quad **/
-    unsigned int mTextureQuadVAO_;
-    /** Shader for rendering sprites/textures */
-    const Shader& mMVPShader_;
-    /** Shader used to render sprites */
-    const Shader& mSpriteShader_;
-    /** Shader for rendering Texts */
-    const Shader& mTextShader_;
-
-    Mesh mRectPlane_;
-
-    unsigned int mRectVAO_;
-
-    unsigned int mLineVAO_;
-    unsigned int mLineVBO_;
-
-    glm::mat4 defaultProjection;
-
 public:
     /** Constructor */
     Renderer(float screenWidth, float screenHeight, Shader& spriteShader, Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane);
@@ -73,10 +54,11 @@ public:
      * @param scale Text scale
      * @param color Text color
      */
-    void renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, const Font& font ,float scale, const glm::vec3& color);
+    void renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, const Font& font, const glm::vec3& scale, const glm::vec3& color);
+
 
     /**
-     * Render text centered at the given location. TODO scale.x scale.y
+     * Render text centered at the given location.
      * @param text The sprite to render
      * @param position Screen position to render (not normalized)
      * @param scale Scale of the text
@@ -90,4 +72,23 @@ public:
     void renderRectangleSimple(const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const;
 
     void renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const;
+
+private:
+    /* VAO for a texture quad **/
+    unsigned int mTextureQuadVAO_;
+    /** Shader for rendering sprites/textures */
+    const Shader& mMVPShader_;
+    /** Shader used to render sprites */
+    const Shader& mSpriteShader_;
+    /** Shader for rendering Texts */
+    const Shader& mTextShader_;
+
+    Mesh mRectPlane_;
+
+    unsigned int mRectVAO_;
+
+    unsigned int mLineVAO_;
+    unsigned int mLineVBO_;
+
+    glm::mat4 defaultProjection;
 };

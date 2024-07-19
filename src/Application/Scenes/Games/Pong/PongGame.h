@@ -1,16 +1,14 @@
 #pragma once
-#include "Renderer.h"
+#include <array>
 #include <vector>
-#include "Entity.h"
-#include "ModelRenderable.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
 #include <glm/gtx/normalize_dot.hpp>
+#include "Renderer.h"
+#include "ModelRenderable.h"
 #include "InputHandler.h"
 #include "Paddle.h"
 #include "Ball.h"
-#include "ImGuiComponent.h"
-#include <array>
 
 // forward declare App
 class App;
@@ -56,17 +54,37 @@ namespace pong {
          */
         void onKeyRelease(unsigned int code);
 
+        /**
+         * @brief Get the size of the Game board
+         */
+        glm::vec2 getBoardSize() const;
+
     private:
         /** Game states */
         enum class GameState {
             INITIAL, PLAYING, PAUSE, END
         };
 
+        struct Properties {
+            struct PaddleProp {
+                float width = 5.0f;
+                float height = 5.0f;
+                float startX = 0;
+                float startY = 0;
+            };
+            PaddleProp leftPaddle {.width = .1f, .height = .5f, .startX = -2.f + .1f/2, .startY = 0};
+            PaddleProp rightPaddle {.width = .1f, .height = .5f, .startX = 2.f - .1f/2, .startY = 0};
+            /** Ball radius */
+            float ballRadius = .1f;
+            /** Score for winning a Pong game*/
+            int maxScore = 5;
+            // TODO get from camera 
+            glm::vec2 boardSize {4, 3};
+        }; 
+
+
         /** Resolve collisions to avoid overlapping */
         void handleEntityOverlap();
-
-        /** Check and enact collision actions between Entities */
-        void handleEntityCollision(const float dt);
 
         /** Message displayed when Game is at inital state */
         static const std::string kInitalMsg;
@@ -75,24 +93,22 @@ namespace pong {
         /** Game displayed when game is over*/
         static const std::string kEndMsg;
 
+        // Game properties
+        Properties mProperties_;
         /** Scene this game is in */
         Scene& mScene_;
         /** Parent App running this game*/
         App& mApp_;
-        /** Left Paddle*/
-        Paddle mPaddleLeft_;
-        /** Right Paddle*/
-        Paddle mPaddleRight_;
+        /** Left Paddle */
+        std::array<std::unique_ptr<Paddle>, 2> mPaddles_;
         /** Game Ball */
-        Ball mBall_;
+        std::unique_ptr<Ball> mBall_;
         /** Entities rendered in this Game */
         std::vector<Entity*> mEntities_;
-        /** Score for winning a Pong game*/
-        int maxScore = 5;
         /** Player scores */
         std::array<int, 2> mScores_ {0, 0};
         /** Track what the current game state is */
-        GameState currentState = GameState::INITIAL;
+        GameState mCurrentState_ = GameState::INITIAL;
         /** Reference to input handler of parent App */
         InputHandler& mInputHandler_;
     };

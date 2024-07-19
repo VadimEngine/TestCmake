@@ -1,32 +1,43 @@
 #include "App.h"
 #include "TurnStrategyGame.h"
+#include "TurnStrategyScene.h"
 #include "Logger.h"
 
 namespace turn_strategy {
-
-    TurnStrategyGame::TurnStrategyGame(TurnStrategyScene& scene, Camera& focusCamera)
-    : mScene_(scene), mApp_(mScene_.getApp()), mCameraController_(&focusCamera, mApp_.getWindow().getInputHandler()),
-      mSprite1_(*mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), glm::ivec2(0, 0)),
-      mSprite2_(*mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), glm::ivec2(5, 21)),
-      mUnit_(mScene_, *this, &mSprite1_) {
+    TurnStrategyGame::TurnStrategyGame(TurnStrategyScene& scene)
+    : mScene_(scene), mApp_(mScene_.getApp()), 
+    mCameraController_(mScene_.getFocusCamera(), mApp_.getWindow().getInputHandler()) {
         // set camera position
-        focusCamera.setPosition({5, 5, 11});
+        mScene_.getFocusCamera()->setPosition({5, 5, 11});
+        // build sprites
+        mSprites_["Unit"] = std::make_unique<SpriteSheet::Sprite>(
+            *mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), 
+            glm::ivec2{0, 0}
+        );
+        mSprites_["Settlement"] = std::make_unique<SpriteSheet::Sprite>(
+            *mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), 
+            glm::ivec2{5, 21}
+        );
+
         // create first unit
-        mUnit_.setName("Unit 1");
-        mUnit_.setCollider2(new Collider2(mUnit_));
-        mUnit_.setPosition({6,5,0});
-        mUnitList_.push_back(&mUnit_);
+        Unit* theUnit = new Unit(mScene_, *this, mSprites_["Unit"].get());
+        theUnit->setName("Unit 1");
+        theUnit->setCollider2(new Collider2(*theUnit));
+        theUnit->setPosition({6,5,0});
+        mUnitList_.push_back(std::unique_ptr<Unit>(theUnit));
         // create first settlement
-        Settlement* settlement = new Settlement(mScene_, *this, &mSprite2_, {5,5});
+        Settlement* settlement = new Settlement(*this, mSprites_["Settlement"].get(), {5,5});
         settlement->setName("Settlement1");
         settlement->setCollider2(new Collider2(*settlement));
         settlement->setPosition({5,5,0});
-        mSettlementList_.push_back(settlement);
+        mSettlementList_.push_back(std::unique_ptr<Settlement>(settlement));
+        mpTileMap_ = std::make_unique<TileMap>(
+            (mScene_.getResources().getResource<Texture>("World1")),
+            mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1")
+        );
     }
 
-    void TurnStrategyGame::setTileMap(Texture* texture) {
-        mpTileMap_ = new TileMap(texture, mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"));
-    }
+    TurnStrategyGame::~TurnStrategyGame() {}
 
     void TurnStrategyGame::update(const float dt) {
         updateCamera(dt);
@@ -45,30 +56,29 @@ namespace turn_strategy {
 
     // TODO maybe this should not take in the camera here and just use the games current focus camera which is needed for input handling (get mouse position)
     void TurnStrategyGame::render(const Renderer& renderer, const Camera& camera) {
-
         mpTileMap_->render(renderer, camera);
         drawGrid(renderer);
 
         // draw settlements
         for (const auto& eachSettlement : mSettlementList_) {
             eachSettlement->render(renderer, camera);
-            if (eachSettlement == selectedEntity) {
-                selectedEntity->renderHighlight(renderer, camera);
+            if (eachSettlement.get() == mSelectedEntity_.selected) {
+                eachSettlement->renderHighlight(renderer, camera);
             }
         }
 
         // render units
         for (const auto& eachUnit : mUnitList_) {
             eachUnit->render(renderer, camera);
-            if (eachUnit == selectedEntity) {
-                selectedEntity->renderHighlight(renderer, camera);
+            if (eachUnit.get() == mSelectedEntity_.selected) {
+                eachUnit->renderHighlight(renderer, camera);
                 eachUnit->renderValidMoves(renderer, camera);
             }
         }
     }
 
     Entity* TurnStrategyGame::getSelectedEntity() {
-        return selectedEntity;
+        return mSelectedEntity_.selected;
     }
 
     void TurnStrategyGame::onMousePress(const InputHandler::MouseEvent& mouseEvent) {
@@ -91,38 +101,35 @@ namespace turn_strategy {
 
         if (mouseEvent.getType() == InputHandler::MouseEvent::Type::SCROLL_UP) {
             theCamera.move(theCamera.getForward(), 1.f);
-            if (theCamera.getPosition().z < minCameraDistance) {
+            if (theCamera.getPosition().z < mMinCameraDistance_) {
                 glm::vec3 newPosition = theCamera.getPosition();
-                newPosition.z = 1;
+                newPosition.z = mMinCameraDistance_;
                 theCamera.setPosition(newPosition);
             }
         } else if (mouseEvent.getType() == InputHandler::MouseEvent::Type::SCROLL_DOWN) {
             theCamera.move(theCamera.getForward(), -1.f);
-            if (theCamera.getPosition().z < minCameraDistance) {
-                glm::vec3 newPosition = theCamera.getPosition();
-                newPosition.z = 1;
-                theCamera.setPosition(newPosition);
-            }
         }
     }
 
     void TurnStrategyGame::selectEntity(const glm::vec3& mouseOrigin, const glm::vec3& mouseDirection) {
         // TODO fix this. Is doesnt quite work right
-        selectedEntity = nullptr;
+        mSelectedEntity_.selected = nullptr;
         for (const auto& eachUnit: mUnitList_) {
             Collider2* theCollider = eachUnit->getCollider();
             if (theCollider->rayCollides(mouseOrigin, mouseDirection)) {
-                selectedEntity = eachUnit;
+                mSelectedEntity_.selected = eachUnit.get();
+                mSelectedEntity_.type = EntityType::UNIT;
                 break;
             }
         }
 
         // if unit is not selected, check settlements
-        if (selectedEntity == nullptr) {
+        if (mSelectedEntity_.selected == nullptr) {
             for (const auto& eachSettlement: mSettlementList_) {
                 Collider2* theCollider = eachSettlement->getCollider();
                 if (theCollider->rayCollides(mouseOrigin, mouseDirection)) {
-                    selectedEntity = eachSettlement;
+                    mSelectedEntity_.selected = eachSettlement.get();
+                    mSelectedEntity_.type = EntityType::SETTLEMENT;
                     break;
                 }
             }
@@ -154,19 +161,19 @@ namespace turn_strategy {
     }
 
     void TurnStrategyGame::spawnUnit(glm::ivec2 tileLocation) {
-        Unit* newUnit = new Unit(mScene_, *this, &mSprite1_);
+        Unit* newUnit = new Unit(mScene_, *this, mSprites_["Unit"].get());
         newUnit->setName("Unit " + std::to_string(mUnitList_.size()));
         newUnit->setCollider2(new Collider2(*newUnit));
         newUnit->setPosition({tileLocation.x,tileLocation.y,0});
-        mUnitList_.push_back(newUnit);
+        mUnitList_.push_back(std::unique_ptr<Unit>(newUnit));
     }
 
     void TurnStrategyGame::spawnSettlement(glm::ivec2 tileLocation) {
-        Settlement* settlement = new Settlement(mScene_, *this, &mSprite2_, tileLocation);
+        Settlement* settlement = new Settlement(*this, mSprites_["Settlement"].get(), tileLocation);
         settlement->setName("Settlement" + std::to_string(mSettlementList_.size()));
         settlement->setCollider2(new Collider2(*settlement));
         settlement->setPosition({tileLocation.x, tileLocation.y,0});
-        mSettlementList_.push_back(settlement);
+        mSettlementList_.push_back(std::unique_ptr<Settlement>(settlement));
     }
 
     void TurnStrategyGame::updateCamera(float dt) {
@@ -188,30 +195,42 @@ namespace turn_strategy {
 
     void TurnStrategyGame::nextTurn() {
         // reset all game objects for next turn
-        currentTurn++;
+        ++mCurrentTurn_;
         for (const auto& eachUnit: mUnitList_) {
             eachUnit->resetForTurn();
         }
         for (const auto& eachSettlement: mSettlementList_) {
             eachSettlement->resetForTurn();
         }
-        addTerritoryMode = false;
+        mAddTerritoryMode_ = false;
     }
 
     int TurnStrategyGame::getCurrentTurn() {
-        return currentTurn;
+        return mCurrentTurn_;
     }
 
-    std::vector<Settlement*>& TurnStrategyGame::getSettlementList() {
+    void TurnStrategyGame::setTerritoryMode(bool mode) {
+        mAddTerritoryMode_ = mode;
+    }
+
+
+    std::vector<std::unique_ptr<Settlement>>& TurnStrategyGame::getSettlementList() {
         return mSettlementList_;
     }
 
-    std::vector<Unit*>& TurnStrategyGame::getUnitList() {
+    std::vector<std::unique_ptr<Unit>>& TurnStrategyGame::getUnitList() {
         return mUnitList_;
     }
 
-    void TurnStrategyGame::onLeftClick(const InputHandler::MouseEvent& mouseEvent) {
+    const TileMap* TurnStrategyGame::getTileMap() {
+        return mpTileMap_.get();
+    }
 
+    Scene& TurnStrategyGame::getScene() {
+        return mScene_;
+    }
+
+    void TurnStrategyGame::onLeftClick(const InputHandler::MouseEvent& mouseEvent) {
         glm::ivec2 mousePosition = mouseEvent.getPosition();
         glm::ivec2 screenSize = mApp_.getWindow().getWindowDimensions(); // get this incase the size changes
 
@@ -232,25 +251,25 @@ namespace turn_strategy {
 
         glm::vec3 cameraPos = mCameraController_.getCamera()->getPosition();
 
-        if (addTerritoryMode && selectedEntity != nullptr) {
+        if (mAddTerritoryMode_ && mSelectedEntity_.selected != nullptr) {
             float t = -cameraPos.z / ray_direction.z;
             glm::vec3 intersectionPoint = cameraPos + t * ray_direction;
             int tileX = static_cast<int>(std::round(intersectionPoint.x));
             int tileY = static_cast<int>(std::round(intersectionPoint.y));
 
-            if (dynamic_cast<Settlement*>(selectedEntity)) {
-                dynamic_cast<Settlement*>(selectedEntity)->addTerritory({tileX, tileY});
+            if (dynamic_cast<Settlement*>(mSelectedEntity_.selected)) {
+                dynamic_cast<Settlement*>(mSelectedEntity_.selected)->addTerritory({tileX, tileY});
             }
-            addTerritoryMode = false;
+            mAddTerritoryMode_ = false;
         } else {
-            addTerritoryMode = false;
+            mAddTerritoryMode_ = false;
             // why does this need the camera position if the ray_direction is already translated by the camera?
             selectEntity(cameraPos, ray_direction);
         }
     }
 
     void TurnStrategyGame::onRightClick(const InputHandler::MouseEvent& mouseEvent) {
-        if (selectedEntity != nullptr && dynamic_cast<Unit*>(selectedEntity)) {
+        if (mSelectedEntity_.selected != nullptr && dynamic_cast<Unit*>(mSelectedEntity_.selected)) {
             // TODO make a function to calculate mouse ray
             glm::ivec2 mousePosition = mouseEvent.getPosition();
             glm::ivec2 screenSize = mApp_.getWindow().getWindowDimensions(); // get this incase the size changes
@@ -279,7 +298,7 @@ namespace turn_strategy {
             int newX = static_cast<int>(std::round(intersectionPoint.x));
             int newY = static_cast<int>(std::round(intersectionPoint.y));
 
-            dynamic_cast<Unit*>(selectedEntity)->moveToTile({newX, newY});
+            dynamic_cast<Unit*>(mSelectedEntity_.selected)->moveToTile({newX, newY});
         }
     }
 

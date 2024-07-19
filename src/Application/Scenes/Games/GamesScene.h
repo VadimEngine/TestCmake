@@ -13,10 +13,6 @@
 class App;
 
 class GamesScene : public Scene {
-private:
-    /** GUI for this Scene*/
-    GamesSceneGUI mGui_;
-
 public:
     /**
      * Constructor
@@ -38,4 +34,8 @@ public:
      * @param renderer Rendering helper
      */
     void render(Renderer& renderer) override;
+    
+private:
+    /** GUI for this Scene*/
+    GamesSceneGUI mGui_;
 };

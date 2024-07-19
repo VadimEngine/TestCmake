@@ -78,7 +78,7 @@ namespace physics_scene {
         ImGui::Text("Entities");
 
         if (ImGui::BeginListBox("##Entities")) {
-            for (unsigned int i = 0; i < mScene_.getEntities().size(); i++) {
+            for (unsigned int i = 0; i < mScene_.getEntities().size(); ++i) {
                 std::string tempName = "Entity " + std::to_string(i);
                 if (ImGui::Selectable(tempName.c_str(), i == mSelectedEntityIndex_)) {
                     mSelectedEntityIndex_ = i;

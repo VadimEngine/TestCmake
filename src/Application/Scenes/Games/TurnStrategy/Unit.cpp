@@ -2,7 +2,6 @@
 #include "TurnStrategyGame.h"
 
 namespace turn_strategy {
-
     Unit::Unit(Scene& scene, TurnStrategyGame& theGame, SpriteSheet::Sprite* pSprite)
      : Entity(scene), mGame_(theGame) {
         addRenderable(new SpriteRenderable(pSprite));
@@ -15,12 +14,12 @@ namespace turn_strategy {
         mName_ = newName;
     }
 
-    std::string Unit::getName() {
+    std::string Unit::getName() const {
         return mName_;
     }
 
-    int Unit::getMoves() {
-        return moves;
+    int Unit::getMoves() const {
+        return mMoves_;
     }
 
     void Unit::renderValidMoves(const Renderer& theRenderer, const Camera& theCamera) {
@@ -61,7 +60,7 @@ namespace turn_strategy {
         }
     }
 
-    std::unordered_set<glm::ivec2, utils::Vec2Hash> Unit::getMoveableTiles() {
+    std::unordered_set<glm::ivec2, utils::Vec2Hash> Unit::getMoveableTiles() const {
         //gather valid tiles first
         std::unordered_set<glm::ivec2, utils::Vec2Hash> validTiles;
 
@@ -78,9 +77,12 @@ namespace turn_strategy {
             {-1,0},
         };
 
+        // TODO dont store distance, for loop the queue every level
         std::queue<std::pair<glm::ivec2, int>> traverseQueue; // pair.second is distance
 
         traverseQueue.push(std::make_pair(currentTile, 0));
+
+        const TileMap* tileMap = mGame_.getTileMap();
 
         // BFS
         while (!traverseQueue.empty()) {
@@ -88,13 +90,13 @@ namespace turn_strategy {
             traverseQueue.pop();
             validTiles.insert(curr.first);
 
-            if (curr.second < moves) {
+            if (curr.second < mMoves_) {
                 for (const auto& dir: dirs) {
                     glm::ivec2 newTile = curr.first + dir;
                     // check if tile is valid distance
                     if (!validTiles.contains(newTile)) {
-                        if (newTile.x >= 0 && newTile.y >= 0 && newTile.x < 20 && newTile.y < 20) {
-                            if (mGame_.mpTileMap_->tiles[newTile.x][newTile.y].type != TileMap::Tile::Type::SEA) {
+                        if (newTile.x >= 0 && newTile.y >= 0 && newTile.x < tileMap->getWidth() && newTile.y < tileMap->getHeight()) {
+                            if (tileMap->tileAt({newTile.x, newTile.y})->type != TileMap::Tile::Type::SEA) {
                                 traverseQueue.push(std::make_pair(newTile, curr.second + 1));
                             }
                         }
@@ -124,17 +126,17 @@ namespace turn_strategy {
     }
 
     void Unit::resetForTurn() {
-        moves = maxMoves;
+        mMoves_ = mMaxMoves_;
     }
 
     void Unit::doAction(int cost) {
-        moves -= cost;
-        if (moves < 0) {
-            moves = 0;
+        mMoves_ -= cost;
+        if (mMoves_ < 0) {
+            mMoves_ = 0;
         }
     }
 
-    bool Unit::canSettle() {
+    bool Unit::canSettle() const {
         // if there is no settlement within 5 tiles, can settle
         bool ret = true;
         for (auto& eachSettlement: mGame_.getSettlementList()) {

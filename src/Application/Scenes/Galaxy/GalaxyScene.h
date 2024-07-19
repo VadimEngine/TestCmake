@@ -44,7 +44,7 @@ public:
     MoonEntity* getMoonEntity();
 
     /** Build/load the resources for this scene*/
-    void assembleResources();
+    void assembleResources() override;
 
     /** Get this scene resources */
     Resource& getResources();

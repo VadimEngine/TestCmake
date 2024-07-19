@@ -31,7 +31,7 @@ namespace pong {
         void render(Renderer& renderer) override;
 
         /** Build/load resources for this scene */
-        void assembleResources();
+        void assembleResources() override;
 
         /**
          * On keyboard key press handler
@@ -45,11 +45,16 @@ namespace pong {
          */
         void onKeyRelease(unsigned int code) override;
 
+        /**
+         * @brief Get the game this scene is handling
+         */
+        PongGame& getGame();
+
     private:
         /** GUI for this Scene*/
         PongSceneGUI mGui_;
         /** Game logic handler */
-        PongGame mGame_;
+        std::unique_ptr<PongGame> mpGame_;
     };
 
 } // namespace pong

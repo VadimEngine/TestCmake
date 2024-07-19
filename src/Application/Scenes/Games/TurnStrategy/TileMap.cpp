@@ -1,9 +1,7 @@
 #include "TileMap.h"
 
 namespace turn_strategy {
-
-    TileMap::TileMap(Texture* texture, SpriteSheet* spriteSheet)
-    : tiles(rows, std::vector<Tile>(cols)) {
+    TileMap::TileMap(Texture* texture, SpriteSheet* spriteSheet) {
         // Bind the texture
         glBindTexture(GL_TEXTURE_2D, texture->getId());
 
@@ -26,17 +24,22 @@ namespace turn_strategy {
 
         // Allocate memory to hold the texture data
         size_t dataSize = width * height * channels;
-        unsigned char* textureData = new unsigned char[dataSize];
+        std::unique_ptr<unsigned char[]> textureData = std::make_unique<unsigned char[]>(dataSize);
 
         // Retrieve the texture data
-        glGetTexImage(GL_TEXTURE_2D, 0, (channels == 3) ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, textureData);
+        glGetTexImage(GL_TEXTURE_2D, 0, (channels == 3) ? GL_RGB : GL_RGBA, GL_UNSIGNED_BYTE, textureData.get());
 
+        // Resize the tilemap
+        mTiles_.resize(height);
+        for (auto& row : mTiles_) {
+            row.resize(width);
+        }
 
-        // iterate texture
-        for (int y = 0; y < height; ++y) {
+        // iterate texture and do a y flip to handle opengl image flip
+        for (int y = 0; y < height; ++y) { // y flip
             for (int x = 0; x < width; ++x) {
                 // Calculate the index for accessing the pixel data in the textureData array
-                int index = (y * width + x) * channels;
+                int index = ((height - 1 - y) * width + x) * channels;
 
                 unsigned char* pixel = &textureData[index];
 
@@ -50,21 +53,19 @@ namespace turn_strategy {
 
                 if (combinedColor == 0x0000FF) {
                     // Water
-                    tiles[y][x].type = Tile::Type::SEA;
-                    tiles[y][x].sprite = new SpriteSheet::Sprite(*spriteSheet, glm::ivec2(2, 1));
+                    mTiles_[y][x].type = Tile::Type::SEA;
+                    mTiles_[y][x].sprite = std::make_unique<SpriteSheet::Sprite>(*spriteSheet, glm::ivec2(2, 1));
                 } else if (combinedColor == 0x00FF00) {
                     // grass
-                    tiles[y][x].type = Tile::Type::GRASS;
-                    tiles[y][x].sprite = new SpriteSheet::Sprite(*spriteSheet, glm::ivec2(0, 1));
+                    mTiles_[y][x].type = Tile::Type::GRASS;
+                    mTiles_[y][x].sprite = std::make_unique<SpriteSheet::Sprite>(*spriteSheet, glm::ivec2(0, 1));
                 } else if (combinedColor == 0xFFFF00) {
                     // sand
-                    tiles[y][x].type = Tile::Type::SAND;
-                    tiles[y][x].sprite = new SpriteSheet::Sprite(*spriteSheet, glm::ivec2(3, 1));
+                    mTiles_[y][x].type = Tile::Type::SAND;
+                    mTiles_[y][x].sprite = std::make_unique<SpriteSheet::Sprite>(*spriteSheet, glm::ivec2(3, 1));
                 }
             }
         }
-        // Free the allocated memory
-        delete[] textureData;
 
         // Unbind the texture
         glBindTexture(GL_TEXTURE_2D, 0);
@@ -73,15 +74,35 @@ namespace turn_strategy {
     TileMap::~TileMap() {}
 
     void TileMap::render(const Renderer& theRenderer, const Camera& theCamera) {
-        for (int i = 0; i < tiles.size(); i++) {
-            for (int j = 0; j < tiles[0].size(); j++) {
-                glm::vec3 position = {i, j, 0};
+        for (int y = 0; y < mTiles_.size(); ++y) {
+            for (int x = 0; x < mTiles_[0].size(); ++x) {
+                glm::vec3 position = {x, y, 0};
                 glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), position);
-                if (tiles[i][j].sprite != nullptr) {
-                    theRenderer.renderSprite(*(tiles[i][j].sprite), theCamera, translationMatrix, {1,1,1,1});
+                if (mTiles_[y][x].sprite != nullptr) {
+                    theRenderer.renderSprite(*(mTiles_[y][x].sprite), theCamera, translationMatrix, {1,1,1,1});
                 }
             }
         }
+    }
+
+    const TileMap::Tile* TileMap::tileAt(glm::ivec2 position) const {
+        if (mTiles_.size() <= position.y || mTiles_[0].size() <= position.x) {
+            return nullptr;
+        } else {
+            return &mTiles_[position.y][position.x];
+        }
+    }
+
+    int TileMap::getWidth() const {
+        if (mTiles_.empty()) {
+            return 0;
+        } else {
+            return mTiles_[0].size();
+        }
+    }
+
+    int TileMap::getHeight() const {
+        return mTiles_.size();
     }
 
 } // namespace turn_strategy

@@ -14,12 +14,12 @@ void Mesh::loadMeshes(const std::filesystem::path& path, std::vector<Mesh>& mesh
 
 void Mesh::processNode(aiNode *node, const aiScene *scene, std::vector<Mesh>& meshList) {
     // process all the node's meshes (if any)
-    for (unsigned int i = 0; i < node->mNumMeshes; i++) {
+    for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
         meshList.push_back(processMesh(mesh, scene));
     }
     // then do the same for each of its children
-    for (unsigned int i = 0; i < node->mNumChildren; i++) {
+    for (unsigned int i = 0; i < node->mNumChildren; ++i) {
         processNode(node->mChildren[i], scene, meshList);
     }
 }
@@ -28,7 +28,7 @@ Mesh Mesh::processMesh(aiMesh *mesh, const aiScene *scene) {
     std::vector<Mesh::Vertex> vertices;
     std::vector<unsigned int> indices;
 
-    for (unsigned int i = 0; i < mesh->mNumVertices; i++) {
+    for (unsigned int i = 0; i < mesh->mNumVertices; ++i) {
         Mesh::Vertex vertex;
         glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
         // positions
@@ -78,10 +78,10 @@ Mesh Mesh::processMesh(aiMesh *mesh, const aiScene *scene) {
     }
 
     // now walk through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
-    for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+    for (unsigned int i = 0; i < mesh->mNumFaces; ++i) {
         aiFace face = mesh->mFaces[i];
         // retrieve all indices of the face and store them in the indices vector
-        for(unsigned int j = 0; j < face.mNumIndices; j++) {
+        for(unsigned int j = 0; j < face.mNumIndices; ++j) {
             indices.push_back(face.mIndices[j]);
         }
     }

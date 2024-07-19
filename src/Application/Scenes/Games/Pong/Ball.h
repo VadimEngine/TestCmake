@@ -5,8 +5,13 @@
 namespace pong {
     class Ball : public Entity {
     public:
-        /** Constructor */
-        Ball(Scene& scene);
+        /**
+         * @brief Constructor
+         * 
+         * @param scene Scene this ball is in
+         * @param radius Ball radius
+         */
+        Ball(Scene& scene, float radius);
 
         /** Destructor */
         ~Ball();
@@ -23,14 +28,20 @@ namespace pong {
         /** Get the current speed of the ball*/
         float getSpeed();
 
-        /** Set the speed of the ball */
+        /**
+         * Set the speed of the ball
+         * 
+         * @param newSpeed New speed in units per second
+         */
         void setSpeed(float newSpeed);
 
         /** Rest the ball position and velocity */
         void reset();
 
     private:
-        /** Inital ball speed*/
-        float mInitalBallSpeed_ = 4.f;
+        /** Inital ball speed */
+        float mInitalBallSpeed_ = 2.f;
+        /** Radius of ball */
+        float mRadius_ = 1.f;
     };
 } // namespace pong

@@ -7,13 +7,7 @@
 class App;
 
 namespace turn_strategy {
-
     class TurnStrategyScene : public Scene {
-    private:
-        TurnStrategyGUI mGui_;
-
-        TurnStrategyGame game;
-
     public:
         /**
          * Constructor
@@ -23,6 +17,9 @@ namespace turn_strategy {
 
         /** Destructor */
         ~TurnStrategyScene();
+
+        /** Load/build resources for this Scene */
+        void assembleResources() override;
 
         /**
          * Update the Scene
@@ -50,21 +47,30 @@ namespace turn_strategy {
 
         /**
          * On Mouse button press handler
-         * @param mousePos Mouse Position at time of the event
          * @param mouseEvent Mouse event details
          */
         void onMousePress(const InputHandler::MouseEvent& mouseEvent) override;
 
         /**
          * On Mouse Button release handler
-         * @param mousePos Mouse Position at time of the event
          * @param mouseEvent Mouse event details
          */
         void onMouseRelease(const InputHandler::MouseEvent& mouseEvent) override;
 
+        /**
+         * On wheel handler
+         * @param mouseEvent Mouse event details
+         */
         void onMouseWheel(const InputHandler::MouseEvent& mouseEvent) override;
 
+        /** Get reference to the game handler in this scene */
         TurnStrategyGame& getGame();
+        
+    private:
+        /** GUI for this scene */
+        TurnStrategyGUI mGui_;
+        /** Game logic handler */
+        std::unique_ptr<TurnStrategyGame> mpGame_;
     };
 
 } // namespace turn_strategy

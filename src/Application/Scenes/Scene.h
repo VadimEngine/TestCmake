@@ -34,6 +34,9 @@ public:
      */
     virtual void render(Renderer& renderer) = 0;
 
+    /** Build/load resources for this scene */
+    virtual void assembleResources();
+
     /**
      * Set the Scene background color
      * @param newColor background color
@@ -80,18 +83,21 @@ public:
 
     /**
      * On Mouse button press handler
-     * @param mousePos Mouse Position at time of the event
      * @param mouseEvent Mouse event details
      */
     virtual void onMousePress(const InputHandler::MouseEvent& mouseEvent);
 
     /**
      * On Mouse Button release handler
-     * @param mousePos Mouse Position at time of the event
      * @param mouseEvent Mouse event details
      */
     virtual void onMouseRelease(const InputHandler::MouseEvent& mouseEvent);
 
+    /**
+     * @brief One mouse wheel event handler
+     * 
+     * @param mouseEvent Mouse event
+     */
     virtual void onMouseWheel(const InputHandler::MouseEvent& mouseEvent);
 
 protected:

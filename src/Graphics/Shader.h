@@ -11,9 +11,6 @@
 #include <filesystem>
 
 class Shader {
-private:
-    /** Program Id for this Shader*/
-    GLuint mProgramId_;
 public:
     /**
      * Constructor
@@ -44,4 +41,8 @@ public:
 
     /** Get the shader program Id*/
     GLuint getProgramId() const;
+
+private:
+    /** Program Id for this Shader*/
+    GLuint mProgramId_;
 };

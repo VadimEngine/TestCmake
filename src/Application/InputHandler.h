@@ -47,25 +47,6 @@ public:
         glm::ivec2 getPosition() const;
     };
 
-private:
-    /** Number of key codes to check status of*/
-    static constexpr unsigned int kKeys = 512;
-    /** Max number of key events in the event queue */
-    static constexpr unsigned int kMaxQueueSize = 16;
-
-	/** Bitset to track which keys are currently pressed*/
-    std::bitset<kKeys> mKeyStates_;
-    /** Queue of key events to use for single updates on a key event */
-    std::queue<KeyEvent> mKeyEventQueue_;
-
-    /** Current mouse position */
-    glm::ivec2 mMousePosition_;
-
-    /** Bitset to track current mouse button state */
-    std::bitset<3> mMouseStates_;
-    /** Queue of mouse events to use for single updates on a mouse event */
-    std::queue<MouseEvent> mMouseEventQueue_;
-
 public:
     /** Constructor */
     InputHandler();
@@ -112,4 +93,22 @@ private:
     /** Helper method to keep keyBuffer within the size limit */
     template<typename T>
     void trimBuffer(T eventQueue);
+
+    /** Number of key codes to check status of*/
+    static constexpr unsigned int kKeys = 512;
+    /** Max number of key events in the event queue */
+    static constexpr unsigned int kMaxQueueSize = 16;
+
+	/** Bitset to track which keys are currently pressed*/
+    std::bitset<kKeys> mKeyStates_;
+    /** Queue of key events to use for single updates on a key event */
+    std::queue<KeyEvent> mKeyEventQueue_;
+
+    /** Current mouse position */
+    glm::ivec2 mMousePosition_;
+
+    /** Bitset to track current mouse button state */
+    std::bitset<3> mMouseStates_;
+    /** Queue of mouse events to use for single updates on a mouse event */
+    std::queue<MouseEvent> mMouseEventQueue_;
 };

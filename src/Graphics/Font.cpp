@@ -17,7 +17,7 @@ Font::Font(const std::filesystem::path& fontPath) {
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     // load first 128 characters of ASCII set
-    for (unsigned char c = 0; c < 128; c++) {
+    for (unsigned char c = 0; c < 128; ++c) {
         // Load character glyph
         if (FT_Load_Char(face, c, FT_LOAD_RENDER)) {
             LOG_E("ERROR::FREETYTPE: Failed to load Glyph");

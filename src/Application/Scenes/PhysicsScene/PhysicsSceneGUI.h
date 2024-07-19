@@ -6,24 +6,6 @@ namespace physics_scene {
     class PhysicsScene;
 
     class PhysicsSceneGUI : public ImGuiComponent {
-    private:
-        /** The Scene this GUI is for */
-        PhysicsScene& mScene_;
-
-        /** If the GUI is set to enable VSync */
-        bool mVSyncEnabled_;
-
-        /** The Camera Mode this GUI applies*/
-        int mCameraMode_;
-
-        /** The Entity index selected from the Entity List */
-        int mSelectedEntityIndex_ = 0;
-
-        /** The Renderable index selected from the Entity List */
-        int mSelectedRenderableIndex_ = 0;
-
-        bool mSceneRunning_ = true;
-
     public:
         /**
          * Constructor
@@ -43,6 +25,19 @@ namespace physics_scene {
 
         /** Build the section to list/control the Entities of the Scene*/
         void buildEntitySection();
+
+        /** The Scene this GUI is for */
+        PhysicsScene& mScene_;
+        /** If the GUI is set to enable VSync */
+        bool mVSyncEnabled_;
+        /** The Camera Mode this GUI applies*/
+        int mCameraMode_;
+        /** The Entity index selected from the Entity List */
+        int mSelectedEntityIndex_ = 0;
+        /** The Renderable index selected from the Entity List */
+        int mSelectedRenderableIndex_ = 0;
+        /** The applied running status on the scene this GUI is for */
+        bool mSceneRunning_ = true;
     };
 
 } // namespace physics_scene

@@ -6,16 +6,6 @@ namespace rpg_2d {
     class RPG2DScene;
 
     class RPG2DSceneGUI : public ImGuiComponent {
-    private:
-        /** The Scene this GUI is for */
-        RPG2DScene& mScene_;
-
-        /** If the GUI is set to enable VSync */
-        bool mVSyncEnabled_;
-
-        /** Volume this gui applies */
-        float mVolume_;
-
     public:
         /**
          * Constructor
@@ -28,6 +18,15 @@ namespace rpg_2d {
 
         /** Build the GUI ImGui components every frame */
         void buildImGui() override;
-    };
 
+    private:
+        /** The Scene this GUI is for */
+        RPG2DScene& mScene_;
+
+        /** If the GUI is set to enable VSync */
+        bool mVSyncEnabled_;
+
+        /** Volume this gui applies */
+        float mVolume_;
+    };
 } // namespace rpg_2d

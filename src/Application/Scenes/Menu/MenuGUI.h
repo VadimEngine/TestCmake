@@ -6,9 +6,6 @@ namespace menu_scene {
     class MenuScene;
 
     class MenuGUI: public ImGuiComponent {
-    private:
-        /** The Scene this GUI is for */
-        MenuScene& mScene_;
     public:
         /**
          * Constructor
@@ -21,5 +18,9 @@ namespace menu_scene {
 
         /** Build the GUI ImGui components every frame */
         void buildImGui() override;
+        
+    private:
+        /** The Scene this GUI is for */
+        MenuScene& mScene_;
     };
 } // namespace menu_scene

@@ -3,6 +3,7 @@
 #include "PhysicsComponentBase.h"
 #include "ModelRenderable.h"
 #include "SpriteRenderable.h"
+#include "TextRenderable.h"
 #include <vector>
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
@@ -18,34 +19,6 @@
 class Scene;
 
 class Entity {
-protected:
-    /** Scene this Entity is in*/
-    Scene& mScene_;
-
-    /** Collider TODO fix this*/
-    Collider2* mCollider_ = nullptr;
-
-    /** Entity Position */
-    glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
-
-    /** Entity Rotation in degrees */
-    glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
-
-    /** Entity Scale */
-    glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
-
-    /** Velocity*/
-    glm::vec3 mVelocity_ = {0.0f, 0.0f, 0.0f};
-
-    /** List of all rendering components attached to this Entity */
-    std::vector<std::unique_ptr<BaseRenderable>> mRenderableComponents_;
-
-    /** Physics components attached to this Entity*/
-    std::unordered_map<
-        PhysicsComponentBase::ComponentType,
-        std::vector<std::unique_ptr<PhysicsComponentBase>>
-    > mPhysicsComponents_;
-
 public:
     /** Constructor */
     Entity(Scene& scene);
@@ -175,4 +148,32 @@ public:
      */
     template<typename T>
     std::vector<T*> getPhysicsComponents();
+    
+protected:
+    /** Scene this Entity is in*/
+    Scene& mScene_;
+
+    /** Collider TODO fix this*/
+    Collider2* mCollider_ = nullptr;
+
+    /** Entity Position */
+    glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
+
+    /** Entity Rotation in degrees */
+    glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
+
+    /** Entity Scale */
+    glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
+
+    /** Velocity*/
+    glm::vec3 mVelocity_ = {0.0f, 0.0f, 0.0f};
+
+    /** List of all rendering components attached to this Entity */
+    std::vector<std::unique_ptr<BaseRenderable>> mRenderableComponents_;
+
+    /** Physics components attached to this Entity*/
+    std::unordered_map<
+        PhysicsComponentBase::ComponentType,
+        std::vector<std::unique_ptr<PhysicsComponentBase>>
+    > mPhysicsComponents_;
 };

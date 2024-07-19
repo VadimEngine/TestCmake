@@ -41,7 +41,7 @@ void PhysicsScene::update(const float dt) {
     mCameraController_.update(dt);
     if (mIsRunning_) {
         handleEntityCollision(dt);
-        for (int i = 0; i < mEntities_.size(); i++) {
+        for (int i = 0; i < mEntities_.size(); ++i) {
             mEntities_[i]->update(dt);
         }
     }
@@ -49,7 +49,7 @@ void PhysicsScene::update(const float dt) {
 }
 
 void PhysicsScene::render(Renderer& renderer) {
-    for (int i = 0; i < mEntities_.size(); i++) {
+    for (int i = 0; i < mEntities_.size(); ++i) {
         mEntities_[i]->render(renderer, *getFocusCamera());
     }
     mGui_.render();
@@ -90,11 +90,11 @@ void PhysicsScene::assembleResources() {
 }
 
 void PhysicsScene::handleEntityCollision(const float dt) {
-    for (int i = 0; i < mEntities_.size(); i++) {
+    for (int i = 0; i < mEntities_.size(); ++i) {
         RigidBodyComponent* rigidBodyA = mEntities_[i]->getPhysicsComponent<RigidBodyComponent>();
 
         if (rigidBodyA != nullptr && rigidBodyA->isEnabled()) {
-            for (int j = i + 1; j < mEntities_.size(); j++) {
+            for (int j = i + 1; j < mEntities_.size(); ++j) {
                 RigidBodyComponent* rigidBodyB = mEntities_[j]->getPhysicsComponent<RigidBodyComponent>();
                 if (rigidBodyB != nullptr) {
                     rigidBodyA->handleIfCollision(rigidBodyB);
@@ -107,11 +107,11 @@ void PhysicsScene::handleEntityCollision(const float dt) {
 
 void PhysicsScene::handleEntityOverlap() {
     // Separate any overlap
-    for (int i = 0; i < mEntities_.size(); i++) {
+    for (int i = 0; i < mEntities_.size(); ++i) {
         RigidBodyComponent* rigidBodyA = mEntities_[i]->getPhysicsComponent<RigidBodyComponent>();
 
         if (rigidBodyA != nullptr && rigidBodyA->isEnabled()) {
-            for (int j = i + 1; j < mEntities_.size(); j++) {
+            for (int j = i + 1; j < mEntities_.size(); ++j) {
                 RigidBodyComponent* rigidBodyB = mEntities_[j]->getPhysicsComponent<RigidBodyComponent>();
                 if (rigidBodyB != nullptr) {
                     auto mvt = rigidBodyA->getCollider().getCollisionMVT(&(rigidBodyB->getCollider()));

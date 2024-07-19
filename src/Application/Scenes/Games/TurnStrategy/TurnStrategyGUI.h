@@ -2,24 +2,10 @@
 #include "ImGuiComponent.h"
 
 namespace turn_strategy {
-
     // Forward declare Scene
     class TurnStrategyScene;
 
     class TurnStrategyGUI : public ImGuiComponent {
-    private:
-        /** The Scene this GUI is for */
-        TurnStrategyScene& mScene_;
-
-        /** If the GUI is set to enable VSync */
-        bool mVSyncEnabled_;
-
-        /** Volume this gui applies */
-        float mVolume_;
-
-        /** The Camera Mode this GUI applies*/
-        int mCameraMode_;
-
     public:
         /**
          * Constructor
@@ -33,7 +19,20 @@ namespace turn_strategy {
         /** Build the GUI ImGui components every frame */
         void buildImGui() override;
 
+    private:
+        /** Helper method to build/render the camera section of the gui */
         void buildCameraSection();
+
+        /** The Scene this GUI is for */
+        TurnStrategyScene& mScene_;
+        /** If the GUI is set to enable VSync */
+        bool mVSyncEnabled_;
+        /** Volume this gui applies */
+        float mVolume_;
+        /** The Camera Mode this GUI applies*/
+        int mCameraMode_;
+
+
     };
 
 } // namespace turn_strategy

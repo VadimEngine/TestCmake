@@ -8,6 +8,8 @@ Scene::Scene(App& theApp)
     mpSceneCamera_->setAspectRatio(static_cast<float>(screenDim.x)/static_cast<float>(screenDim.y));
 }
 
+void Scene::assembleResources() {}
+
 void Scene::setBackgroundColor(glm::vec4 newColor) {
     mBackgroundColor_ = newColor;
 }

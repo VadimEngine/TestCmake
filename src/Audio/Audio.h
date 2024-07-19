@@ -7,7 +7,6 @@
 
 class Audio {
 public:
-
     static int loadAudio(const std::filesystem::path& filename);
 
     Audio(const std::filesystem::path& filePath);
