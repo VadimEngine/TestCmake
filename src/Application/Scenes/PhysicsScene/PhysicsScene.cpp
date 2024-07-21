@@ -1,5 +1,7 @@
-#include "PhysicsScene.h"
+// forward declare
 #include "App.h"
+// class
+#include "PhysicsScene.h"
 
 namespace physics_scene {
 PhysicsScene::PhysicsScene(App& theApp)

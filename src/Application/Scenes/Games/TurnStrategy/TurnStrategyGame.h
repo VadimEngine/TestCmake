@@ -1,15 +1,17 @@
 #pragma once
-#include "Renderer.h"
+// standard lib
 #include <vector>
-#include "Texture.h"
-#include "SpriteSheet.h"
+// project
 #include "CameraController.h"
+#include "Logger.h"
 #include "ModelRenderable.h"
-#include "Unit.h"
-#include "Settlement.h"
-#include "Camera.h"
-#include "TileMap.h"
+#include "Renderer.h"
 #include "Resource.h"
+#include "Settlement.h"
+#include "SpriteSheet.h"
+#include "Texture.h"
+#include "TileMap.h"
+#include "Unit.h"
 
 // forward declare App
 class App;
@@ -20,13 +22,14 @@ namespace turn_strategy {
 
     class TurnStrategyGame {
     public:
+        /** @brief Types of entity in this game */
         enum class EntityType {
             NONE, UNIT, SETTLEMENT
         };
 
         /**
-         * @brief Constructor
-         * 
+         * @brief Constructor a new game
+         *
          * @param scene Scene this game is in
          */
         TurnStrategyGame(TurnStrategyScene& scene);
@@ -47,62 +50,97 @@ namespace turn_strategy {
          */
         void render(const Renderer& renderer, const Camera& camera);
 
+        /**
+         * @brief Get currently select Entity in this game
+         */
         Entity* getSelectedEntity();
 
         /**
          * On Mouse button press handler
-         * @param mousePos Mouse Position at time of the event
          * @param mouseEvent Mouse event details
          */
         void onMousePress(const InputHandler::MouseEvent& mouseEvent);
 
         /**
          * On Mouse Button release handler
-         * @param mousePos Mouse Position at time of the event
          * @param mouseEvent Mouse event details
          */
         void onMouseRelease(const InputHandler::MouseEvent& mouseEvent);
 
+        /**
+         * @brief Mouse wheel event handler
+         *
+         * @param mouseEvent Mouse event details
+         */
         void onMouseWheel(const InputHandler::MouseEvent& mouseEvent);
 
+        /**
+         * @brief Spawn a unit at a the given grid location
+         *
+         * @param tileLocation Grid location to make the new unit at
+         */
         void spawnUnit(glm::ivec2 tileLocation);
 
+        /**
+         * @brief Spawn a new settlement at the given grid location
+         *
+         * @param tileLocation Grid location to make the new settlement at
+         */
         void spawnSettlement(glm::ivec2 tileLocation);
 
+        /**
+         * @brief Cycle to the next turn fo this game (resets all units and settlements)
+         */
         void nextTurn();
 
+        /**
+         * @brief Get the current turn of the game
+         */
         int getCurrentTurn();
 
+        /**
+         * @brief Set if the game mode is set to add territory for the selected Settlement
+         */
         void setTerritoryMode(bool mode);
 
+        /**
+         * @brief Get list of settlements in the game
+         */
         std::vector<std::unique_ptr<Settlement>>& getSettlementList();
 
+        /**
+         * @brief Get list of units in the game
+         */
         std::vector<std::unique_ptr<Unit>>& getUnitList();
 
+        /**
+         * @brief Get the Tile Map
+         */
         const TileMap* getTileMap();
 
         /**
-         * @brief Get the Scene this object is in. Just Scene for now to avoid circular dependency bugs
-         * 
+         * @brief Get the Scene this object is in. Just Scene for now to avoid circular dependency compile errors
          */
         Scene& getScene();
 
     private:
+        /** @brief struct to store info on the currently selected entity */
         struct SelectedEntityDetails {
             Entity* selected = nullptr;
-            EntityType type;
+            EntityType type = EntityType::NONE;
         };
+
         /**
          * @brief Helper method to handle moving the camera with key inputs
-         * 
+         *
          * @param dt time since last update
          */
         void updateCamera(float dt);
 
         /**
-         * @brief Select an entity based on the ray's origin and direction. Only selects if the 
+         * @brief Select an entity based on the ray's origin and direction. Only selects if the
          * ray collides with an entity's collider
-         * 
+         *
          * @param mouseOrigin Ray origin
          * @param mouseDirection Ray direction
          */
@@ -110,21 +148,21 @@ namespace turn_strategy {
 
         /**
          * @brief Helper method to draw the grid around the tiles
-         * 
+         *
          * @param theRenderer Renderer to render with
          */
         void drawGrid(const Renderer& theRenderer);
 
         /**
          * @brief Helper methods the handle right mouse clicks
-         * 
+         *
          * @param mouseEvent Mouse event details
          */
         void onLeftClick(const InputHandler::MouseEvent& mouseEvent);
 
         /**
          * @brief Helper method to handle left mouse clicks
-         * 
+         *
          * @param mouseEvent Mouse event details
          */
         void onRightClick(const InputHandler::MouseEvent& mouseEvent);
@@ -149,7 +187,7 @@ namespace turn_strategy {
         std::unique_ptr<TileMap> mpTileMap_;
         /** If the player is adding territories for a settlement */
         bool mAddTerritoryMode_ = false;
-        /** Minumum camera z position  */
+        /** Minumum camera z positio*/
         float mMinCameraDistance_ = 1.f;
     };
 

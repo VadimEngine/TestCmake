@@ -1,15 +1,14 @@
 #pragma once
-#define GLEW_STATIC
+// third party
 #include <GL/glew.h>
-#include "Camera.h"
-#include "Shader.h"
-#include "Texture.h"
-#include "SpriteSheet.h"
 #include <glm/gtc/type_ptr.hpp>
-#include <map>
-#include <unordered_map>
-#include "Resource.h"
+// project
+#include "Camera.h"
+#include "Font.h"
 #include "Mesh.h"
+#include "Shader.h"
+#include "SpriteSheet.h"
+#include "Texture.h"
 
 class Renderer {
 public:
@@ -55,7 +54,6 @@ public:
      * @param color Text color
      */
     void renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, const Font& font, const glm::vec3& scale, const glm::vec3& color);
-
 
     /**
      * Render text centered at the given location.

@@ -1,7 +1,8 @@
 #pragma once
-#include "Scene.h"
-#include "RPG2DSceneGUI.h"
+// project
 #include "RPG2DGame.h"
+#include "RPG2DSceneGUI.h"
+#include "Scene.h"
 
 // Forward Declare App
 class App;

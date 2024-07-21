@@ -1,3 +1,4 @@
+// class
 #include "SpriteSheet.h"
 
 SpriteSheet::Sprite::Sprite(SpriteSheet& theSpriteSheet, const glm::ivec2& theGridIndex, const glm::ivec2& theSpriteSize)

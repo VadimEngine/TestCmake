@@ -1,6 +1,8 @@
-#include "MOB.h"
-#include "Scene.h"
+// forward declare
 #include "App.h"
+#include "Scene.h"
+// class
+#include "MOB.h"
 
 namespace rpg_2d {
     MOB::MOB(Scene& scene)

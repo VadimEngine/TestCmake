@@ -1,6 +1,8 @@
+// forward declare
 #include "App.h"
-#include "TurnStrategyGUI.h"
 #include "TurnStrategyScene.h"
+// class
+#include "TurnStrategyGUI.h"
 
 namespace turn_strategy {
     TurnStrategyGUI::TurnStrategyGUI(TurnStrategyScene& theScene)

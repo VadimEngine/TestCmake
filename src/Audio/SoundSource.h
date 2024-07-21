@@ -1,5 +1,6 @@
 #pragma once
 #define AL_LIBTYPE_STATIC
+// third party
 #include <AL\al.h>
 
 class SoundSource {

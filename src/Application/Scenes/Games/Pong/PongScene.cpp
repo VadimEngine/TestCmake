@@ -1,5 +1,7 @@
-#include "PongScene.h"
+// forward declare
 #include "App.h"
+// class
+#include "PongScene.h"
 
 namespace pong {
     PongScene::PongScene(App& theApp)

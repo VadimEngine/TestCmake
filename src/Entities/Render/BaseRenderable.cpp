@@ -1,5 +1,5 @@
+// class
 #include "BaseRenderable.h"
-
 
 void BaseRenderable::setEnabled(const bool isEnabled) {
     mEnabled_ = isEnabled;

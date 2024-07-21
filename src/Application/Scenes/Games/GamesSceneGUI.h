@@ -1,4 +1,5 @@
 #pragma once
+// project
 #include "ImGuiComponent.h"
 
 // Forward declare Scene
@@ -17,7 +18,7 @@ public:
 
     /** Build the GUI ImGui components every frame */
     void buildImGui() override;
-    
+
 private:
     /** The Scene this GUI is for */
     GamesScene& mScene_;

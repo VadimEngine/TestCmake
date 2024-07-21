@@ -1,20 +1,22 @@
 #pragma once
-#include "BaseRenderable.h"
-#include "PhysicsComponentBase.h"
-#include "ModelRenderable.h"
-#include "SpriteRenderable.h"
-#include "TextRenderable.h"
+// standard lib
+#include <unordered_map>
 #include <vector>
+// third party
 #include <glm/vec3.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Camera.h"
-#include "Shader.h"
-#include <utility>
-#include <unordered_map>
-#include "RigidBodyComponent.h"
-#include "Collider2.h"
+// project
+#include "BaseRenderable.h"
 #include "BoxCollider2D.h"
+#include "Camera.h"
+#include "Collider2.h"
+#include "ModelRenderable.h"
+#include "PhysicsComponentBase.h"
+#include "RigidBodyComponent.h"
+#include "Shader.h"
+#include "SpriteRenderable.h"
+#include "TextRenderable.h"
 
 class Scene;
 
@@ -148,7 +150,7 @@ public:
      */
     template<typename T>
     std::vector<T*> getPhysicsComponents();
-    
+
 protected:
     /** Scene this Entity is in*/
     Scene& mScene_;

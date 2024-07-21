@@ -1,3 +1,4 @@
+// class
 #include "SoundSource.h"
 
 SoundSource::SoundSource() {

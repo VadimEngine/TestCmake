@@ -1,3 +1,4 @@
+// class
 #include "Model.h"
 
 Model::Model() {}

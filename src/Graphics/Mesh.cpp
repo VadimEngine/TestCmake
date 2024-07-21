@@ -1,3 +1,4 @@
+// class
 #include "Mesh.h"
 
 void Mesh::loadMeshes(const std::filesystem::path& path, std::vector<Mesh>& meshList) {

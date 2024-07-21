@@ -1,7 +1,9 @@
 #pragma once
-#include <queue>
+// standard lib
 #include <bitset>
 #include <optional>
+#include <queue>
+// third party
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
 

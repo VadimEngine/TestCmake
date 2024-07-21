@@ -1,6 +1,8 @@
 #pragma once
+// third party
 #include <glm/vec2.hpp>
-#include <Texture.h>
+// project
+#include "Texture.h"
 
 class SpriteSheet {
 public:

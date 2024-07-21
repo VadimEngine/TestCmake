@@ -1,6 +1,9 @@
-#include "BoxCollider2D.h"
+// forward declare
 #include "Entity.h"
 #include "CircleCollider2D.h"
+// class
+#include "BoxCollider2D.h"
+// temp include
 #include <iostream>
 
 BoxCollider2D::BoxCollider2D(Entity& parentEntity)

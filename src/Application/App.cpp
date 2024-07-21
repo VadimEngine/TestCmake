@@ -1,3 +1,4 @@
+// class
 #include "App.h"
 
 bool App::sOpenGLInitialized_ = false;

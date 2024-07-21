@@ -1,5 +1,6 @@
-// forward declare headers first
+// forward declare
 #include "App.h"
+// class
 #include "GalaxyScene.h"
 
 namespace galaxy {
@@ -78,11 +79,11 @@ void GalaxyScene::update(const float dt) {
             // Update angle if moon is not at the center
             if (radius > 0.0f) {
                 // Adjust the speed of rotation as needed
-                moonAngle += moonEntity_->getRotationSpeed() * dt; 
+                moonAngle += moonEntity_->getRotationSpeed() * dt;
             }
             // Calculate new position of the planet
             float x = orbitCenter.x + radius * glm::cos(moonAngle);
-            float z = orbitCenter.z + radius * glm::sin(moonAngle); 
+            float z = orbitCenter.z + radius * glm::sin(moonAngle);
             glm::vec3 newPos = glm::vec3(x, orbitCenter.y, z); // Y-coordinate remains the same as orbit center
 
             // Update planet position

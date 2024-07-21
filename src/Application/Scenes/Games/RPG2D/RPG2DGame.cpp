@@ -1,6 +1,9 @@
+// forward declare
 #include "App.h"
 #include "RPG2DScene.h"
+// class
 #include "RPG2DGame.h"
+// temp include
 #include <iostream>
 
 namespace rpg_2d {

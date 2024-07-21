@@ -1,7 +1,8 @@
 #pragma once
-#include "Scene.h"
-#include "PongSceneGUI.h"
+// project
 #include "PongGame.h"
+#include "PongSceneGUI.h"
+#include "Scene.h"
 
 // Forward Declare App
 class App;

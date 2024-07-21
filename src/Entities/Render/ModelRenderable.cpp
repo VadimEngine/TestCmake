@@ -1,3 +1,4 @@
+// class
 #include "ModelRenderable.h"
 
 ModelRenderable::ModelRenderable(const Model* pModel, const Shader* pShader)

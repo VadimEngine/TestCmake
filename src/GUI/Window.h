@@ -1,11 +1,13 @@
 #pragma once
-#define GLEW_STATIC
+// standard lib
+#include <string>
+#include <stdexcept>
+// third party
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <stdexcept>
-#include "InputHandler.h"
-#include <string>
 #include <glm/vec2.hpp>
+// project
+#include "InputHandler.h"
 
 class Window {
 public:

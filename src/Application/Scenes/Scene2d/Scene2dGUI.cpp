@@ -1,5 +1,7 @@
+// forward declare
 #include "App.h"
 #include "Scene2d.h"
+// class
 #include "Scene2dGUI.h"
 
 namespace scene_2d {

@@ -1,3 +1,4 @@
+// class
 #include "SoundDevice.h"
 
 SoundDevice::SoundDevice() {

@@ -1,5 +1,7 @@
+// forward declare
 #include "App.h"
 #include "PhysicsScene.h"
+// class
 #include "PhysicsSceneGUI.h"
 
 namespace physics_scene {

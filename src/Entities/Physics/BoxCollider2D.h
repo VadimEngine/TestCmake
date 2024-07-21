@@ -1,4 +1,5 @@
 #pragma once
+// class
 #include "Collider.h"
 
 class Entity;

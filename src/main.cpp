@@ -1,6 +1,8 @@
+// standard lib
+#include <filesystem>
+// project
 #include "App.h"
 #include "Logger.h"
-#include <filesystem>
 
 int main() {
     LOG_IV("Starting Application from %s", std::filesystem::current_path().string().c_str());

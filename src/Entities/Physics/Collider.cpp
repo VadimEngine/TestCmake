@@ -1,5 +1,7 @@
-#include "Collider.h"
+// forward declare
 #include "Entity.h"
+// class
+#include "Collider.h"
 
 Collider::Collider(Entity& parentEntity)
     : PhysicsComponentBase(parentEntity) {

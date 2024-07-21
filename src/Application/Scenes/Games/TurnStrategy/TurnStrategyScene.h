@@ -1,7 +1,8 @@
 #pragma once
+// project
 #include "Scene.h"
-#include "TurnStrategyGUI.h"
 #include "TurnStrategyGame.h"
+#include "TurnStrategyGUI.h"
 
 // Forward Declare App
 class App;
@@ -65,7 +66,7 @@ namespace turn_strategy {
 
         /** Get reference to the game handler in this scene */
         TurnStrategyGame& getGame();
-        
+
     private:
         /** GUI for this scene */
         TurnStrategyGUI mGui_;

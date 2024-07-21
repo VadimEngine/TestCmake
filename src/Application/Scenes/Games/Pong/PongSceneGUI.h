@@ -1,4 +1,5 @@
 #pragma once
+// project
 #include "ImGuiComponent.h"
 
 namespace pong {
@@ -18,7 +19,7 @@ namespace pong {
 
         /** Build the GUI ImGui components every frame */
         void buildImGui() override;
-        
+
     private:
         /** The Scene this GUI is for */
         PongScene& mScene_;

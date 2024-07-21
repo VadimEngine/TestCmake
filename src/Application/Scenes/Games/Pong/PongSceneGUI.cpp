@@ -1,6 +1,8 @@
+// forward declare
 #include "App.h"
-#include "PongSceneGUI.h"
 #include "PongScene.h"
+// class
+#include "PongSceneGUI.h"
 
 namespace pong {
 

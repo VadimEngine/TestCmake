@@ -1,5 +1,8 @@
-#include "BasicScene.h"
+// forward declare
 #include "App.h"
+// class
+#include "BasicScene.h"
+
 
 namespace basic_scene {
     BasicScene::BasicScene(App& theApp)

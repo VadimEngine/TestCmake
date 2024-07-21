@@ -1,3 +1,4 @@
+// class
 #include "Texture.h"
 
 Texture::Texture(const unsigned char* textureData, int width, int height, int channels) {

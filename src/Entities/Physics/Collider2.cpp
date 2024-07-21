@@ -1,8 +1,7 @@
-#include "Collider2.h"
-#include <glm/glm.hpp>
-#include <glm/gtx/intersect.hpp>
-#include "Logger.h"
+// forward declare
 #include "Entity.h"
+// class
+#include "Collider2.h"
 
 Collider2::Collider2(Entity& parentEntity)
     : PhysicsComponentBase(parentEntity) {

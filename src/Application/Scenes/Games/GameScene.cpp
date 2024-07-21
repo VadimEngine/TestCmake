@@ -1,5 +1,7 @@
-#include "GamesScene.h"
+// forward declare
 #include "App.h"
+// class
+#include "GamesScene.h"
 
 GamesScene::GamesScene(App& theApp)
     : Scene(theApp), mGui_(*this) {}

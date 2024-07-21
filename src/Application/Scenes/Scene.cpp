@@ -1,5 +1,7 @@
-#include "Scene.h"
+// forward declare
 #include "App.h"
+// class
+#include "Scene.h"
 
 Scene::Scene(App& theApp)
     : mApp_(theApp), mpSceneCamera_(std::make_unique<Camera>()), mpFocusCamera_(mpSceneCamera_.get()) {

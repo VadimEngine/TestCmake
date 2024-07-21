@@ -1,6 +1,8 @@
-#include "Player.h"
-#include "Scene.h"
+// forward declare
 #include "App.h"
+#include "Scene.h"
+// class
+#include "Player.h"
 
 namespace rpg_2d {
 

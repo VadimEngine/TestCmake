@@ -1,3 +1,4 @@
+// class
 #include "SpriteRenderable.h"
 
 SpriteRenderable::SpriteRenderable(SpriteSheet::Sprite* pSprite)

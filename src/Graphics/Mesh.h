@@ -1,15 +1,15 @@
 #pragma once
-#define GLEW_STATIC
-#include <glm/gtc/matrix_transform.hpp>
+// standard lib
 #include <string>
+#include <unordered_map>
 #include <vector>
-#include "Shader.h"
-#include "unordered_map"
-#include <optional>
-#include <numbers>
+// third party
+#include <glm/gtc/matrix_transform.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+// project
+#include "Shader.h"
 
 class Mesh {
 public:

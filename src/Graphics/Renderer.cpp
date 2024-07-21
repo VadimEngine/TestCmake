@@ -1,3 +1,4 @@
+// class
 #include "Renderer.h"
 
 Renderer::Renderer(float screenWidth, float screenHeight, Shader& spriteShader, Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane)

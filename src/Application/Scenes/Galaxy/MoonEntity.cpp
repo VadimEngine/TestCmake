@@ -1,5 +1,7 @@
-#include "MoonEntity.h"
+// forward declare
 #include "App.h"
+// class
+#include "MoonEntity.h"
 
 namespace galaxy {
     MoonEntity::MoonEntity(Scene& scene)

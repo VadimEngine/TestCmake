@@ -1,13 +1,13 @@
 #pragma once
+// project
+#include "CameraController.h"
+#include "Entity.h"
+#include "GamesSceneGUI.h"
+#include "ModelRenderable.h"
 #include "Scene.h"
 #include "Shader.h"
-#include "Camera.h"
-#include "CameraController.h"
-#include "Texture.h"
-#include "GamesSceneGUI.h"
-#include "Entity.h"
-#include "ModelRenderable.h"
 #include "SpriteRenderable.h"
+#include "Texture.h"
 
 // Forward Declare App
 class App;
@@ -34,7 +34,7 @@ public:
      * @param renderer Rendering helper
      */
     void render(Renderer& renderer) override;
-    
+
 private:
     /** GUI for this Scene*/
     GamesSceneGUI mGui_;
