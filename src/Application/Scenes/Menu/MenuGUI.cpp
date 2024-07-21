@@ -1,6 +1,8 @@
+// forward declare
 #include "App.h"
-#include "MenuGUI.h"
 #include "MenuScene.h"
+// class
+#include "MenuGUI.h"
 
 namespace menu_scene {
     MenuGUI::MenuGUI(MenuScene& theScene)

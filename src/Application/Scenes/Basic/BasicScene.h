@@ -1,13 +1,13 @@
 #pragma once
+// project
+#include "BasicSceneGUI.h"
+#include "CameraController.h"
+#include "ModelRenderable.h"
 #include "Scene.h"
 #include "Shader.h"
-#include "Camera.h"
-#include "CameraController.h"
-#include "Texture.h"
-#include "BasicSceneGUI.h"
-#include "ModelRenderable.h"
 #include "SpriteRenderable.h"
 #include "TextRenderable.h"
+#include "Texture.h"
 
 // Forward Declare App
 class App;

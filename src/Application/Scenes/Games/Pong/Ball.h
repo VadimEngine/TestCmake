@@ -1,4 +1,5 @@
 #pragma once
+// project
 #include "Entity.h"
 #include "ModelRenderable.h"
 
@@ -7,7 +8,7 @@ namespace pong {
     public:
         /**
          * @brief Constructor
-         * 
+         *
          * @param scene Scene this ball is in
          * @param radius Ball radius
          */
@@ -30,7 +31,7 @@ namespace pong {
 
         /**
          * Set the speed of the ball
-         * 
+         *
          * @param newSpeed New speed in units per second
          */
         void setSpeed(float newSpeed);

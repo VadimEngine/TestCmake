@@ -1,5 +1,7 @@
-#include "CameraController.h"
+// forward declare
 #include "Camera.h"
+// class
+#include "CameraController.h"
 
 CameraController::CameraController(Camera* pCamera, InputHandler& theInputHandler)
     :mpCamera_(pCamera), mInputHandler_(theInputHandler) {}

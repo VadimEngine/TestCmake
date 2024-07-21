@@ -1,13 +1,15 @@
 #pragma once
-#define GLEW_STATIC
+// standard lib
 #include <filesystem>
-#include <GL/glew.h>
-#include <SOIL.h>
 #include <stdexcept>
-#include "Logger.h"
 #include <optional>
 #include <vector>
+// third party
+#include <GL/glew.h>
 #include <glm/vec2.hpp>
+#include <SOIL.h>
+// project
+#include "Logger.h"
 
 class Texture {
 public:

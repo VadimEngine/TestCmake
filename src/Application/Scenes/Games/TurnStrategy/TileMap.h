@@ -1,9 +1,11 @@
 #pragma once
-#include "SpriteSheet.h"
-#include "Renderer.h"
-#include "Camera.h"
-#include <vector>
+// standard lib
 #include <filesystem>
+#include <vector>
+// project
+#include "Camera.h"
+#include "Renderer.h"
+#include "SpriteSheet.h"
 
 namespace turn_strategy {
 
@@ -20,9 +22,9 @@ namespace turn_strategy {
         };
 
         /**
-         * @brief Construct Tilemap from the given texture and referencing sprites from the 
+         * @brief Construct Tilemap from the given texture and referencing sprites from the
          * spritesheet for each tile
-         * 
+         *
          * @param texture Texture used to position each tile
          * @param spriteSheet sprite sheet that holds sprites for the tiles
          */
@@ -33,15 +35,15 @@ namespace turn_strategy {
 
         /**
          * @brief Render all tiles
-         * 
+         *
          * @param theRenderer Render object
-         * @param theCamera 
+         * @param theCamera
          */
         void render(const Renderer& theRenderer, const Camera& theCamera);
 
         /**
          * @brief Get reference to tile at the given position if it is in range
-         * 
+         *
          * @param pos tile position
          */
         const Tile* tileAt(glm::ivec2 pos) const;

@@ -1,6 +1,8 @@
 #pragma once
-#include "InputHandler.h"
+// third party
 #include <GLFW/glfw3.h>
+// project
+#include "InputHandler.h"
 
 // forward declare Camera
 class Camera;

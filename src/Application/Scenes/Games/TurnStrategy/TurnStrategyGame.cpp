@@ -1,36 +1,38 @@
+// forward declare
 #include "App.h"
-#include "TurnStrategyGame.h"
 #include "TurnStrategyScene.h"
-#include "Logger.h"
+// class
+#include "TurnStrategyGame.h"
 
 namespace turn_strategy {
     TurnStrategyGame::TurnStrategyGame(TurnStrategyScene& scene)
-    : mScene_(scene), mApp_(mScene_.getApp()), 
+    : mScene_(scene), mApp_(mScene_.getApp()),
     mCameraController_(mScene_.getFocusCamera(), mApp_.getWindow().getInputHandler()) {
         // set camera position
         mScene_.getFocusCamera()->setPosition({5, 5, 11});
         // build sprites
         mSprites_["Unit"] = std::make_unique<SpriteSheet::Sprite>(
-            *mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), 
+            *mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"),
             glm::ivec2{0, 0}
         );
         mSprites_["Settlement"] = std::make_unique<SpriteSheet::Sprite>(
-            *mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), 
+            *mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"),
             glm::ivec2{5, 21}
         );
 
         // create first unit
-        Unit* theUnit = new Unit(mScene_, *this, mSprites_["Unit"].get());
-        theUnit->setName("Unit 1");
+        Unit* theUnit = new Unit(*this, mSprites_["Unit"].get());
+        theUnit->setName("Unit0");
         theUnit->setCollider2(new Collider2(*theUnit));
         theUnit->setPosition({6,5,0});
         mUnitList_.push_back(std::unique_ptr<Unit>(theUnit));
         // create first settlement
         Settlement* settlement = new Settlement(*this, mSprites_["Settlement"].get(), {5,5});
-        settlement->setName("Settlement1");
+        settlement->setName("Settlement0");
         settlement->setCollider2(new Collider2(*settlement));
         settlement->setPosition({5,5,0});
         mSettlementList_.push_back(std::unique_ptr<Settlement>(settlement));
+        // Make tile map
         mpTileMap_ = std::make_unique<TileMap>(
             (mScene_.getResources().getResource<Texture>("World1")),
             mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1")
@@ -50,11 +52,9 @@ namespace turn_strategy {
         for (const auto& eachSettlement : mSettlementList_) {
             eachSettlement->update(dt);
         }
-
         // draw minimap
     }
 
-    // TODO maybe this should not take in the camera here and just use the games current focus camera which is needed for input handling (get mouse position)
     void TurnStrategyGame::render(const Renderer& renderer, const Camera& camera) {
         mpTileMap_->render(renderer, camera);
         drawGrid(renderer);
@@ -82,9 +82,6 @@ namespace turn_strategy {
     }
 
     void TurnStrategyGame::onMousePress(const InputHandler::MouseEvent& mouseEvent) {
-        if (ImGuiComponent::mouseOnGUI()) {
-            return;
-        }
         if (mouseEvent.getButton() == InputHandler::MouseEvent::Button::LEFT) {
             onLeftClick(mouseEvent);
         } else if (mouseEvent.getButton() == InputHandler::MouseEvent::Button::RIGHT) {
@@ -92,9 +89,7 @@ namespace turn_strategy {
         }
     }
 
-    void TurnStrategyGame::onMouseRelease(const InputHandler::MouseEvent& mouseEvent) {
-
-    }
+    void TurnStrategyGame::onMouseRelease(const InputHandler::MouseEvent& mouseEvent) {}
 
     void TurnStrategyGame::onMouseWheel(const InputHandler::MouseEvent& mouseEvent) {
         Camera& theCamera = *(mCameraController_.getCamera());
@@ -112,8 +107,10 @@ namespace turn_strategy {
     }
 
     void TurnStrategyGame::selectEntity(const glm::vec3& mouseOrigin, const glm::vec3& mouseDirection) {
-        // TODO fix this. Is doesnt quite work right
+        // TODO utilize a grid to store units/settlement
         mSelectedEntity_.selected = nullptr;
+        mSelectedEntity_.type = EntityType::NONE;
+
         for (const auto& eachUnit: mUnitList_) {
             Collider2* theCollider = eachUnit->getCollider();
             if (theCollider->rayCollides(mouseOrigin, mouseDirection)) {
@@ -134,17 +131,19 @@ namespace turn_strategy {
                 }
             }
         }
-
     }
 
     void TurnStrategyGame::drawGrid(const Renderer& theRenderer) {
-        float cellWidth = 1.f;
-        float cellHeight = 1.f;
+        const float cellWidth = 1.f;
+        const float cellHeight = 1.f;
         glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), {0,0,0});
         glm::vec4 lineColor = {0,0,0,1};
 
+        int tileMapWidth = mpTileMap_->getWidth();
+        int tileMapHeight = mpTileMap_->getHeight();
+
         // Horizontal lines
-        for (float i = -.5; i < 20; i+=1.f) {
+        for (float i = -.5; i < tileMapHeight; i+=1.f) {
             theRenderer.renderLineSimple(
                 {0*cellWidth, i*cellHeight,0}, {20*cellWidth, i*cellHeight,0},
                 *(mCameraController_.getCamera()), translationMatrix, lineColor
@@ -152,7 +151,7 @@ namespace turn_strategy {
         }
 
         // Vertical lines
-        for (float i = -.5; i < 20; i+=1.f) {
+        for (float i = -.5; i < tileMapWidth; i+=1.f) {
             theRenderer.renderLineSimple(
                 {i*cellWidth, 0*cellHeight,0}, {i*cellWidth, 20*cellHeight,0},
                 *(mCameraController_.getCamera()), translationMatrix, lineColor
@@ -161,7 +160,7 @@ namespace turn_strategy {
     }
 
     void TurnStrategyGame::spawnUnit(glm::ivec2 tileLocation) {
-        Unit* newUnit = new Unit(mScene_, *this, mSprites_["Unit"].get());
+        Unit* newUnit = new Unit(*this, mSprites_["Unit"].get());
         newUnit->setName("Unit " + std::to_string(mUnitList_.size()));
         newUnit->setCollider2(new Collider2(*newUnit));
         newUnit->setPosition({tileLocation.x,tileLocation.y,0});
@@ -251,15 +250,13 @@ namespace turn_strategy {
 
         glm::vec3 cameraPos = mCameraController_.getCamera()->getPosition();
 
-        if (mAddTerritoryMode_ && mSelectedEntity_.selected != nullptr) {
+        if (mAddTerritoryMode_ && mSelectedEntity_.type == EntityType::SETTLEMENT) {
             float t = -cameraPos.z / ray_direction.z;
             glm::vec3 intersectionPoint = cameraPos + t * ray_direction;
             int tileX = static_cast<int>(std::round(intersectionPoint.x));
             int tileY = static_cast<int>(std::round(intersectionPoint.y));
 
-            if (dynamic_cast<Settlement*>(mSelectedEntity_.selected)) {
-                dynamic_cast<Settlement*>(mSelectedEntity_.selected)->addTerritory({tileX, tileY});
-            }
+            dynamic_cast<Settlement*>(mSelectedEntity_.selected)->addTerritory({tileX, tileY});
             mAddTerritoryMode_ = false;
         } else {
             mAddTerritoryMode_ = false;
@@ -269,7 +266,7 @@ namespace turn_strategy {
     }
 
     void TurnStrategyGame::onRightClick(const InputHandler::MouseEvent& mouseEvent) {
-        if (mSelectedEntity_.selected != nullptr && dynamic_cast<Unit*>(mSelectedEntity_.selected)) {
+        if (mSelectedEntity_.type == EntityType::UNIT) {
             // TODO make a function to calculate mouse ray
             glm::ivec2 mousePosition = mouseEvent.getPosition();
             glm::ivec2 screenSize = mApp_.getWindow().getWindowDimensions(); // get this incase the size changes

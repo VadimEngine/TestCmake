@@ -1,9 +1,12 @@
-#include "Unit.h"
+// forward declare
+#include "App.h" // needed for #define GLEW_STATIC from app?
 #include "TurnStrategyGame.h"
+// class
+#include "Unit.h"
 
 namespace turn_strategy {
-    Unit::Unit(Scene& scene, TurnStrategyGame& theGame, SpriteSheet::Sprite* pSprite)
-     : Entity(scene), mGame_(theGame) {
+    Unit::Unit(TurnStrategyGame& theGame, SpriteSheet::Sprite* pSprite)
+     : Entity(theGame.getScene()), mGame_(theGame) {
         addRenderable(new SpriteRenderable(pSprite));
     }
 
@@ -139,7 +142,7 @@ namespace turn_strategy {
     bool Unit::canSettle() const {
         // if there is no settlement within 5 tiles, can settle
         bool ret = true;
-        for (auto& eachSettlement: mGame_.getSettlementList()) {
+        for (const auto& eachSettlement: mGame_.getSettlementList()) {
             int distance = static_cast<int>(abs(mPosition_.x - eachSettlement->getPosition().x) + abs(mPosition_.y - eachSettlement->getPosition().y));
             if (distance < 5) {
                 ret = false;

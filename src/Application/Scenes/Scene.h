@@ -1,12 +1,13 @@
 #pragma once
-#define GLEW_STATIC
+// third party
 #include <GL/glew.h>
-#include "Camera.h"
-#include "Renderer.h"
 #include <glm/vec4.hpp>
-#include "InputHandler.h"
-#include "Resource.h"
+// project
+#include "Camera.h"
 #include "Entity.h"
+#include "InputHandler.h"
+#include "Renderer.h"
+#include "Resource.h"
 
 // Forward declare App
 class App;
@@ -95,7 +96,7 @@ public:
 
     /**
      * @brief One mouse wheel event handler
-     * 
+     *
      * @param mouseEvent Mouse event
      */
     virtual void onMouseWheel(const InputHandler::MouseEvent& mouseEvent);

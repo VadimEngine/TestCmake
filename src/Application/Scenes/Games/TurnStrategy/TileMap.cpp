@@ -1,3 +1,4 @@
+// class
 #include "TileMap.h"
 
 namespace turn_strategy {

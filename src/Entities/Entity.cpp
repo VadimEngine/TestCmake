@@ -1,5 +1,7 @@
-#include "Entity.h"
+// forward declare
 #include "Scene.h"
+// class
+#include "Entity.h"
 
 Entity::Entity(Scene& scene)
 : mScene_(scene) {}

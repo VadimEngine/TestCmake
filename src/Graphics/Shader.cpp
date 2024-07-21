@@ -1,3 +1,4 @@
+// class
 #include "Shader.h"
 
 Shader::Shader(const std::filesystem::path& vertexSourcePath, const std::filesystem::path& fragmentSourcePath) {

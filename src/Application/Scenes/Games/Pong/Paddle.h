@@ -1,4 +1,5 @@
 #pragma once
+// project
 #include "Entity.h"
 #include "ModelRenderable.h"
 
@@ -17,7 +18,7 @@ namespace pong {
 
         /**
          * Update paddle
-         * 
+         *
          * @param dt Time since last update
          */
         void update(float dt) override;
@@ -27,21 +28,21 @@ namespace pong {
 
         /**
          * @brief Move up at the paddle's speed
-         * 
+         *
          * @param dt Time since last update
          */
         void moveUp(float dt);
 
         /**
          * @brief Move down at the paddle's speed
-         * 
+         *
          * @param dt Time since last update
          */
         void moveDown(float dt);
 
         /**
          * @brief Set the Default Position of the paddle when the game starts
-         * 
+         *
          * @param newPosition x/y position
          */
         void setDefaultPosition(glm::vec2 newPosition);

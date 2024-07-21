@@ -1,14 +1,16 @@
 #pragma once
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <string>
-#include <fstream>
-#include <sstream>
-#include "Logger.h"
-#include <glm/glm.hpp>
-#include <optional>
-#include "unordered_map"
+// standard lib
 #include <filesystem>
+#include <fstream>
+#include <optional>
+#include <string>
+#include <sstream>
+// third party
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+// project
+#include "Logger.h"
+#include <unordered_map>
 
 class Shader {
 public:

@@ -1,6 +1,8 @@
-#include "Ball.h"
-#include "PongScene.h"
+// forward declare
 #include "App.h"
+#include "PongScene.h"
+// class
+#include "Ball.h"
 
 namespace pong {
     Ball::Ball(Scene& scene, float radius)

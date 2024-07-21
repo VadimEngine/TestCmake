@@ -1,12 +1,15 @@
 #pragma once
-#include "Scene.h"
-#include "PhysicsSceneGUI.h"
-#include "ModelRenderable.h"
-#include "CameraController.h"
-#include "RigidBodyComponent.h"
+// standard lib
+#include <optional>
+// third party
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <optional>
+// project
+#include "CameraController.h"
+#include "ModelRenderable.h"
+#include "PhysicsSceneGUI.h"
+#include "RigidBodyComponent.h"
+#include "Scene.h"
 
 // Forward Declare App
 class App;

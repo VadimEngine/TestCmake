@@ -1,6 +1,6 @@
-// forward declare headers first
+// forward declare
 #include "App.h"
-// class header
+// class
 #include "PongGame.h"
 
 namespace pong {
@@ -22,7 +22,7 @@ namespace pong {
         // build right paddle
         mPaddles_[1] = std::make_unique<Paddle>(mScene_, glm::vec2{mProperties_.rightPaddle.width, mProperties_.rightPaddle.height});
         mPaddles_[1]->setDefaultPosition({mProperties_.rightPaddle.startX, mProperties_.rightPaddle.startY});
-        
+
         // move paddles to default position
         mPaddles_[0]->reset();
         mPaddles_[1]->reset();

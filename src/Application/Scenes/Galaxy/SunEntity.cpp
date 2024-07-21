@@ -1,5 +1,7 @@
-#include "SunEntity.h"
+// forward declare
 #include "App.h"
+// class
+#include "SunEntity.h"
 
 namespace galaxy {
 

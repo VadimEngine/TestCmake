@@ -1,3 +1,4 @@
+// class
 #include "Resource.h"
 
 const std::filesystem::path Resource::RESOURCE_PATH = "C:/Users/Administrator/Desktop/Programing/C++/TestCmake/res";

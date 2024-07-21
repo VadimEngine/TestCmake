@@ -1,3 +1,4 @@
+// class
 #include "Window.h"
 
 void mouse_callback(GLFWwindow* window, double xPos, double yPos) {

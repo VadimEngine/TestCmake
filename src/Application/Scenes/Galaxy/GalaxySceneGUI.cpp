@@ -1,6 +1,8 @@
+// forward declare
 #include "App.h"
-#include "GalaxySceneGUI.h"
 #include "GalaxyScene.h"
+// class
+#include "GalaxySceneGUI.h"
 
 namespace galaxy {
 

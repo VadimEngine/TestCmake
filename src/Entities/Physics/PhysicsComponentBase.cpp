@@ -1,5 +1,7 @@
-#include "PhysicsComponentBase.h"
+// forward declare
 #include "Entity.h"
+// class
+#include "PhysicsComponentBase.h"
 
 PhysicsComponentBase::PhysicsComponentBase(Entity& parentEntity)
     : mParentEntity_(parentEntity) {}

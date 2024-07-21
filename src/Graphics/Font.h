@@ -1,12 +1,14 @@
 #pragma once
+// standard lib
+#include <filesystem>
+#include <string>
+// third party
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
-#include <ft2build.h>
-#include <string>
+//project
 #include <Shader.h>
-#include "Camera.h"
-#include <filesystem>
-#include FT_FREETYPE_H
 
 class Font {
 public:

@@ -1,4 +1,6 @@
+// forward declare
 #include "PlanetEntity.h"
+// class
 #include "App.h"
 
 namespace galaxy {

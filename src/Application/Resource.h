@@ -1,15 +1,17 @@
 #pragma once
+// standard lib
+#include <filesystem>
+#include <memory>
 #include <string>
 #include <unordered_map>
+// project
+#include "Audio.h"
+#include "Font.h"
 #include "Mesh.h"
 #include "Model.h"
 #include "Shader.h"
-#include "Texture.h"
-#include "Audio.h"
-#include "Font.h"
-#include <memory>
 #include "SpriteSheet.h"
-#include <filesystem>
+#include "Texture.h"
 
 // TODO how to handle loading resources async. Probably in scene/app
 class Resource {

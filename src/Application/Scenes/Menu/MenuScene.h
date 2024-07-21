@@ -1,6 +1,7 @@
 #pragma once
-#include "Scene.h"
+// project
 #include "MenuGUI.h"
+#include "Scene.h"
 
 // Forward Declare App
 class App;
@@ -28,7 +29,7 @@ namespace menu_scene {
          * @param renderer Rendering helper
          */
         void render(Renderer& renderer) override;
-        
+
     private:
         /** GUI for this scene*/
         MenuGUI mGui_;

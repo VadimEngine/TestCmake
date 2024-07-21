@@ -1,10 +1,14 @@
 #pragma once
-#include "PhysicsComponentBase.h"
+// standard lib
+#include <functional>
+#include <optional>
+#include <unordered_set>
+// third party
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <functional>
-#include <unordered_set>
-#include <optional>
+#include <glm/gtx/intersect.hpp>
+// project
+#include "PhysicsComponentBase.h"
 #include "Renderer.h"
 
 class Entity;

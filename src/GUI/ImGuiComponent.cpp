@@ -1,3 +1,4 @@
+// class
 #include "ImGuiComponent.h"
 
 bool ImGuiComponent::sImguiInitialized_ = false;

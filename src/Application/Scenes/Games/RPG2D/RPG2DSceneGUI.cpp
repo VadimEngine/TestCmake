@@ -1,6 +1,8 @@
+// forward declare
 #include "App.h"
-#include "RPG2DSceneGUI.h"
 #include "RPG2DScene.h"
+// class
+#include "RPG2DSceneGUI.h"
 
 namespace rpg_2d {
 

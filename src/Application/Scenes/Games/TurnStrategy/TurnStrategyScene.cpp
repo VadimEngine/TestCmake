@@ -1,5 +1,7 @@
-#include "TurnStrategyScene.h"
+// forward declare
 #include "App.h"
+// class
+#include "TurnStrategyScene.h"
 
 namespace turn_strategy {
 
@@ -39,7 +41,9 @@ namespace turn_strategy {
     void TurnStrategyScene::onKeyRelease(unsigned int code) {}
 
     void TurnStrategyScene::onMousePress(const InputHandler::MouseEvent& mouseEvent) {
-        mpGame_->onMousePress(mouseEvent);
+        if (!ImGuiComponent::mouseOnGUI()) {
+            mpGame_->onMousePress(mouseEvent);
+        }
     }
 
     void TurnStrategyScene::onMouseRelease(const InputHandler::MouseEvent& mouseEvent) {

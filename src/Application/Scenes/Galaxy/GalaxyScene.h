@@ -1,13 +1,14 @@
 #pragma once
-#include "Scene.h"
+// project
 #include "CameraController.h"
-#include "GalaxySceneGUI.h"
 #include "Entity.h"
+#include "GalaxySceneGUI.h"
 #include "ModelRenderable.h"
-#include "SunEntity.h"
-#include "PlanetEntity.h"
 #include "MoonEntity.h"
+#include "PlanetEntity.h"
 #include "Resource.h"
+#include "Scene.h"
+#include "SunEntity.h"
 
 // Forward Declare App
 class App;

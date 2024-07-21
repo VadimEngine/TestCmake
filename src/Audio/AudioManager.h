@@ -1,12 +1,12 @@
 #pragma once
+// standard lib
+#include <inttypes.h>
+// third party
+#include <AL/alext.h>
+#include <sndfile.h>
+// project
 #include "SoundDevice.h"
 #include "SoundSource.h"
-#include <sndfile.h>
-#include <inttypes.h>
-#include <AL/alext.h>
-#include <unordered_map>
-#include <string>
-#include "Resource.h"
 
 class AudioManager {
 public:

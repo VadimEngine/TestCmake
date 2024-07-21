@@ -1,3 +1,4 @@
+// class
 #include "Utils.h"
 
 namespace utils {

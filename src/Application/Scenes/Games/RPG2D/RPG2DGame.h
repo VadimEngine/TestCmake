@@ -1,15 +1,18 @@
 #pragma once
-#include "Renderer.h"
-#include "Player.h"
-#include "MOB.h"
-#include "InputHandler.h"
+// project
 #include "CameraController.h"
+#include "InputHandler.h"
+#include "MOB.h"
+#include "Player.h"
+#include "Renderer.h"
 
-// forward declare App, Scene
+// forward declare App
 class App;
-class RPG2DScene;
 
 namespace rpg_2d {
+    // forward Scene
+    class RPG2DScene;
+
     class RPG2DGame {
     public:
         RPG2DGame(RPG2DScene& scene, Camera& focusCamera);

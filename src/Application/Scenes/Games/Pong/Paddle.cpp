@@ -1,6 +1,8 @@
-#include "Paddle.h"
-#include "PongScene.h"
+// forward declare
 #include "App.h"
+#include "PongScene.h"
+// class
+#include "Paddle.h"
 
 namespace pong {
     Paddle::Paddle(Scene& scene, glm::vec2 dimension)

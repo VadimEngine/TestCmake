@@ -1,4 +1,5 @@
 #pragma once
+// project
 #include "ImGuiComponent.h"
 
 namespace menu_scene {
@@ -18,7 +19,7 @@ namespace menu_scene {
 
         /** Build the GUI ImGui components every frame */
         void buildImGui() override;
-        
+
     private:
         /** The Scene this GUI is for */
         MenuScene& mScene_;

@@ -1,6 +1,8 @@
-#include "ColliderOLD.h"
-#include "RigidBodyComponent.h"
+// forward declare
 #include "Entity.h"
+#include "RigidBodyComponent.h"
+// class
+#include "ColliderOLD.h"
 
 ColliderOLD::ColliderOLD(RigidBodyComponent& theRigidBody)
     :mRigidBody_(theRigidBody) {}

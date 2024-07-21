@@ -1,3 +1,4 @@
+// class
 #include "Font.h"
 
 Font::Font(const std::filesystem::path& fontPath) {

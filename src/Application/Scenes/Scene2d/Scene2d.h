@@ -1,11 +1,12 @@
 #pragma once
+// project
+#include "CameraController.h"
 #include "Scene.h"
 #include "Scene2dGUI.h"
 #include "Shader.h"
-#include "Texture.h"
 #include "SpriteSheet.h"
-#include "CameraController.h"
 #include "TextRenderable.h"
+#include "Texture.h"
 
 namespace scene_2d {
     class Scene2d : public Scene {

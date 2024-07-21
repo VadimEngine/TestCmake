@@ -1,22 +1,25 @@
 #pragma once
 #define GLEW_STATIC
+// standard lib
 #include <chrono>
+#include <numbers>
+// third party
 #include <GL/glew.h>
-#include "Window.h"
+// project
+#include "AudioManager.h"
 #include "Basic/BasicScene.h"
 #include "Games/GamesScene.h"
+#include "Galaxy/GalaxyScene.h"
+#include "Logger.h"
 #include "Menu/MenuScene.h"
 #include "PhysicsScene/PhysicsScene.h"
-#include "Galaxy/GalaxyScene.h"
-#include "TurnStrategy/TurnStrategyScene.h"
 #include "Pong/PongScene.h"
 #include "RPG2D/RPG2DScene.h"
-#include "Scene2d/Scene2d.h"
-#include "Logger.h"
 #include "Renderer.h"
-#include "AudioManager.h"
 #include "Resource.h"
-#include <numbers>
+#include "Scene2d/Scene2d.h"
+#include "TurnStrategy/TurnStrategyScene.h"
+#include "Window.h"
 
 class App {
 public:

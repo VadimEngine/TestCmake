@@ -1,20 +1,36 @@
 #pragma once
-#include <sndfile.h>
+// standard lib
+#include <filesystem> 
 #include <inttypes.h>
-#include <AL/alext.h>
 #include <string>
-#include <filesystem>
+// third party
+#include <AL/alext.h>
+#include <sndfile.h>
 
 class Audio {
 public:
+    /**
+     * @brief Load an audio file and save to an AL audio id
+     *
+     * @param filename Audio file path
+     * @return int AL buffer
+     */
     static int loadAudio(const std::filesystem::path& filename);
 
+    /**
+     * @brief Construct a new Audio object
+     *
+     * @param filePath file path to load the audio from
+     */
     Audio(const std::filesystem::path& filePath);
 
+    /** @brief Destructor */
     ~Audio();
 
+    /** Get the AL buffer id */
     int getId();
 
 private:
+    /** AL audio id */
     ALuint mId_;
 };

@@ -1,14 +1,17 @@
 #pragma once
+// standard lib
 #include <array>
 #include <vector>
+// third party
 #include <glm/glm.hpp>
 #include <glm/gtx/norm.hpp>
 #include <glm/gtx/normalize_dot.hpp>
-#include "Renderer.h"
-#include "ModelRenderable.h"
-#include "InputHandler.h"
-#include "Paddle.h"
+// project
 #include "Ball.h"
+#include "InputHandler.h"
+#include "ModelRenderable.h"
+#include "Paddle.h"
+#include "Renderer.h"
 
 // forward declare App
 class App;
@@ -78,10 +81,9 @@ namespace pong {
             float ballRadius = .1f;
             /** Score for winning a Pong game*/
             int maxScore = 5;
-            // TODO get from camera 
+            // TODO get from camera
             glm::vec2 boardSize {4, 3};
-        }; 
-
+        };
 
         /** Resolve collisions to avoid overlapping */
         void handleEntityOverlap();

@@ -1,5 +1,7 @@
-#include "RigidBodyComponent.h"
+// forward declare
 #include "Entity.h"
+// class
+#include "RigidBodyComponent.h"
 
 RigidBodyComponent::RigidBodyComponent(Entity& parentEntity)
     : PhysicsComponentBase(parentEntity), mCollider_(*this){}
