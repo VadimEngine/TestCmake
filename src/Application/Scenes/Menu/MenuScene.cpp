@@ -12,6 +12,7 @@ namespace menu_scene {
     void MenuScene::update(const float dt) {}
 
     void MenuScene::render(Renderer& renderer) {
+        renderer.setCamera(getFocusCamera());
         mGui_.render();
     }
 } // namespace menu_scene

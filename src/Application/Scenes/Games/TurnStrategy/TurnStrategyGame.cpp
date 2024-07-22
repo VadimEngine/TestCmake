@@ -55,24 +55,24 @@ namespace turn_strategy {
         // draw minimap
     }
 
-    void TurnStrategyGame::render(const Renderer& renderer, const Camera& camera) {
-        mpTileMap_->render(renderer, camera);
+    void TurnStrategyGame::render(const Renderer& renderer) {
+        mpTileMap_->render(renderer);
         drawGrid(renderer);
 
         // draw settlements
         for (const auto& eachSettlement : mSettlementList_) {
-            eachSettlement->render(renderer, camera);
+            eachSettlement->render(renderer);
             if (eachSettlement.get() == mSelectedEntity_.selected) {
-                eachSettlement->renderHighlight(renderer, camera);
+                eachSettlement->renderHighlight(renderer);
             }
         }
 
         // render units
         for (const auto& eachUnit : mUnitList_) {
-            eachUnit->render(renderer, camera);
+            eachUnit->render(renderer);
             if (eachUnit.get() == mSelectedEntity_.selected) {
-                eachUnit->renderHighlight(renderer, camera);
-                eachUnit->renderValidMoves(renderer, camera);
+                eachUnit->renderHighlight(renderer);
+                eachUnit->renderValidMoves(renderer);
             }
         }
     }
@@ -145,16 +145,20 @@ namespace turn_strategy {
         // Horizontal lines
         for (float i = -.5; i < tileMapHeight; i+=1.f) {
             theRenderer.renderLineSimple(
-                {0*cellWidth, i*cellHeight,0}, {20*cellWidth, i*cellHeight,0},
-                *(mCameraController_.getCamera()), translationMatrix, lineColor
+                {0*cellWidth, i*cellHeight,0},
+                {20*cellWidth, i*cellHeight,0},
+                translationMatrix, 
+                lineColor
             );
         }
 
         // Vertical lines
         for (float i = -.5; i < tileMapWidth; i+=1.f) {
             theRenderer.renderLineSimple(
-                {i*cellWidth, 0*cellHeight,0}, {i*cellWidth, 20*cellHeight,0},
-                *(mCameraController_.getCamera()), translationMatrix, lineColor
+                {i*cellWidth, 0*cellHeight,0},
+                {i*cellWidth, 20*cellHeight,0},
+                translationMatrix,
+                lineColor
             );
         }
     }

@@ -5,7 +5,7 @@ TextRenderable::TextRenderable(const std::string& text, Font* font)
 
 TextRenderable::~TextRenderable() {}
 
-void TextRenderable::render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const {
+void TextRenderable::render(const Renderer& theRenderer, const glm::mat4& parentModelMat) const {
     // translation matrix for position
     glm::mat4 translationMat = glm::translate(glm::mat4(1.0f), mPosition_);
     //rotation matrix
@@ -20,7 +20,6 @@ void TextRenderable::render(const Renderer& theRenderer, const Camera& theCamera
     const_cast<Renderer&>(theRenderer).renderTextNormalized(
         mText_,
         parentModelMat * localModelMat,
-        theCamera,
         *mFont_,
         mScale_,
         mColor_

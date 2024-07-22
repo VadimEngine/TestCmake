@@ -8,6 +8,7 @@
 // third party
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 // project
 #include "Logger.h"
 #include <unordered_map>

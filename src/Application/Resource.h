@@ -13,7 +13,6 @@
 #include "SpriteSheet.h"
 #include "Texture.h"
 
-// TODO how to handle loading resources async. Probably in scene/app
 class Resource {
 public:
     /** Path to resource folder */

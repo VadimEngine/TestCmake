@@ -20,10 +20,10 @@ bool Collider2::isColliding(const Collider2* other) const {
     return false;
 }
 
-void Collider2::render(const Renderer& theRenderer, const Camera& theCamera) {
+void Collider2::render(const Renderer& theRenderer) {
     glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), mPosition_);
 
-    theRenderer.renderRectangleSimple(theCamera, translationMatrix, {1,1,1,1});
+    theRenderer.renderRectangleSimple(translationMatrix, {1,1,1,1});
 }
 
 std::optional<glm::vec3> Collider2::getCollisionNormal(Collider2* otherCollider) const {

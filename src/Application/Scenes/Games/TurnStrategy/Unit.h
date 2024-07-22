@@ -51,9 +51,8 @@ namespace turn_strategy {
          * @brief Highlight the tiles this unit can move to
          *
          * @param theRenderer Renderer object
-         * @param theCamera camera to draw relative to
          */
-        void renderValidMoves(const Renderer& theRenderer, const Camera& theCamera);
+        void renderValidMoves(const Renderer& theRenderer);
 
         /**
          * @brief Move the unit to a tile and use decrease moves proportionally

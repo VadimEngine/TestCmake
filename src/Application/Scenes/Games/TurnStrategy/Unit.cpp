@@ -25,7 +25,7 @@ namespace turn_strategy {
         return mMoves_;
     }
 
-    void Unit::renderValidMoves(const Renderer& theRenderer, const Camera& theCamera) {
+    void Unit::renderValidMoves(const Renderer& theRenderer) {
         //gather valid tiles first
         std::unordered_set<glm::ivec2, utils::Vec2Hash> validTiles = getMoveableTiles();
 
@@ -33,12 +33,12 @@ namespace turn_strategy {
         glm::mat4 translationMatrix = glm::identity<glm::mat4>();
 
         // TODO diagonal directions
-        std::vector<glm::ivec2> dirs = {
+        const std::array<glm::ivec2, 4> dirs = {{
             {1,0},
             {0,1},
             {0,-1},
             {-1,0},
-        };
+        }};
 
         // draw border
         for (const auto& eachTile : validTiles) {
@@ -57,7 +57,7 @@ namespace turn_strategy {
                             eachTile.y + dir.y/2.f + dir.x / 2.f,
                             0.f
                     };
-                    theRenderer.renderLineSimple(p1, p2, theCamera, translationMatrix, lineColor);
+                    theRenderer.renderLineSimple(p1, p2, translationMatrix, lineColor);
                 }
             }
         }
@@ -73,39 +73,41 @@ namespace turn_strategy {
         };
 
         // TODO diagonal directions
-        std::vector<glm::ivec2> dirs = {
+        const std::array<glm::ivec2, 4> dirs = {{
             {1,0},
             {0,1},
             {0,-1},
             {-1,0},
-        };
+        }};
 
-        // TODO dont store distance, for loop the queue every level
-        std::queue<std::pair<glm::ivec2, int>> traverseQueue; // pair.second is distance
-
-        traverseQueue.push(std::make_pair(currentTile, 0));
+        std::queue<glm::ivec2> traverseQueue;
+        traverseQueue.push(currentTile);
 
         const TileMap* tileMap = mGame_.getTileMap();
 
-        // BFS
-        while (!traverseQueue.empty()) {
-            std::pair<glm::ivec2, int> curr = traverseQueue.front();
-            traverseQueue.pop();
-            validTiles.insert(curr.first);
+        // BFS all valid tile up to mMoves_ steps away
+        int distance = 0;
+        while (distance < mMoves_ && !traverseQueue.empty()) {
+            int tiles = traverseQueue.size();
 
-            if (curr.second < mMoves_) {
+            for (int i = 0; i < tiles; ++i) {
+                glm::ivec2 curr = traverseQueue.front();
+                traverseQueue.pop();
+                validTiles.insert(curr);
+
                 for (const auto& dir: dirs) {
-                    glm::ivec2 newTile = curr.first + dir;
-                    // check if tile is valid distance
+                    const glm::ivec2 newTile = curr + dir;
                     if (!validTiles.contains(newTile)) {
                         if (newTile.x >= 0 && newTile.y >= 0 && newTile.x < tileMap->getWidth() && newTile.y < tileMap->getHeight()) {
-                            if (tileMap->tileAt({newTile.x, newTile.y})->type != TileMap::Tile::Type::SEA) {
-                                traverseQueue.push(std::make_pair(newTile, curr.second + 1));
+                            // avoid sea tiles
+                            if (tileMap->tileAt(newTile)->type != TileMap::Tile::Type::SEA) {
+                                traverseQueue.push(newTile);
                             }
                         }
                     }
                 }
             }
+            ++distance;
         }
 
         return validTiles;

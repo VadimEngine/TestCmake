@@ -7,7 +7,6 @@
 namespace rpg_2d {
     MOB::MOB(Scene& scene)
     : Entity(scene), mSprite_(*mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), {0,0}) {
-        // TODO use sprite sheet to add sprite
         addRenderable(new SpriteRenderable(&mSprite_));
         mpCollider_ = addPhysicsComponent<Collider2>();
         mpCollider_->setShape(Collider2::Shape::RECTANGLE);

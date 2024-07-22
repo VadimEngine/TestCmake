@@ -39,7 +39,7 @@ public:
 
     ~Collider2();
 
-    void render(const Renderer& theRenderer, const Camera& theCamera);
+    void render(const Renderer& theRenderer);
 
     /**
      * Update this rigid body and related Entity

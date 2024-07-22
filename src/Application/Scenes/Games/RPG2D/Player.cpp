@@ -8,7 +8,6 @@ namespace rpg_2d {
 
     Player::Player(Scene& scene)
     : Entity(scene), mSprite_(*mScene_.getApp().getResources().getResource<SpriteSheet>("SpriteSheet1"), glm::ivec2(3, 0)) {
-        // TODO use sprite sheet to add sprite
         addRenderable(new SpriteRenderable(&mSprite_));
         mpCollider_ = addPhysicsComponent<Collider2>();
         mpCollider_->setShape(Collider2::Shape::RECTANGLE);
@@ -28,10 +27,10 @@ namespace rpg_2d {
         // TODO have collider's position match the parent Entity
     }
 
-    void Player::render(const Renderer& theRenderer, const Camera& theCamera) const {
-        Entity::render(theRenderer, theCamera);
+    void Player::render(const Renderer& theRenderer) const {
+        Entity::render(theRenderer);
         // mpCollider_->render(theRenderer, theCamera);
-        mpBoxCollider_->render(theRenderer, theCamera);
+        mpBoxCollider_->render(theRenderer);
     }
 
     void Player::move(glm::vec3 direction, float dt) {

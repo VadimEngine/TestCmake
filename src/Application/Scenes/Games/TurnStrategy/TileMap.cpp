@@ -74,13 +74,13 @@ namespace turn_strategy {
 
     TileMap::~TileMap() {}
 
-    void TileMap::render(const Renderer& theRenderer, const Camera& theCamera) {
+    void TileMap::render(const Renderer& theRenderer) {
         for (int y = 0; y < mTiles_.size(); ++y) {
             for (int x = 0; x < mTiles_[0].size(); ++x) {
                 glm::vec3 position = {x, y, 0};
                 glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), position);
                 if (mTiles_[y][x].sprite != nullptr) {
-                    theRenderer.renderSprite(*(mTiles_[y][x].sprite), theCamera, translationMatrix, {1,1,1,1});
+                    theRenderer.renderSprite(*(mTiles_[y][x].sprite), translationMatrix, {1,1,1,1});
                 }
             }
         }

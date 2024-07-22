@@ -11,5 +11,6 @@ GamesScene::~GamesScene() {}
 void GamesScene::update(float dt) {}
 
 void GamesScene::render(Renderer& renderer) {
+    renderer.setCamera(getFocusCamera());
     mGui_.render();
 }

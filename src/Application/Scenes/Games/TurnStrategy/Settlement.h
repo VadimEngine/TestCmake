@@ -39,7 +39,7 @@ namespace turn_strategy {
          * @param theRenderer
          * @param theCamera
          */
-        void render(const Renderer& theRenderer, const Camera& theCamera) const override;
+        void render(const Renderer& theRenderer) const override;
 
         /**
          * @brief Update name of this settlement

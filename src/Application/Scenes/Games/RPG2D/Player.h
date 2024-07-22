@@ -28,7 +28,7 @@ namespace rpg_2d {
 
         void update(float dt) override;
 
-        void render(const Renderer& theRenderer, const Camera& theCamera) const override;
+        void render(const Renderer& theRenderer) const override;
 
         void move(glm::vec3 direction, float dt);
 

@@ -68,9 +68,9 @@ namespace pong {
         handleEntityOverlap();
     }
 
-    void PongGame::render(Renderer& renderer, Camera& camera) {
+    void PongGame::render(Renderer& renderer) {
         for (const auto& entity: mEntities_) {
-            entity->render(renderer, camera);
+            entity->render(renderer);
         }
         // Display Game title
         renderer.renderText(

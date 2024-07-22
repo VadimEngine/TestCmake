@@ -37,9 +37,8 @@ namespace turn_strategy {
          * @brief Render all tiles
          *
          * @param theRenderer Render object
-         * @param theCamera
          */
-        void render(const Renderer& theRenderer, const Camera& theCamera);
+        void render(const Renderer& theRenderer);
 
         /**
          * @brief Get reference to tile at the given position if it is in range

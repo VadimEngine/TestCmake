@@ -6,7 +6,7 @@ ModelRenderable::ModelRenderable(const Model* pModel, const Shader* pShader)
 
 ModelRenderable::~ModelRenderable() {}
 
-void ModelRenderable::render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const {
+void ModelRenderable::render(const Renderer& theRenderer, const glm::mat4& parentModelMat) const {
     // translation matrix for position
     glm::mat4 translationMat = glm::translate(glm::mat4(1.0f), mPosition_);
     //rotation matrix
@@ -29,8 +29,6 @@ void ModelRenderable::render(const Renderer& theRenderer, const Camera& theCamer
     }
 
     mpShader_->setMat4("uModel", parentModelMat * localModelMat);
-    mpShader_->setMat4("uView", theCamera.getViewMatrix());
-    mpShader_->setMat4("uProjection", theCamera.getProjectionMatrix());
     mpShader_->setVec4("uColor", mColor_);
     mpShader_->setVec2("uSubImageTopLeft", mSubTextureTopLeft);
     mpShader_->setVec2("uSubImageSize", mSubTextureSize);
