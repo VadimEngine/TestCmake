@@ -18,7 +18,7 @@ void Entity::update(float dt) {
     mPosition_ += mVelocity_ * dt;
 }
 
-void Entity::render(const Renderer& theRenderer, const Camera& theCamera) const{
+void Entity::render(const Renderer& theRenderer) const{
     // translation matrix for position
     glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), mPosition_);
     // rotation matrix
@@ -31,14 +31,14 @@ void Entity::render(const Renderer& theRenderer, const Camera& theCamera) const{
     const glm::mat4 modelMat = translationMatrix * rotationMatrix * scaleMatrix;
     for (const auto& eachRenderable : mRenderableComponents_) {
         if (eachRenderable->isEnabled()) {
-            eachRenderable->render(theRenderer, theCamera, modelMat);
+            eachRenderable->render(theRenderer, modelMat);
         }
     }
 }
 
-void Entity::renderHighlight(const Renderer& theRenderer, const Camera& theCamera) const {
+void Entity::renderHighlight(const Renderer& theRenderer) const {
     // TODO how to set a color for this?
-    getCollider()->render(theRenderer, theCamera);
+    getCollider()->render(theRenderer);
 }
 
  std::vector<std::unique_ptr<BaseRenderable>>& Entity::getRenderableComponents() {

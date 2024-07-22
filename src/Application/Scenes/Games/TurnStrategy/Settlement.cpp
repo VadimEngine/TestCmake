@@ -36,12 +36,12 @@ namespace turn_strategy {
 
     void Settlement::update(const float dt) {}
 
-    void Settlement::render(const Renderer& theRenderer, const Camera& theCamera) const {
+    void Settlement::render(const Renderer& theRenderer) const {
         // Draw Settlement
-        Entity::render(theRenderer, theCamera);
+        Entity::render(theRenderer);
 
         // draw border
-        std::array<glm::ivec2, 4> dirs = {{
+        const std::array<glm::ivec2, 4> dirs = {{
            {1,0},
            {0,1},
            {0,-1},
@@ -52,7 +52,7 @@ namespace turn_strategy {
         glm::mat4 translationMatrix = glm::identity<glm::mat4>();
 
         for (const auto& eachTile : territoryTiles) {
-            borderRenderable.render(theRenderer, theCamera, glm::translate(glm::mat4(1.0f), {eachTile.x, eachTile.y, 0.f}));
+            borderRenderable.render(theRenderer, glm::translate(glm::mat4(1.0f), {eachTile.x, eachTile.y, 0.f}));
         }
     }
 

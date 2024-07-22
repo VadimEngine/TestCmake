@@ -20,10 +20,9 @@ public:
      * @brief Render this renderable
      *
      * @param theRenderer Render object
-     * @param theCamera Camera to render relative to
      * @param parentModelMat Additional transformation from parent
      */
-    void render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const override;
+    void render(const Renderer& theRenderer, const glm::mat4& parentModelMat) const override;
 
     /**
      * @brief Update the rendered text

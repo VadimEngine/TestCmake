@@ -38,9 +38,8 @@ public:
     /**
      * Render all renderable components of this Entity
      * @param theRenderer Helping Object for rendering
-     * @param theCamera Camera to render relative to
      */
-    virtual void render(const Renderer& theRenderer, const Camera& theCamera) const;
+    virtual void render(const Renderer& theRenderer) const;
 
     /** Get this Entity's position */
     glm::vec3 getPosition() const;
@@ -58,9 +57,8 @@ public:
      * @brief Render the highlight of this Entity
      *
      * @param theRenderer Helping Rendering Object
-     * @param theCamera Camera to render relative to
      */
-    virtual void renderHighlight(const Renderer& theRenderer, const Camera& theCamera) const;
+    virtual void renderHighlight(const Renderer& theRenderer) const;
 
     /** Get the list of renderable component */
     std::vector<std::unique_ptr<BaseRenderable>>& getRenderableComponents();

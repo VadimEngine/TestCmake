@@ -46,9 +46,8 @@ namespace turn_strategy {
         /**
          * Render Game
          * @param renderer Rendering Renderer
-         * @param camera Camera to render relative to
          */
-        void render(const Renderer& renderer, const Camera& camera);
+        void render(const Renderer& renderer);
 
         /**
          * @brief Get currently select Entity in this game
@@ -187,7 +186,7 @@ namespace turn_strategy {
         std::unique_ptr<TileMap> mpTileMap_;
         /** If the player is adding territories for a settlement */
         bool mAddTerritoryMode_ = false;
-        /** Minumum camera z positio*/
+        /** Minumum camera z position */
         float mMinCameraDistance_ = 1.f;
     };
 

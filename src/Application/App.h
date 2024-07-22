@@ -82,7 +82,7 @@ private:
     Window mWindow_;
     /** The current Scenes of the application. List to allow controlled scene deleting */
     std::list<Scene*> mScenes_;
-    /** Renderer used to*/
+    /** Renderer used to render the scenes */
     std::unique_ptr<Renderer> mpRenderer_;
     /** Audio manager */
     AudioManager mAudioManger_;

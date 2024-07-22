@@ -33,11 +33,11 @@ namespace rpg_2d {
         theMOB.update(dt);
     }
 
-    void RPG2DGame::render(Renderer& theRenderer, Camera& theCamera) {
-        thePlayer.render(theRenderer, theCamera);
+    void RPG2DGame::render(Renderer& theRenderer) {
+        thePlayer.render(theRenderer);
 
-        theMOB.render(theRenderer, theCamera);
-        theMOB.getCollider().render(theRenderer, theCamera);
+        theMOB.render(theRenderer);
+        theMOB.getCollider().render(theRenderer);
         // draw player collider for debugging
         theRenderer.renderText(
             "RPG",

@@ -130,17 +130,17 @@ void App::loadResources() {
     // Shaders
     mResources_.loadResource<Shader>(
         {
-        Resource::SRC_PATH / "Shaders/MVPTexShader.vert",
-        Resource::SRC_PATH / "Shaders/MVPTexShader.frag"
-        },
-        "MVPTexShader"
-    );
-    mResources_.loadResource<Shader>(
-        {
         Resource::SRC_PATH / "Shaders/Assimp.vert",
         Resource::SRC_PATH / "Shaders/Assimp.frag"
         },
         "Assimp"
+    );
+    mResources_.loadResource<Shader>(
+        {
+        Resource::SRC_PATH / "Shaders/MVPTexShader.vert",
+        Resource::SRC_PATH / "Shaders/MVPTexShader.frag"
+        },
+        "MVPTexShader"
     );
     mResources_.loadResource<Shader>(
         {

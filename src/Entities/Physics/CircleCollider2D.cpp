@@ -5,7 +5,7 @@
 #include "BoxCollider2D.h"
 
 CircleCollider2D::CircleCollider2D(Entity& parentEntity)
-    : Collider(parentEntity) {
+ : Collider(parentEntity) {
 }
 
 bool CircleCollider2D::isColliding(const Collider& other) const {

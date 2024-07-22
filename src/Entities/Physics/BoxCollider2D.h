@@ -12,7 +12,7 @@ public:
 
     void update(float dt);
 
-    void render(const Renderer& theRenderer, const Camera& theCamera);
+    void render(const Renderer& theRenderer);
 
     std::optional<glm::vec3> getCollisionMTV(const Collider& other) const;
 

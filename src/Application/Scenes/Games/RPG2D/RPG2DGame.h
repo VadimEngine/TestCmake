@@ -28,9 +28,8 @@ namespace rpg_2d {
         /**
          * Render Game
          * @param renderer Rendering Renderer
-         * @param camera Camera to render relative to
          */
-        void render(Renderer& renderer, Camera& camera);
+        void render(Renderer& renderer);
 
         /**
          * Update the game based on key inputs

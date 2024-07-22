@@ -53,18 +53,36 @@ Renderer::Renderer(float screenWidth, float screenHeight, Shader& spriteShader, 
     // Set the vertex attribute pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    // Create UBO to hold View and Projection matrix
+    glGenBuffers(1, &mUBO_);
+    glBindBuffer(GL_UNIFORM_BUFFER, mUBO_);
+    glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4) * 2, NULL, GL_STATIC_DRAW);
+    // define the range of the buffer that links to a uniform binding point
+    glBindBufferRange(GL_UNIFORM_BUFFER, 0, mUBO_, 0, 2 * sizeof(glm::mat4));
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 Renderer::~Renderer() {}
 
-void Renderer::renderSprite(unsigned int textureId, Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const {
+void Renderer::setCamera(const Camera* camera) {
+    glBindBuffer(GL_UNIFORM_BUFFER, mUBO_);
+
+    if (camera != nullptr) {
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(camera->getViewMatrix()));
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(camera->getProjectionMatrix()));
+    } else {
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(glm::mat4(1)));
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(glm::mat4(1)));
+    }
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void Renderer::renderSprite(unsigned int textureId, const glm::mat4& modelMat, const glm::vec4& theColor) const {
     mSpriteShader_.bind();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureId);
 
     mSpriteShader_.setMat4("uModel", modelMat);
-    mSpriteShader_.setMat4("uView", theCamera.getViewMatrix());
-    mSpriteShader_.setMat4("uProjection", theCamera.getProjectionMatrix());
 
     // Draw the whole texture
     mSpriteShader_.setInt("uTexture", 0);
@@ -75,15 +93,12 @@ void Renderer::renderSprite(unsigned int textureId, Camera& theCamera, const glm
     mRectPlane_.render(mSpriteShader_);
 }
 
-void Renderer::renderSprite(SpriteSheet::Sprite& theSprite, const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const {
+void Renderer::renderSprite(SpriteSheet::Sprite& theSprite, const glm::mat4& modelMat, const glm::vec4& theColor) const {
     mSpriteShader_.bind();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, theSprite.parentSpriteSheet.getTextureId());
 
     mSpriteShader_.setMat4("uModel", modelMat);
-    mSpriteShader_.setMat4("uView", theCamera.getViewMatrix());
-    mSpriteShader_.setMat4("uProjection", theCamera.getProjectionMatrix());
-
     mSpriteShader_.setInt("uTexture", 0);
 
     float subImageTopLeftX = static_cast<float>(theSprite.gridIndex.x * theSprite.spriteSize.x) / theSprite.parentSpriteSheet.getSheetSize()[0];
@@ -131,8 +146,6 @@ void Renderer::renderText(const std::string& text, const glm::vec2& position, co
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             // TODO set only once?
             mTextShader_.setMat4("uModel", glm::mat4(1));
-            mTextShader_.setMat4("uView", glm::mat4(1));
-            mTextShader_.setMat4("uProjection", defaultProjection);
             // render quad
             glDrawArrays(GL_TRIANGLES, 0, 6);
             // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
@@ -190,8 +203,6 @@ void Renderer::renderTextCentered(const std::string& text, const glm::vec2& posi
 
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             mTextShader_.setMat4("uModel", glm::mat4(1));
-            mTextShader_.setMat4("uView", glm::mat4(1));
-            mTextShader_.setMat4("uProjection", defaultProjection);
             // render quad
             glDrawArrays(GL_TRIANGLES, 0, 6);
             // now advance cursors for next glyph (note that advance is number of 1/64 pixels)
@@ -202,7 +213,7 @@ void Renderer::renderTextCentered(const std::string& text, const glm::vec2& posi
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Camera& theCamera, const Font& font, const glm::vec3& scale, const glm::vec3& color) {
+void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& modelMat, const Font& font, const glm::vec3& scale, const glm::vec3& color) {
     // activate corresponding render state	
     mTextShader_.bind();
     mTextShader_.setVec3("textColor", color);
@@ -249,8 +260,6 @@ void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& mo
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             // Apply the model matrix to the shader
             mTextShader_.setMat4("uModel", modelMat);
-            mTextShader_.setMat4("uView", theCamera.getViewMatrix());
-            mTextShader_.setMat4("uProjection", theCamera.getProjectionMatrix());
 
             // render quad
             glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -262,12 +271,10 @@ void Renderer::renderTextNormalized(const std::string& text, const glm::mat4& mo
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Renderer::renderRectangleSimple(const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const {
+void Renderer::renderRectangleSimple(const glm::mat4& modelMat, const glm::vec4& theColor) const {
     // TODO fix this
     mMVPShader_.bind();
     mMVPShader_.setMat4("uModel", modelMat);
-    mMVPShader_.setMat4("uView", theCamera.getViewMatrix());
-    mMVPShader_.setMat4("uProjection", theCamera.getProjectionMatrix());
     mMVPShader_.setVec4("uColor", theColor);
 
     glBindVertexArray(mRectVAO_);
@@ -275,7 +282,7 @@ void Renderer::renderRectangleSimple(const Camera& theCamera, const glm::mat4& m
     glBindVertexArray(0);
 }
 
-void Renderer::renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const Camera& theCamera, const glm::mat4& modelMat, const glm::vec4& theColor) const {
+void Renderer::renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const glm::mat4& modelMat, const glm::vec4& theColor) const {
     // TODO fix this
     // Update vertices
     float vertices[] = {
@@ -289,8 +296,6 @@ void Renderer::renderLineSimple(const glm::vec3& startPoint, const glm::vec3& en
     // draw line
     mMVPShader_.bind();
     mMVPShader_.setMat4("uModel", modelMat);
-    mMVPShader_.setMat4("uView", theCamera.getViewMatrix());
-    mMVPShader_.setMat4("uProjection", theCamera.getProjectionMatrix());
     mMVPShader_.setVec4("uColor", theColor);
 
     glBindVertexArray(mLineVAO_);

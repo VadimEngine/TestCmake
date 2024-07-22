@@ -32,7 +32,8 @@ namespace turn_strategy {
     }
 
     void TurnStrategyScene::render(Renderer& renderer) {
-        mpGame_->render(renderer, *getFocusCamera());
+        renderer.setCamera(getFocusCamera());
+        mpGame_->render(renderer);
         mGui_.render();
     }
 

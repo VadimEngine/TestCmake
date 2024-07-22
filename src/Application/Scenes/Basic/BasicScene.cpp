@@ -114,8 +114,9 @@ namespace basic_scene {
     }
 
     void BasicScene::render(Renderer& renderer) {
+        renderer.setCamera(getFocusCamera());
         for (int i = 0; i < mEntities_.size(); ++i) {
-            mEntities_[i]->render(renderer, *getFocusCamera());
+            mEntities_[i]->render(renderer);
         }
         mGui_.render();
     }

@@ -30,9 +30,8 @@ public:
     /**
      * Rendering this renderable component
      * @param theRenderer Helping Object for rendering
-     * @param theCamera Camera to render relative to
      */
-    virtual void render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const = 0;
+    virtual void render(const Renderer& theRenderer, const glm::mat4& parentModelMat) const = 0;
 
     /**
      * Set if this Renderable is enabled

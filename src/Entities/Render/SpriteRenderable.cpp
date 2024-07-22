@@ -6,7 +6,7 @@ SpriteRenderable::SpriteRenderable(SpriteSheet::Sprite* pSprite)
 
 SpriteRenderable::~SpriteRenderable() {}
 
-void SpriteRenderable::render(const Renderer& theRenderer, const Camera& theCamera, const glm::mat4& parentModelMat) const {
+void SpriteRenderable::render(const Renderer& theRenderer, const glm::mat4& parentModelMat) const {
     glm::mat4 model = glm::mat4(1.0f);
 
     // translation matrix for position
@@ -19,7 +19,7 @@ void SpriteRenderable::render(const Renderer& theRenderer, const Camera& theCame
     glm::mat4 scaleMatrix = glm::scale(glm::mat4(1.0f), mScale_);
 
     glm::mat4 localModelMat = translationMatrix * rotationMatrix * scaleMatrix;
-    theRenderer.renderSprite(*mpSprite_, theCamera, parentModelMat * localModelMat, mColor_);
+    theRenderer.renderSprite(*mpSprite_, parentModelMat * localModelMat, mColor_);
 }
 
 void SpriteRenderable::setSprite(SpriteSheet::Sprite* pSprite) {
