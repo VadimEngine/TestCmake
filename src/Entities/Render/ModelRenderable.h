@@ -63,18 +63,14 @@ public:
 private:
     /**The Model of this Model Renderable */
     const Model* mpModel_ = nullptr;
-
     /** The Shader used to render this model */
     const Shader* mpShader_ = nullptr;
-
     /** Map of texture ids and the uniform name for the shader*/
     std::unordered_map<unsigned int, std::pair<unsigned int, std::string>> mTextureByUnit_;
-
     /** If the wire frames are also rendered */
     bool renderWireframe_ = false;
-
+    /** Size of the sub texture rendered on this model */
     glm::vec2 mSubTextureSize = {1.f, 1.f};
+    /** Top left corner of the sub texture rendered on this model */
     glm::vec2 mSubTextureTopLeft = {0.f, 0.f};
-
-
 };

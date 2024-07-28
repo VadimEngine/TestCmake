@@ -5,9 +5,13 @@ project(Sandbox)
 # Add an option for the build mode (x64 or Win32)
 set(BUILD_MODE "x64" CACHE STRING "Build mode: x64 or Win32")
 set_property(CACHE BUILD_MODE PROPERTY STRINGS "x64" "Win32")
+# For Google Test
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+enable_testing()
 
 # Add the include directories
 include_directories(
+    # Third party
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/include # OpenGl windows
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLEW/include # OpenGL api
     ${CMAKE_SOURCE_DIR}/ThirdParty/imgui # GUI components
@@ -48,12 +52,13 @@ list(APPEND SRC_FILES
     ${CMAKE_SOURCE_DIR}/ThirdParty/imgui/imgui_widgets.cpp
 )
 
-# Create Executable target
-add_executable(${CMAKE_PROJECT_NAME} ${SRC_FILES})
+# Add Google Test
+add_subdirectory(${CMAKE_SOURCE_DIR}/ThirdParty/googletest)
 
-# Link against libraries
-target_link_libraries(${CMAKE_PROJECT_NAME}
-    ${CMAKE_SOURCE_DIR}/ThirdParty/GLEW/lib/${BUILD_MODE}/glew32s.lib # Statically link without requiring glew32.dll
+# Core library
+add_library( ${PROJECT_NAME}Core ${SRC_FILES})
+target_link_libraries(${PROJECT_NAME}Core
+    ${CMAKE_SOURCE_DIR}/ThirdParty/GLEW/lib/${BUILD_MODE}/glew32s.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/lib/${BUILD_MODE}/glfw3.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/lib/${BUILD_MODE}/glfw3dll.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/SOIL/lib/${BUILD_MODE}/SOIL.lib
@@ -66,3 +71,10 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     ${CMAKE_SOURCE_DIR}/ThirdParty/sndfile/lib/${BUILD_MODE}/sndfile.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/freetype/lib/${BUILD_MODE}/freetype.lib
 )
+
+# Main application
+add_executable(${PROJECT_NAME} src/main.cpp)
+target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}Core)
+
+# Test directory
+add_subdirectory(tests)

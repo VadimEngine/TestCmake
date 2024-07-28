@@ -2,7 +2,6 @@
 // project
 #include "BaseRenderable.h"
 #include "Collider2.h"
-#include "Camera.h"
 #include "Entity.h"
 #include "Renderer.h"
 #include "SpriteRenderable.h"

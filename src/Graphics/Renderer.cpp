@@ -1,12 +1,12 @@
 // class
 #include "Renderer.h"
 
-Renderer::Renderer(float screenWidth, float screenHeight, Shader& spriteShader, Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane)
+Renderer::Renderer(const glm::vec2& screenDim, Shader& spriteShader, Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane)
     :mSpriteShader_(spriteShader),
     mMVPShader_(mvpShader),
     mTextShader_(text2Shader),
     mRectPlane_(rectPlane) {
-    defaultProjection = glm::ortho(0.0f, static_cast<float>(screenWidth), 0.0f, static_cast<float>(screenHeight));
+    defaultProjection = glm::ortho(0.0f, screenDim.x, 0.0f, screenDim.y);
     // Rect
     float verticesRect[] = {
         -0.5f, -0.5f, 0.0f,

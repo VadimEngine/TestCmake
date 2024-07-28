@@ -1,5 +1,6 @@
 #pragma once
 // third party
+#define GLEW_STATIC
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -13,8 +14,18 @@
 
 class Renderer {
 public:
-    /** Constructor TODO vec2 for screen shape*/
-    Renderer(float screenWidth, float screenHeight, Shader& spriteShader, Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane);
+    /** Constructor */
+
+    /**
+     * @brief Construct a new Renderer object
+     * 
+     * @param screenDim Screen dimensions
+     * @param spriteShader Shader for rendering spites
+     * @param text2Shader Shader for rendering text
+     * @param mvpShader shader for rendering simple shapes
+     * @param rectPlane Mesh for a simple rect shape
+     */
+    Renderer(const glm::vec2& screenDim, Shader& spriteShader, Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane);
 
     /** Destructor*/
     ~Renderer();

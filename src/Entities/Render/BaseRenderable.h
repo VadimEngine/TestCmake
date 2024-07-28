@@ -5,25 +5,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 // project
 #include "Renderer.h"
-#include "Camera.h"
 
 class BaseRenderable {
-protected:
-    /** Renderable Position */
-    glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
-
-    /** Renderable Rotation */
-    glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
-
-    /** Renderable Scale */
-    glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
-
-    /** If this Renderable is enabled (should be rendered)*/
-    bool mEnabled_ = true;
-
-    /** Color applied to this renderable*/
-    glm::vec4 mColor_ = {1.0f, 1.0f, 1.0f, 1.0f};
-
 public:
     /** Virtual Destructor*/
     virtual ~BaseRenderable() = default;
@@ -83,4 +66,16 @@ public:
      * @param newColor Color of this Renderable in hex (rgba)
      */
     void setColor(int newColor);
+
+protected:
+    /** Renderable Position */
+    glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
+    /** Renderable Rotation */
+    glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
+    /** Renderable Scale */
+    glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
+    /** Color applied to this renderable*/
+    glm::vec4 mColor_ = {1.0f, 1.0f, 1.0f, 1.0f};
+    /** If this Renderable is enabled (should be rendered)*/
+    bool mEnabled_ = true;
 };

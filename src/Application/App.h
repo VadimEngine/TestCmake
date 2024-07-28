@@ -1,9 +1,9 @@
 #pragma once
-#define GLEW_STATIC
 // standard lib
 #include <chrono>
 #include <numbers>
 // third party
+#define GLEW_STATIC
 #include <GL/glew.h>
 // project
 #include "AudioManager.h"
@@ -81,7 +81,7 @@ private:
     /** The window for this application*/
     Window mWindow_;
     /** The current Scenes of the application. List to allow controlled scene deleting */
-    std::list<Scene*> mScenes_;
+    std::list<std::unique_ptr<Scene>> mScenes_;
     /** Renderer used to render the scenes */
     std::unique_ptr<Renderer> mpRenderer_;
     /** Audio manager */

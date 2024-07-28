@@ -10,6 +10,8 @@ public:
 
     bool isColliding(const Collider& other) const override;
 
+    // virtual bool isColliding(const glm::vec3 rayOrigin, glm::vec3 rayDir) const = 0;
+
     void update(float dt);
 
     void render(const Renderer& theRenderer);

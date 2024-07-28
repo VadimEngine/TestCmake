@@ -3,6 +3,7 @@
 #include <string>
 #include <stdexcept>
 // third party
+#define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/vec2.hpp>
@@ -26,6 +27,11 @@ public:
     /** Render the window content */
     void render();
 
+    /**
+     * @brief Set if the window should be displayed
+     */
+    void setWindowDisplay(bool show);
+
     /** Get the GLFW window */
     GLFWwindow* getGLFWWindow() const;
 
@@ -39,10 +45,10 @@ public:
     void setVSync(const bool enabled);
 
     /** Get the GLFW swap interval. 0 means disabled, 1 means enabled */
-    int getGLFWSwapInterval();
+    int getGLFWSwapInterval() const;
 
     /** Get the screen dimension of this window*/
-    glm::ivec2 getWindowDimensions();
+    glm::ivec2 getWindowDimensions() const;
 
     /** Get the input handler listening to this Window's inputs */
     InputHandler& getInputHandler();
