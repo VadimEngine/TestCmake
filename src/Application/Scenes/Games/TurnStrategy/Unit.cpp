@@ -1,5 +1,5 @@
 // forward declare
-#include "App.h" // needed for #define GLEW_STATIC from app?
+#include "App.h" // needed for #define GLEW_STATIC from app
 #include "TurnStrategyGame.h"
 // class
 #include "Unit.h"

@@ -5,6 +5,7 @@
 class Entity;
 
 class CircleCollider2D : public Collider {
+public:
     CircleCollider2D(Entity& parentEntity);
 
     bool isColliding(const Collider& other) const override;

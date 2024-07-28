@@ -12,13 +12,12 @@ App::App()
     loadResources();
     // Renderer and Scene (must be called after OpenGL is initialized)
     mpRenderer_ = std::make_unique<Renderer>(
-        800, 600,
+        glm::vec2{800, 600},
         *(mResources_.getResource<Shader>("TextureSurface")),
         *(mResources_.getResource<Shader>("Text")),
         *(mResources_.getResource<Shader>("MVPShader")),
         *(mResources_.getResource<Mesh>("RectPlane"))
     );
-    mScenes_.push_back(new menu_scene::MenuScene(*this));
 }
 
 App::~App() {
@@ -30,6 +29,7 @@ App::~App() {
 }
 
 void App::run() {
+    mWindow_.setWindowDisplay(true);
     // Update and render while application is running
     while (isRunning()) {
         update();
@@ -46,7 +46,8 @@ void App::update() {
     // Update list in reverse order and delete any marked for removal
     for (auto it = mScenes_.rbegin(); it != mScenes_.rend();) {
         if ((*it)->isRemove()) {
-            it = std::list<Scene*>::reverse_iterator(mScenes_.erase(std::next(it).base()));
+            // Erase and update the iterator
+            it = decltype(it)(mScenes_.erase(std::next(it).base()));
         } else {
             (*it)->update(dt.count());
             ++it;
@@ -108,7 +109,7 @@ void App::quit() {
 }
 
 void App::setScene(Scene* newScene) {
-    mScenes_.push_back(newScene);
+    mScenes_.push_back(std::unique_ptr<Scene>(newScene));
 }
 
 Window& App::getWindow() {

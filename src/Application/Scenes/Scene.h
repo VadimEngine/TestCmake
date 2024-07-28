@@ -1,5 +1,6 @@
 #pragma once
 // third party
+#define GLEW_STATIC
 #include <GL/glew.h>
 #include <glm/vec4.hpp>
 // project

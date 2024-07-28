@@ -16,25 +16,14 @@ class Entity;
 class Collider : public PhysicsComponentBase {
 public:
     using OnCollisionCB = std::function<void(Collider&, Collider&)>;
-protected:
-    // center position
-    glm::vec3 mPosition_;
 
-    glm::vec3 mScale_;
-
-    std::unordered_set<Collider*> mCurrentCollides;
-
-    // todo how to allow control to remove specific functions
-    std::vector<OnCollisionCB> mOnCollisionEnterCallbacks_;
-
-    std::vector<OnCollisionCB> mOnCollisionExitCallbacks_;
-
-public:
     Collider(Entity& parentEntity);
 
     ComponentType getType() const override;
 
     virtual bool isColliding(const Collider& other) const = 0;
+    // TODO maybe return the collision point?
+    // virtual bool isColliding(const glm::vec3 rayOrigin, glm::vec3 rayDir) const = 0;
 
     virtual std::optional<glm::vec3> getCollisionMTV(const Collider& other) const = 0;
 
@@ -50,4 +39,16 @@ public:
 
     glm::vec3 getScale() const;
 
+protected:
+    // center position
+    glm::vec3 mPosition_;
+
+    glm::vec3 mScale_;
+
+    std::unordered_set<Collider*> mCurrentCollides;
+
+    // todo how to allow control to remove specific functions
+    std::vector<OnCollisionCB> mOnCollisionEnterCallbacks_;
+
+    std::vector<OnCollisionCB> mOnCollisionExitCallbacks_;
 };

@@ -5,6 +5,7 @@
 #include <optional>
 #include <vector>
 // third party
+#define GLEW_STATIC
 #include <GL/glew.h>
 #include <glm/vec2.hpp>
 #include <SOIL.h>

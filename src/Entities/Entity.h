@@ -9,7 +9,6 @@
 // project
 #include "BaseRenderable.h"
 #include "BoxCollider2D.h"
-#include "Camera.h"
 #include "Collider2.h"
 #include "ModelRenderable.h"
 #include "PhysicsComponentBase.h"

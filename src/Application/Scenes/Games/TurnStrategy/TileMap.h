@@ -3,7 +3,6 @@
 #include <filesystem>
 #include <vector>
 // project
-#include "Camera.h"
 #include "Renderer.h"
 #include "SpriteSheet.h"
 

@@ -11,6 +11,7 @@ BoxCollider2D::BoxCollider2D(Entity& parentEntity)
 }
 
 void BoxCollider2D::update(float dt) {
+    // TODO don't do this. instead when accessing position, check the parent
     mPosition_ = mParentEntity_.getPosition();
 }
 
