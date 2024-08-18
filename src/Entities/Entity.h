@@ -82,7 +82,7 @@ public:
      * Set this Entity's position
      * @param newPosition New position vector
      */
-    void setPosition(const glm::vec3& newPosition);
+    virtual void setPosition(const glm::vec3& newPosition);
 
     /**
      * Set this Entity's rotation in degrees
@@ -151,25 +151,18 @@ public:
 protected:
     /** Scene this Entity is in*/
     Scene& mScene_;
-
     /** Collider TODO fix this*/
     Collider2* mCollider_ = nullptr;
-
     /** Entity Position */
     glm::vec3 mPosition_ = {0.0f, 0.0f, 0.0f};
-
     /** Entity Rotation in degrees */
     glm::vec3 mRotation_ = { 0.0f, 0.0f, 0.0f };
-
     /** Entity Scale */
     glm::vec3 mScale_ = { 1.0f, 1.0f, 1.0f };
-
     /** Velocity*/
     glm::vec3 mVelocity_ = {0.0f, 0.0f, 0.0f};
-
     /** List of all rendering components attached to this Entity */
     std::vector<std::unique_ptr<BaseRenderable>> mRenderableComponents_;
-
     /** Physics components attached to this Entity*/
     std::unordered_map<
         PhysicsComponentBase::ComponentType,

@@ -7,6 +7,7 @@
 // project
 #include "Camera.h"
 #include "Font.h"
+#include "LightSource.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "SpriteSheet.h"
@@ -18,7 +19,7 @@ public:
 
     /**
      * @brief Construct a new Renderer object
-     * 
+     *
      * @param screenDim Screen dimensions
      * @param spriteShader Shader for rendering spites
      * @param text2Shader Shader for rendering text
@@ -30,8 +31,16 @@ public:
     /** Destructor*/
     ~Renderer();
 
-    /** Update the camera used for this render */
+    /**
+     * @brief Update the camera used for this render
+     *
+     * @param camera Camera to render with
+     */
     void setCamera(const Camera* camera);
+
+    void setLightSources(const std::vector<std::unique_ptr<LightSource>>& lights) const;
+
+    void setLightSources(const std::vector<LightSource*>& lights) const;
 
     /**
      * Render the given Texture with the applied camera and model transforms
@@ -84,6 +93,9 @@ public:
     void renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const glm::mat4& modelMat, const glm::vec4& theColor) const;
 
 private:
+    /** Max number of light that can be rendered with */
+    const static int MAX_LIGHTS;
+
     /* VAO for a texture quad **/
     unsigned int mTextureQuadVAO_;
     /** Shader for rendering sprites/textures */
@@ -101,6 +113,8 @@ private:
     unsigned int mLineVBO_;
 
     glm::mat4 defaultProjection;
-    /** Uniform buffer object to hold global uniform variables shared by shaders */
-    GLuint mUBO_;
+    /** Uniform buffer object to hold camera uniform variables shared by shaders */
+    GLuint mCameraUBO_;
+    /** Uniform buffer object to hold light uniform variables shared by shaders */
+    GLuint mLightUBO_;
 };

@@ -2,20 +2,20 @@
 // project
 #include "ImGuiComponent.h"
 
-namespace scene_2d {
+namespace lighting_scene {
     // Forward declare Scene
-    class Scene2d;
+    class LightingScene;
 
-    class Scene2dGUI : public ImGuiComponent {
+    class LightingSceneGUI : public ImGuiComponent {
     public:
         /**
          * Constructor
          * @param theScene The scene this gui is for
          */
-        Scene2dGUI(Scene2d& theScene);
+        LightingSceneGUI(LightingScene& theScene);
 
         /** Destructor */
-        ~Scene2dGUI();
+        ~LightingSceneGUI();
 
         /** Build the GUI ImGui components every frame */
         void buildImGui() override;
@@ -27,8 +27,10 @@ namespace scene_2d {
         /** Build the section to list/control the Entities of the Scene*/
         void buildEntitySection();
 
+        void buildLightSourceSection();
+
         /** The Scene this GUI is for */
-        Scene2d& mScene_;
+        LightingScene& mScene_;
         /** If the GUI is set to enable VSync */
         bool mVSyncEnabled_;
         /** The Camera Mode this GUI applies*/
@@ -37,5 +39,8 @@ namespace scene_2d {
         int mSelectedEntityIndex_ = 0;
         /** The Renderable index selected from the Entity List */
         int mSelectedRenderableIndex_ = 0;
-  };
-} // namespace scene_2d
+        /** The Light source select from the list of lights */
+        int mSelectedLightIndex_ = 0;
+    };
+
+} // namespace lighting_scene

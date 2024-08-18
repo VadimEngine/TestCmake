@@ -1,6 +1,7 @@
 #pragma once
 // project
 #include "Entity.h"
+#include "LightSource.h"
 #include "ModelRenderable.h"
 
 namespace galaxy {
@@ -36,10 +37,15 @@ namespace galaxy {
          */
         void setColor(const glm::vec4& color);
 
+        /** Get the light source for this entity */
+        LightSource* getLightSource();
+
     private:
         /** Radius of this entity*/
         float mRadius_ = 1;
         /** Pointer to this Renderable of this entity */
         ModelRenderable* mpRenderable_ = nullptr;
+        /** Light Source for this entity */
+        LightSource mLight_;
     };
 } // namespace galaxy

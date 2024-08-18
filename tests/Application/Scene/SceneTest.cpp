@@ -42,7 +42,7 @@ public:
      * @brief Loads and builds resources that are used for this scene
      */
     void assembleResources() override {
-        std::unique_ptr<Model> planeModel = std::make_unique<Model>();;
+        std::unique_ptr<Model> planeModel = std::make_unique<Model>();
         planeModel->addSharedMesh(
             mApp_.getResources().getResource<Mesh>("RectPlane")
         );

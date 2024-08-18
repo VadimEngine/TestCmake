@@ -7,7 +7,7 @@ namespace galaxy {
 
 GalaxyScene::GalaxyScene(App& theApp)
     : Scene(theApp), mGui_(*this), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()) {
-    getFocusCamera()->setPosition({0,.1,5});
+    getFocusCamera()->setPosition({0,2,10});
     assembleResources();
     // sun
     sunEntity_ = new SunEntity(*this);
@@ -93,6 +93,7 @@ void GalaxyScene::update(const float dt) {
 }
 
 void GalaxyScene::render(Renderer& renderer) {
+    renderer.setLightSources({sunEntity_->getLightSource()});
     renderer.setCamera(getFocusCamera());
     for (int i = 0; i < mEntities_.size(); ++i) {
         mEntities_[i]->render(renderer);

@@ -11,6 +11,7 @@
 #include "Games/GamesScene.h"
 #include "Galaxy/GalaxyScene.h"
 #include "Logger.h"
+#include "Lighting/LightingScene.h"
 #include "Menu/MenuScene.h"
 #include "PhysicsScene/PhysicsScene.h"
 #include "Pong/PongScene.h"
@@ -23,7 +24,7 @@
 
 class App {
 public:
-    /** Default Constructor */
+    /** Constructor */
     App();
 
     /** Destructor */

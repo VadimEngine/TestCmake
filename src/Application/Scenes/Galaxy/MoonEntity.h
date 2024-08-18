@@ -11,7 +11,7 @@ namespace galaxy {
          *
          * @param mScene Scene this entity is in
          */
-        MoonEntity(Scene& mScene);
+        MoonEntity(Scene& theScene);
 
         /** Destructor */
         ~MoonEntity();

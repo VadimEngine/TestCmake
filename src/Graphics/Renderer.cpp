@@ -1,6 +1,8 @@
 // class
 #include "Renderer.h"
 
+const int Renderer::MAX_LIGHTS = 16;
+
 Renderer::Renderer(const glm::vec2& screenDim, Shader& spriteShader, Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane)
     :mSpriteShader_(spriteShader),
     mMVPShader_(mvpShader),
@@ -53,19 +55,33 @@ Renderer::Renderer(const glm::vec2& screenDim, Shader& spriteShader, Shader& tex
     // Set the vertex attribute pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    // Create UBO to hold View and Projection matrix
-    glGenBuffers(1, &mUBO_);
-    glBindBuffer(GL_UNIFORM_BUFFER, mUBO_);
+
+    // Create Camera UBO to hold View and Projection matrix
+    glGenBuffers(1, &mCameraUBO_);
+    glBindBuffer(GL_UNIFORM_BUFFER, mCameraUBO_);
     glBufferData(GL_UNIFORM_BUFFER, sizeof(glm::mat4) * 2, NULL, GL_STATIC_DRAW);
     // define the range of the buffer that links to a uniform binding point
-    glBindBufferRange(GL_UNIFORM_BUFFER, 0, mUBO_, 0, 2 * sizeof(glm::mat4));
+    glBindBufferRange(GL_UNIFORM_BUFFER, 0, mCameraUBO_, 0, 2 * sizeof(glm::mat4));
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+    // Create Light UBO to hold light data
+    glGenBuffers(1, &mLightUBO_);
+    glBindBuffer(GL_UNIFORM_BUFFER, mLightUBO_);
+    // Calculate the size of the light buffer data with padding
+    size_t lightBufferSize = sizeof(glm::vec4)                    // numLights
+                            + MAX_LIGHTS * sizeof(glm::vec4) // lightPositions
+                            + MAX_LIGHTS * sizeof(glm::vec4); // lightColors
+
+    glBufferData(GL_UNIFORM_BUFFER, lightBufferSize, NULL, GL_STATIC_DRAW);
+    // Bind the buffer to the uniform binding point 1 (as an example)
+    glBindBufferRange(GL_UNIFORM_BUFFER, 1, mLightUBO_, 0, lightBufferSize);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
 Renderer::~Renderer() {}
 
 void Renderer::setCamera(const Camera* camera) {
-    glBindBuffer(GL_UNIFORM_BUFFER, mUBO_);
+    glBindBuffer(GL_UNIFORM_BUFFER, mCameraUBO_);
 
     if (camera != nullptr) {
         glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(camera->getViewMatrix()));
@@ -74,6 +90,70 @@ void Renderer::setCamera(const Camera* camera) {
         glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(glm::mat4(1)));
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(glm::mat4(1)));
     }
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void Renderer::setLightSources(const std::vector<std::unique_ptr<LightSource>>& lights) const {
+    glBindBuffer(GL_UNIFORM_BUFFER, mLightUBO_);
+
+    // Prepare data for the UBO
+    std::vector<glm::vec4> lightPositions(MAX_LIGHTS); // Use vec4 for alignment
+    std::vector<glm::vec4> lightColors(MAX_LIGHTS);    // Use vec4 for alignment
+    int numPointLights = 0;
+
+    for (const auto& light : lights) {
+        if (numPointLights < MAX_LIGHTS) {
+            lightPositions[numPointLights] = glm::vec4(light->getPosition(), 0.0f); // Add zero padding
+            lightColors[numPointLights] = light->getColor();
+            numPointLights++;
+        }
+    }
+
+    // Fill UBO data
+    glm::vec4 temp = {numPointLights, 0, 0, 0};
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::vec4), &temp); // numLights
+
+    // Set padding
+    size_t offset = sizeof(glm::vec4); // Offset for padding
+
+    glBufferSubData(GL_UNIFORM_BUFFER, offset, sizeof(glm::vec4) * MAX_LIGHTS, lightPositions.data()); // lightPositions
+
+    // Set light colors
+    offset += sizeof(glm::vec4) * MAX_LIGHTS;
+    glBufferSubData(GL_UNIFORM_BUFFER, offset, sizeof(glm::vec4) * MAX_LIGHTS, lightColors.data()); // lightColors
+
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+void Renderer::setLightSources(const std::vector<LightSource*>& lights) const {
+        glBindBuffer(GL_UNIFORM_BUFFER, mLightUBO_);
+
+    // Prepare data for the UBO
+    std::vector<glm::vec4> lightPositions(MAX_LIGHTS); // Use vec4 for alignment
+    std::vector<glm::vec4> lightColors(MAX_LIGHTS);    // Use vec4 for alignment
+    int numPointLights = 0;
+
+    for (const auto& light : lights) {
+        if (numPointLights < MAX_LIGHTS) {
+            lightPositions[numPointLights] = glm::vec4(light->getPosition(), 0.0f); // Add zero padding
+            lightColors[numPointLights] = light->getColor();
+            numPointLights++;
+        }
+    }
+
+    // Fill UBO data
+    glm::vec4 temp = {numPointLights, 0, 0, 0};
+    glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::vec4), &temp); // numLights
+
+    // Set padding
+    size_t offset = sizeof(glm::vec4); // Offset for padding
+
+    glBufferSubData(GL_UNIFORM_BUFFER, offset, sizeof(glm::vec4) * MAX_LIGHTS, lightPositions.data()); // lightPositions
+
+    // Set light colors
+    offset += sizeof(glm::vec4) * MAX_LIGHTS;
+    glBufferSubData(GL_UNIFORM_BUFFER, offset, sizeof(glm::vec4) * MAX_LIGHTS, lightColors.data()); // lightColors
+
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 

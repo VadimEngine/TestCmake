@@ -8,7 +8,7 @@ namespace galaxy {
         : Entity(scene) {
         mpRenderable_ = new ModelRenderable(
             mScene_.getResources().getResource<Model>("Sphere"),
-            mScene_.getApp().getResources().getResource<Shader>("Assimp")
+            mScene_.getApp().getResources().getResource<Shader>("AssimpLight")
         );
         mpRenderable_->setScale({mRadius_, mRadius_, mRadius_});
         mpRenderable_->setColor(0x9A9A9AFF);

@@ -147,7 +147,7 @@ namespace turn_strategy {
             theRenderer.renderLineSimple(
                 {0*cellWidth, i*cellHeight,0},
                 {20*cellWidth, i*cellHeight,0},
-                translationMatrix, 
+                translationMatrix,
                 lineColor
             );
         }

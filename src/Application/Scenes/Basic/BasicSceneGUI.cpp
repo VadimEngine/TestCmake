@@ -1,8 +1,8 @@
 // forward declare
 #include "App.h"
-#include "BasicSceneGUI.h"
-// class
 #include "BasicScene.h"
+// class
+#include "BasicSceneGUI.h"
 
 namespace basic_scene {
     BasicSceneGUI::BasicSceneGUI(BasicScene& theScene)
@@ -37,7 +37,7 @@ namespace basic_scene {
         ImGui::End();
     }
 
-    void BasicSceneGUI::buildCameraSection(){
+    void BasicSceneGUI::buildCameraSection() {
         ImGui::Text("Camera");
 
         ImGui::Text("Camera Mode");

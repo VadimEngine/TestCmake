@@ -27,24 +27,24 @@ void CameraController::update(float dt) {
     if (mInputHandler_.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
         mpCamera_->move({0,1,0}, -mpCamera_->getMoveSpeed() * dt);
     }
-    // Rotate
+    // Rotate TODO FIX THIS ROLL does not work and there seems to be a gimbal lock
     if (mInputHandler_.isKeyPressed(GLFW_KEY_LEFT)) {
-        mpCamera_->rotate({0,1,0}, mpCamera_->getRotationSpeed() * dt);
+        mpCamera_->rotate(mpCamera_->getUp(), mpCamera_->getRotationSpeed() * dt);
     }
     if (mInputHandler_.isKeyPressed(GLFW_KEY_RIGHT)) {
-        mpCamera_->rotate({0,1,0}, -mpCamera_->getRotationSpeed() * dt);
+        mpCamera_->rotate(mpCamera_->getUp(), -mpCamera_->getRotationSpeed() * dt);
     }
     if (mInputHandler_.isKeyPressed(GLFW_KEY_UP)) {
-        mpCamera_->rotate({1,0,0}, mpCamera_->getRotationSpeed() * dt);
+        mpCamera_->rotate(mpCamera_->getRight(), mpCamera_->getRotationSpeed() * dt);
     }
     if (mInputHandler_.isKeyPressed(GLFW_KEY_DOWN)) {
-        mpCamera_->rotate({1,0,0}, -mpCamera_->getRotationSpeed() * dt);
+        mpCamera_->rotate(mpCamera_->getRight(), -mpCamera_->getRotationSpeed() * dt);
     }
     if (mInputHandler_.isKeyPressed(GLFW_KEY_Q)) {
-        mpCamera_->rotate({0,0,1}, 20.0f * dt);
+        mpCamera_->rotate(mpCamera_->getForward(), 200.0f * dt);
     }
     if (mInputHandler_.isKeyPressed(GLFW_KEY_E)) {
-        mpCamera_->rotate({0,0,1}, -20.0f * dt);
+        mpCamera_->rotate(mpCamera_->getForward(), -200.0f * dt);
     }
     // Speed
     if (mInputHandler_.isKeyPressed(GLFW_KEY_PERIOD)) {

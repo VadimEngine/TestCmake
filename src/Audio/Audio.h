@@ -1,6 +1,6 @@
 #pragma once
 // standard lib
-#include <filesystem> 
+#include <filesystem>
 #include <inttypes.h>
 #include <string>
 // third party

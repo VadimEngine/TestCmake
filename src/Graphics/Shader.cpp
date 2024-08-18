@@ -70,9 +70,16 @@ Shader::Shader(const std::filesystem::path& vertexSourcePath, const std::filesys
     glDeleteShader(vertex);
     glDeleteShader(fragment);
 
-    const unsigned int uniformBlockIndex = glGetUniformBlockIndex(mProgramId_, "Matrices");
+    // Bind the Camera UBO
+    const unsigned int uniformBlockIndex = glGetUniformBlockIndex(mProgramId_, "Camera");
     if (uniformBlockIndex != GL_INVALID_INDEX) {
         glUniformBlockBinding(mProgramId_, uniformBlockIndex, 0);
+    }
+
+    // Bind the LightBuffer UBO
+    const unsigned int lightBlockIndex = glGetUniformBlockIndex(mProgramId_, "LightBuffer");
+    if (lightBlockIndex != GL_INVALID_INDEX) {
+        glUniformBlockBinding(mProgramId_, lightBlockIndex, 1);
     }
 }
 

@@ -42,7 +42,7 @@ Windows PowerShell commands (Only works for x64 due to difficulty getting Assimp
     - `cmake -DBUILD_MODE=x64 -S . -DCMAKE_BUILD_TYPE=Debug  -B build ; cmake --build .\build\ --clean-first ; .\build\Debug\Sandbox.exe`
 
 - To run unit tests
-    - `.\tests\Debug\Sandbox_test.exe`
+    - `.\build\tests\Debug\Sandbox_test.exe`
 
 ## ScreenShots:
 

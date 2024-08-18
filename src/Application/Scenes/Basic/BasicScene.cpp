@@ -7,8 +7,10 @@
 namespace basic_scene {
     BasicScene::BasicScene(App& theApp)
         : Scene(theApp),
-        mCameraController_(getFocusCamera(),
-        mApp_.getWindow().getInputHandler()),
+        mCameraController_(
+            getFocusCamera(),
+            mApp_.getWindow().getInputHandler()
+        ),
         mGui_(*this),
         mSprite_(*mApp_.getResources().getResource<SpriteSheet>("SpriteSheet1"), glm::ivec2(0, 0)) {
         // load/build resources
@@ -129,13 +131,13 @@ namespace basic_scene {
         );
         mResources_.addResource(std::move(cubeModel), "Cube");
         // Plane
-        std::unique_ptr<Model> planeModel = std::make_unique<Model>();;
+        std::unique_ptr<Model> planeModel = std::make_unique<Model>();
         planeModel->addSharedMesh(
             mApp_.getResources().getResource<Mesh>("RectPlane")
         );
         mResources_.addResource(std::move(planeModel), "RectPlane");
         // Sphere
-        std::unique_ptr<Model> sphereModel = std::make_unique<Model>();;
+        std::unique_ptr<Model> sphereModel = std::make_unique<Model>();
         sphereModel->addSharedMesh(
             mApp_.getResources().getResource<Mesh>("Sphere")
         );

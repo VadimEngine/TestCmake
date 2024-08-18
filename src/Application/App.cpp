@@ -131,6 +131,13 @@ void App::loadResources() {
     // Shaders
     mResources_.loadResource<Shader>(
         {
+        Resource::SRC_PATH / "Shaders/AssimpLight.vert",
+        Resource::SRC_PATH / "Shaders/AssimpLight.frag"
+        },
+        "AssimpLight"
+    );
+    mResources_.loadResource<Shader>(
+        {
         Resource::SRC_PATH / "Shaders/Assimp.vert",
         Resource::SRC_PATH / "Shaders/Assimp.frag"
         },

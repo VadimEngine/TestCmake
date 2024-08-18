@@ -20,6 +20,10 @@ namespace menu_scene {
             mScene_.getApp().setScene(new basic_scene::BasicScene(mScene_.getApp()));
             mScene_.setRemove(true);
         }
+        if (ImGui::Button("Lighting Scene")) {
+            mScene_.getApp().setScene(new lighting_scene::LightingScene(mScene_.getApp()));
+            mScene_.setRemove(true);
+        }
         if (ImGui::Button("Scene 2d")) {
             mScene_.getApp().setScene(new scene_2d::Scene2d(mScene_.getApp()));
             mScene_.setRemove(true);
