@@ -120,6 +120,9 @@ namespace basic_scene {
         for (int i = 0; i < mEntities_.size(); ++i) {
             mEntities_[i]->render(renderer);
         }
+    }
+
+    void BasicScene::renderGUI() {
         mGui_.render();
     }
 

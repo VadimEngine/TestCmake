@@ -39,6 +39,11 @@ public:
     }
 
     /**
+     * Render just the GUI
+     */
+    void renderGUI() override {}
+
+    /**
      * @brief Loads and builds resources that are used for this scene
      */
     void assembleResources() override {

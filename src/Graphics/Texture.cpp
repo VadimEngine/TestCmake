@@ -1,14 +1,14 @@
 // class
 #include "Texture.h"
 
-Texture::Texture(const unsigned char* textureData, int width, int height, int channels) {
+Texture::Texture(const unsigned char* textureData, int width, int height, int channels, bool gammaCorrect) {
     mWidth_ = width;
     mHeight_ = height;
     mChannels_ = channels;
     mTextureId_ = genGLTexture(textureData, width, height, channels);
 }
 
-Texture::Texture(const std::filesystem::path& path) {
+Texture::Texture(const std::filesystem::path& path, bool gammaCorrect) {
     mTextureId_ = loadTexture(path, &mWidth_, &mHeight_, &mChannels_);
 }
 
@@ -16,7 +16,7 @@ Texture::~Texture() {
     glDeleteTextures(1, &mTextureId_);
 }
 
-unsigned int Texture::loadTexture(const std::filesystem::path& texturePath, int* width, int* height, int* channels) {
+unsigned int Texture::loadTexture(const std::filesystem::path& texturePath, int* width, int* height, int* channels, bool gammaCorrect) {
     // Load image file
     unsigned char* textureData = SOIL_load_image(texturePath.string().c_str(), width, height, channels, SOIL_LOAD_AUTO);
 
@@ -55,7 +55,7 @@ glm::ivec2 Texture::getShape() const {
     return {mWidth_, mHeight_};
 }
 
-unsigned int Texture::genGLTexture(const unsigned char* textureData, int width, int height, int channels) {
+unsigned int Texture::genGLTexture(const unsigned char* textureData, int width, int height, int channels, bool gammaCorrect) {
     unsigned int textureId;
 
     if (textureData == nullptr) {
@@ -70,17 +70,31 @@ unsigned int Texture::genGLTexture(const unsigned char* textureData, int width, 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexImage2D(
-        GL_TEXTURE_2D, 0, GL_RGB, width, height, 0,
-        (channels == 3) ? GL_RGB : GL_RGBA,
-        GL_UNSIGNED_BYTE, textureData
-    );
+    if (gammaCorrect) {
+        // Use GL_SRGB or GL_SRGB_ALPHA for gamma correction
+        glTexImage2D(
+            GL_TEXTURE_2D, 0, 
+            (channels == 3) ? GL_SRGB : GL_SRGB_ALPHA,
+            width, height, 0,
+            (channels == 3) ? GL_RGB : GL_RGBA, 
+            GL_UNSIGNED_BYTE, textureData
+        );
+    } else {
+        // Use GL_RGB or GL_RGBA for non-gamma-corrected textures
+        glTexImage2D(
+            GL_TEXTURE_2D, 0, 
+            (channels == 3) ? GL_RGB : GL_RGBA,
+            width, height, 0,
+            (channels == 3) ? GL_RGB : GL_RGBA, 
+            GL_UNSIGNED_BYTE, textureData
+        );
+    }
+
     // Unbind texture
     glBindTexture(GL_TEXTURE_2D, 0);
     GLenum err;
     if ((err = glGetError()) != GL_NO_ERROR) {
         LOG_E("genGLTexture ERROR %d", err);
-
     }
     return textureId;
 }

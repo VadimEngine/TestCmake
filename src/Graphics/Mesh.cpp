@@ -107,7 +107,7 @@ void Mesh::render(const Shader& theShader) const {
 }
 
 void Mesh::buildOpenGLproperties() {
-     // create buffers/arrays
+    // create buffers/arrays
     glGenVertexArrays(1, &mVAO);
     glGenBuffers(1, &mVBO_);
     glGenBuffers(1, &mEBO_);

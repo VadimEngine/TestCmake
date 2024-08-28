@@ -10,6 +10,10 @@ uniform vec4 uwireframeColor = vec4(0,0,0,1.0);
 uniform vec4 uColor = vec4(1.0,1.0,1.0,1.0);
 uniform bool uVerticalFlip = true;
 
+vec3 magenta1 = vec3(1.0, 0.0, 1.0);
+vec3 magenta2 = vec3(0.60, 0.0, 0.60); //GL_SRGB of (204,0,204)
+float epsilon = 0.01;
+
 // Top left corner of sub image
 uniform vec2 uSubImageTopLeft = vec2(0.0, 0.0);
 // Size of subImage to draw
@@ -29,7 +33,7 @@ void main() {
         vec2 subImageCoords = flippedTexCoords * uSubImageSize + uSubImageTopLeft;
         vec4 sampledColor = texture(uTexture, subImageCoords);
 
-        if (sampledColor.rgb == vec3(1.0, 0.0, 1.0) || sampledColor.rgb == vec3(0.8, 0.0, 0.8)) {
+        if (length(sampledColor.rgb - magenta1) < epsilon || length(sampledColor.rgb - magenta2) < epsilon) {
             discard; // Discard fragment if spritesheet background color
         }
 

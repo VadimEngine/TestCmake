@@ -12,8 +12,8 @@ SunEntity::SunEntity(Scene& scene)
         mScene_.getApp().getResources().getResource<Shader>("Assimp")
     );
     mpRenderable_->setScale({mRadius_, mRadius_, mRadius_});
-    mpRenderable_->setColor(0xFFFF00FF);
-    mLight_.setColor(0xFFFF00FF);
+    mpRenderable_->setColor({10,9,0,1});
+    mLight_.setColor({1.2f, 1.2f, 0.0f, 1.0f});
     addRenderable(mpRenderable_);
     setPosition({0.f, 0.f, 0.f});
 }

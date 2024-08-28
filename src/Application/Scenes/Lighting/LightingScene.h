@@ -34,6 +34,11 @@ namespace lighting_scene {
         void render(Renderer& renderer) override;
 
         /**
+         * Render just the gui for this scene
+         */
+        void renderGUI() override;
+
+        /**
          * @brief Loads and builds resources that are used for this scene
          */
         void assembleResources() override;

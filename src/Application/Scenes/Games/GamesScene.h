@@ -35,6 +35,11 @@ public:
      */
     void render(Renderer& renderer) override;
 
+    /**
+     * Render just the gui for this scene
+     */
+    void renderGUI() override;    
+
 private:
     /** GUI for this Scene*/
     GamesSceneGUI mGui_;

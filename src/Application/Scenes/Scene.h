@@ -36,6 +36,11 @@ public:
      */
     virtual void render(Renderer& renderer) = 0;
 
+    /**
+     * Render just the gui for this scene
+     */
+    virtual void renderGUI() = 0;
+
     /** Build/load resources for this scene */
     virtual void assembleResources();
 

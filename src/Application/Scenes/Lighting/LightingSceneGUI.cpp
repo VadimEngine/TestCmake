@@ -8,6 +8,7 @@ namespace lighting_scene {
     LightingSceneGUI::LightingSceneGUI(LightingScene& theScene)
     : mScene_(theScene) {
         mCameraMode_ = static_cast<int>(mScene_.getFocusCamera()->getMode());
+        mExposure_ = mScene_.getApp().getRenderer().getExposure();
     }
 
     LightingSceneGUI::~LightingSceneGUI() { }
@@ -26,6 +27,9 @@ namespace lighting_scene {
         ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
         if (ImGui::Checkbox("vSync", &mVSyncEnabled_)) {
             mScene_.getApp().getWindow().setVSync(mVSyncEnabled_);
+        }
+        if (ImGui::SliderFloat("Exposure", &mExposure_, 0.01f, 20.0f, "%.3f", ImGuiSliderFlags_Logarithmic)) {
+            mScene_.getApp().getRenderer().setExposure(mExposure_);
         }
         ImGui::Separator();
         // Camera control

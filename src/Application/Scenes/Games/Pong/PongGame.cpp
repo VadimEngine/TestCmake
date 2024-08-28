@@ -111,7 +111,6 @@ namespace pong {
                 {1.f, 1.f, 1.f, 1.f}
             );
         }
-
     }
 
     void PongGame::handleKeyUpdate(float dt) {

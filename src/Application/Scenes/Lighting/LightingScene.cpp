@@ -17,6 +17,7 @@ namespace lighting_scene {
             // Light source
             mpLight_ = new LightEntity(*this);
             mpLight_->setPosition({0,1,0});
+            mpLight_->setColor({10,10,10,1});
             mEntities_.push_back(std::unique_ptr<LightEntity>(mpLight_));
         }
         {
@@ -39,6 +40,7 @@ namespace lighting_scene {
             assimpEntity->setPosition({-1.f, 0.f, 0.f});
             mEntities_.push_back(std::move(assimpEntity));
         }
+        mApp_.getRenderer().enableGammaCorrect(true);
     }
 
     LightingScene::~LightingScene() {}
@@ -56,11 +58,16 @@ namespace lighting_scene {
      * @param renderer Rendering helper
      */
     void LightingScene::render(Renderer& renderer) {
+        renderer.setBloom(true);
         renderer.setCamera(getFocusCamera());
         renderer.setLightSources({mpLight_->getLightSource()});
         for (int i = 0; i < mEntities_.size(); ++i) {
             mEntities_[i]->render(renderer);
         }
+        renderer.setBloom(false);
+    }
+
+    void LightingScene::renderGUI() {
         mGui_.render();
     }
 

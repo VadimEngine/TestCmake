@@ -41,6 +41,8 @@ namespace lighting_scene {
         int mSelectedRenderableIndex_ = 0;
         /** The Light source select from the list of lights */
         int mSelectedLightIndex_ = 0;
+        /** Current applied exposure */
+        float mExposure_;
     };
 
 } // namespace lighting_scene

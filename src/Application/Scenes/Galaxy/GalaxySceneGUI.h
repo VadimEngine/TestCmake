@@ -31,6 +31,8 @@ private:
     bool mSceneRunning_ = true;
     /** Currently applied camera mode */
     int mCameraMode_;
+    /** Currently Exposure */
+    float mExposure_;
 };
 
 } // namespace galaxy

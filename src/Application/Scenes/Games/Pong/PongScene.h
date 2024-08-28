@@ -31,6 +31,11 @@ namespace pong {
          */
         void render(Renderer& renderer) override;
 
+        /**
+         * Render just the gui for this scene
+         */
+        void renderGUI() override;
+
         /** Build/load resources for this scene */
         void assembleResources() override;
 

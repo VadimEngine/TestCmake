@@ -69,6 +69,9 @@ public:
     /** Get application resources */
     Resource& getResources();
 
+    /** Get the Renderer for this App */
+    Renderer& getRenderer();
+
 private:
     /** Load/Build the common resources for the scenes in this application */
     void loadResources();

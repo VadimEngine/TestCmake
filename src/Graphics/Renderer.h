@@ -26,7 +26,8 @@ public:
      * @param mvpShader shader for rendering simple shapes
      * @param rectPlane Mesh for a simple rect shape
      */
-    Renderer(const glm::vec2& screenDim, Shader& spriteShader, Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane);
+    Renderer(const glm::vec2& screenDim, Shader& spriteShader, 
+    Shader& text2Shader, Shader& mvpShader, Mesh& rectPlane, Shader& frameBufferShader, Shader& bloomFinalShader);
 
     /** Destructor*/
     ~Renderer();
@@ -92,6 +93,45 @@ public:
 
     void renderLineSimple(const glm::vec3& startPoint, const glm::vec3& endPoint, const glm::mat4& modelMat, const glm::vec4& theColor) const;
 
+    /**
+     * @brief Get the ID for the Renderer's HDR Frame Buffer Object
+     * 
+     * @return GLuint HDR FBO
+     */
+    GLuint getHDRFBO() const;
+
+    /**
+     * @brief Render the combination of the Scene and Bloom
+     * 
+     */
+    void renderHDR();
+
+    /**
+     * @brief Enable/disable bloom rendering
+     * 
+     * @param enable if enable
+     */
+    void setBloom(bool enable);
+
+    /**
+     * @brief Set the Exposure applied when rendering with bloom
+     * 
+     * @param newExposure 
+     */
+    void setExposure(float newExposure);
+
+    /**
+     * @brief Get the applied Exposure
+     */
+    float getExposure() const;
+
+    /**
+     * @brief Enable/Disable Gamma correction
+     * 
+     * @param enable Gamma correction enable
+     */
+    void enableGammaCorrect(bool enable);
+
 private:
     /** Max number of light that can be rendered with */
     const static int MAX_LIGHTS;
@@ -117,4 +157,25 @@ private:
     GLuint mCameraUBO_;
     /** Uniform buffer object to hold light uniform variables shared by shaders */
     GLuint mLightUBO_;
+
+
+    unsigned int mFrameVAO_;
+
+
+    GLuint hdrFBO_;
+    GLuint colorBuffers_[2];
+
+    GLuint pingpongFBO_[2];
+    GLuint pingpongColorbuffers_[2];
+
+    const Shader& mBlurShader_;
+
+    const Shader& mBloomFinalShader_;
+
+    unsigned int mAttachments_[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
+
+    float mExposure_ = 1.0f; 
+
+    bool mGammaCorrect_ = true;
+
 };

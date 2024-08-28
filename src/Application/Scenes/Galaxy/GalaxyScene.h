@@ -37,6 +37,11 @@ public:
      */
     void render(Renderer& renderer) override;
 
+    /**
+     * Render just the gui for this scene
+     */
+    void renderGUI() override;
+
     /** Get the Sun Entity of this scene*/
     SunEntity* getSunEntity();
     /** Get the Planet Entity of this scene */

@@ -55,6 +55,9 @@ void PhysicsScene::render(Renderer& renderer) {
     for (int i = 0; i < mEntities_.size(); ++i) {
         mEntities_[i]->render(renderer);
     }
+}
+
+void PhysicsScene::renderGUI() {
     mGui_.render();
 }
 
