@@ -13,9 +13,9 @@ namespace turn_strategy {
         glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_INTERNAL_FORMAT, &channels);
 
         // Determine the number of channels
-        if (channels == GL_RGB) {
+        if (channels == GL_RGB || channels == GL_SRGB) {
             channels = 3;
-        } else if (channels == GL_RGBA) {
+        } else if (channels == GL_RGBA || channels == GL_SRGB_ALPHA) {
             channels = 4;
         } else {
             LOG_E("Unsupported texture format: %d", channels);

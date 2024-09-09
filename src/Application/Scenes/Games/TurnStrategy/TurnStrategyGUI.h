@@ -32,8 +32,6 @@ namespace turn_strategy {
         float mVolume_;
         /** The Camera Mode this GUI applies*/
         int mCameraMode_;
-
-
     };
 
 } // namespace turn_strategy

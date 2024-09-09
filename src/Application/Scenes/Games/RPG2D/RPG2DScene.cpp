@@ -17,8 +17,12 @@ namespace rpg_2d {
     }
 
     void RPG2DScene::render(Renderer& renderer) {
+        mApp_.getRenderer().enableGammaCorrect(false);
         renderer.setCamera(getFocusCamera());
         mGame_.render(renderer);
+    }
+
+    void RPG2DScene::renderGUI() {
         mGui_.render();
     }
 

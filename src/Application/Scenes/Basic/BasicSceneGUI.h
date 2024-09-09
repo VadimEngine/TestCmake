@@ -29,16 +29,12 @@ private:
 
     /** The Scene this GUI is for */
     BasicScene& mScene_;
-
     /** If the GUI is set to enable VSync */
     bool mVSyncEnabled_;
-
     /** The Camera Mode this GUI applies*/
     int mCameraMode_;
-
     /** The Entity index selected from the Entity List */
     int mSelectedEntityIndex_ = 0;
-
     /** The Renderable index selected from the Entity List */
     int mSelectedRenderableIndex_ = 0;
 };

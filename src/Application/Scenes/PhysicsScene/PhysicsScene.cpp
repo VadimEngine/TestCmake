@@ -7,7 +7,7 @@ namespace physics_scene {
 PhysicsScene::PhysicsScene(App& theApp)
     : Scene(theApp), mCameraController_(getFocusCamera(), mApp_.getWindow().getInputHandler()), mGui_(*this) {
     assembleResources();
-    mBackgroundColor_ = {.4,.4,.4,1.f};
+    mBackgroundColor_ = {0,0,0, 1.f};
     getFocusCamera()->setPosition({0,0,5});
     // First particle
     {
@@ -55,6 +55,9 @@ void PhysicsScene::render(Renderer& renderer) {
     for (int i = 0; i < mEntities_.size(); ++i) {
         mEntities_[i]->render(renderer);
     }
+}
+
+void PhysicsScene::renderGUI() {
     mGui_.render();
 }
 

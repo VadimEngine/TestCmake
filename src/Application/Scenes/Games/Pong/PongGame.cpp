@@ -73,6 +73,8 @@ namespace pong {
             entity->render(renderer);
         }
         // Display Game title
+        // set camera to not update when rendering the text
+        renderer.setCamera(nullptr);
         renderer.renderText(
             "PONG",
             {350.0f, 500.0f},
@@ -111,7 +113,6 @@ namespace pong {
                 {1.f, 1.f, 1.f, 1.f}
             );
         }
-
     }
 
     void PongGame::handleKeyUpdate(float dt) {

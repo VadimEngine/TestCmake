@@ -13,6 +13,10 @@ namespace menu_scene {
 
     void MenuScene::render(Renderer& renderer) {
         renderer.setCamera(getFocusCamera());
+    }
+
+    void MenuScene::renderGUI() {
         mGui_.render();
+
     }
 } // namespace menu_scene

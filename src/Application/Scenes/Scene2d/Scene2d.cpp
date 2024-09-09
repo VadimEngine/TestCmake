@@ -55,10 +55,14 @@ namespace scene_2d {
     }
 
     void Scene2d::render(Renderer& renderer) {
+        mApp_.getRenderer().enableGammaCorrect(false);
         renderer.setCamera(getFocusCamera());
         for (int i = 0; i < mEntities_.size(); ++i) {
             mEntities_[i]->render(renderer);
         }
+    }
+
+    void Scene2d::renderGUI() {
         mGui_.render();
     }
 

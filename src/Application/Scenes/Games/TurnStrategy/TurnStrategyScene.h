@@ -35,6 +35,11 @@ namespace turn_strategy {
         void render(Renderer& renderer) override;
 
         /**
+         * Render just the gui for this scene
+         */
+        void renderGUI() override;
+
+        /**
          * On keyboard key press handler
          * @param newColor key code for pressed key
          */

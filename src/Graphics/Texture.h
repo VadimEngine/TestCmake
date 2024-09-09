@@ -22,14 +22,14 @@ public:
      * @param height height in pixels
      * @param channels channels per pixel
      */
-    Texture(const unsigned char* textureData, int width, int height, int channels);
+    Texture(const unsigned char* textureData, int width, int height, int channels, bool gammaCorrect = false);
 
     /**
      * @brief Load a texture from a given path
      *
      * @param path
      */
-    explicit Texture(const std::filesystem::path& path);
+    explicit Texture(const std::filesystem::path& path, bool gammaCorrect = false);
 
     /**
      * @brief Destructor. Frees the GL texture id
@@ -47,7 +47,7 @@ public:
      * @param channels Pointer to store number of channels per pixel
      * @return unsigned int GL Texture Id
      */
-    static unsigned int loadTexture(const std::filesystem::path& texturePath, int* width, int* height, int* channels);
+    static unsigned int loadTexture(const std::filesystem::path& texturePath, int* width, int* height, int* channels, bool gammaCorrect = false);
 
     /** Get the GL Texture Id */
     unsigned int getId() const;
@@ -74,7 +74,7 @@ private:
      * @param channels Channels per pixel
      * @return Gl Texture Id
      */
-    static unsigned int genGLTexture(const unsigned char* textureData, int width, int height, int channels);
+    static unsigned int genGLTexture(const unsigned char* textureData, int width, int height, int channels, bool gammaCorrect = false);
 
     /** GL Texture Id*/
     unsigned int mTextureId_;

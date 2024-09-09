@@ -1,5 +1,5 @@
 #pragma once
-// project 
+// project
 #include "ImGuiComponent.h"
 
 namespace scene_2d {

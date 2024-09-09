@@ -7,7 +7,10 @@
 namespace galaxy {
 
 GalaxySceneGUI::GalaxySceneGUI(GalaxyScene& theScene)
-: mScene_(theScene) {}
+: mScene_(theScene) {
+    mCameraMode_ = static_cast<int>(mScene_.getFocusCamera()->getMode());
+    mExposure_ = mScene_.getApp().getRenderer().getExposure();
+}
 
 GalaxySceneGUI::~GalaxySceneGUI() {}
 
@@ -21,10 +24,15 @@ void GalaxySceneGUI::buildImGui() {
     }
     ImGui::PopStyleColor();
     ImGui::Text("FPS: %.1f", double(ImGui::GetIO().Framerate));
+    if (ImGui::SliderFloat("Exposure", &mExposure_, 0.01f, 20.0f, "%.3f", ImGuiSliderFlags_Logarithmic)) {
+        mScene_.getApp().getRenderer().setExposure(mExposure_);
+    }
     mSceneRunning_ = mScene_.isRunning();
     if (ImGui::Checkbox("Running", &mSceneRunning_)) {
         mScene_.setRunning(mSceneRunning_);
     }
+    ImGui::Separator();
+    buildCameraSection();
     ImGui::Separator();
     ImGui::Text("Sun");
     SunEntity* sunEntity = mScene_.getSunEntity();
@@ -96,5 +104,37 @@ void GalaxySceneGUI::buildImGui() {
     // rot speed
     ImGui::End();
 };
+
+void GalaxySceneGUI::buildCameraSection() {
+    ImGui::Text("Camera");
+    ImGui::Text("Camera Mode");
+    if (ImGui::RadioButton("Perspective", &mCameraMode_, 0)) {
+        mScene_.getFocusCamera()->setMode(static_cast<Camera::CameraMode>(mCameraMode_));
+    }
+    ImGui::SameLine();
+    if (ImGui::RadioButton("Orthogonal", &mCameraMode_, 1)) {
+        mScene_.getFocusCamera()->setMode(static_cast<Camera::CameraMode>(mCameraMode_));
+    }
+
+    ImGui::Text("Camera Movement");
+    glm::vec3 camPosition = mScene_.getFocusCamera()->getPosition();
+    ImGui::Text(
+        "Position: %.2f %.2f %.2f",
+        camPosition.x,
+        camPosition.y,
+        camPosition.z
+    );
+    glm::vec3 camForward = mScene_.getFocusCamera()->getForward();
+    ImGui::Text(
+        "Direction: %.2f %.2f %.2f",
+        camForward.x,
+        camForward.y,
+        camForward.z
+    );
+    ImGui::Text(
+        "FOV: %.2f",
+        mScene_.getFocusCamera()->getFOV()
+    );
+}
 
 } // namespace galaxy

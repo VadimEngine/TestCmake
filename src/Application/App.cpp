@@ -16,7 +16,9 @@ App::App()
         *(mResources_.getResource<Shader>("TextureSurface")),
         *(mResources_.getResource<Shader>("Text")),
         *(mResources_.getResource<Shader>("MVPShader")),
-        *(mResources_.getResource<Mesh>("RectPlane"))
+        *(mResources_.getResource<Mesh>("RectPlane")),
+        *(mResources_.getResource<Shader>("Blur")),
+        *(mResources_.getResource<Shader>("BloomFinal"))
     );
 }
 
@@ -86,14 +88,31 @@ void App::render() {
     if (!mScenes_.empty()) {
         glm::vec4 sceneBackgroundColor = mScenes_.front()->getBackgroundColor();
         glClearColor(sceneBackgroundColor.r, sceneBackgroundColor.g, sceneBackgroundColor.b, sceneBackgroundColor.a);
+        mpRenderer_->clearBuffers(
+            {sceneBackgroundColor.r, sceneBackgroundColor.g, sceneBackgroundColor.b, sceneBackgroundColor.a},
+            {0,0,0,1}
+        );
     } else {
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        mpRenderer_->clearBuffers(
+            {0,0,0,1},
+            {0,0,0,1}
+        );
     }
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glBindFramebuffer(GL_FRAMEBUFFER, mpRenderer_->getHDRFBO());
+    mpRenderer_->setBloom(false);
+    glEnable(GL_FRAMEBUFFER_SRGB); // for gamma correction
     // Render list in reverse order
     for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); ++it) {
        (*it)->render(*mpRenderer_);
     }
+    mpRenderer_->renderHDR();
+
+    // render guis on top (avoid gamma correction)
+    glDisable(GL_FRAMEBUFFER_SRGB); // for gamma correction
+    for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); ++it) {
+       (*it)->renderGUI();
+    }
+
     mWindow_.render();
 }
 
@@ -131,6 +150,13 @@ void App::loadResources() {
     // Shaders
     mResources_.loadResource<Shader>(
         {
+        Resource::SRC_PATH / "Shaders/AssimpLight.vert",
+        Resource::SRC_PATH / "Shaders/AssimpLight.frag"
+        },
+        "AssimpLight"
+    );
+    mResources_.loadResource<Shader>(
+        {
         Resource::SRC_PATH / "Shaders/Assimp.vert",
         Resource::SRC_PATH / "Shaders/Assimp.frag"
         },
@@ -163,6 +189,20 @@ void App::loadResources() {
         Resource::SRC_PATH / "Shaders/TextureSurface.frag"
         },
          "TextureSurface"
+    );
+    mResources_.loadResource<Shader>(
+        {
+        Resource::SRC_PATH / "Shaders/Blur.vert",
+        Resource::SRC_PATH / "Shaders/Blur.frag"
+        },
+        "Blur"
+    );
+    mResources_.loadResource<Shader>(
+        {
+        Resource::SRC_PATH / "Shaders/BloomFinal.vert",
+        Resource::SRC_PATH / "Shaders/BloomFinal.frag"
+        },
+        "BloomFinal"
     );
     // Textures
     mResources_.loadResource<Texture>(
@@ -334,12 +374,10 @@ void App::initializeOpenGL() {
             LOG_E("Glew Init failed");
             throw std::runtime_error("GLEW Init error");
         }
-        glEnable(GL_CULL_FACE);// Default is counter clockwise
+        glEnable(GL_CULL_FACE);// Default Rendered in counter clockwise
         glEnable(GL_DEPTH_TEST); // Enable z-buffer
-        // Needed for text rendering
-        glEnable(GL_BLEND);
-        // Set Depth test to replace the current fragment if the z is less then OR equal
-        glDepthFunc(GL_LEQUAL);
+        glEnable(GL_BLEND); // Needed for text rendering
+        glDepthFunc(GL_LEQUAL); // Set Depth test to replace the current fragment if the z is less then OR equal
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Enable alpha drawing
 
         sOpenGLInitialized_ = true;
@@ -352,4 +390,8 @@ AudioManager& App::getAudioManger() {
 
 Resource& App::getResources() {
     return mResources_;
+}
+
+Renderer& App::getRenderer() {
+    return *mpRenderer_.get();
 }

@@ -19,6 +19,9 @@ namespace pong {
     void PongScene::render(Renderer& renderer) {
         renderer.setCamera(getFocusCamera());
         mpGame_->render(renderer);
+    }
+
+    void PongScene::renderGUI() {
         mGui_.render();
     }
 

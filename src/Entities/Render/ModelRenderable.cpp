@@ -30,6 +30,7 @@ void ModelRenderable::render(const Renderer& theRenderer, const glm::mat4& paren
 
     mpShader_->setMat4("uModel", parentModelMat * localModelMat);
     mpShader_->setVec4("uColor", mColor_);
+    // TODO this only applies for some shaders
     mpShader_->setVec2("uSubImageTopLeft", mSubTextureTopLeft);
     mpShader_->setVec2("uSubImageSize", mSubTextureSize);
 

@@ -11,6 +11,7 @@
 #include "Games/GamesScene.h"
 #include "Galaxy/GalaxyScene.h"
 #include "Logger.h"
+#include "Lighting/LightingScene.h"
 #include "Menu/MenuScene.h"
 #include "PhysicsScene/PhysicsScene.h"
 #include "Pong/PongScene.h"
@@ -23,7 +24,7 @@
 
 class App {
 public:
-    /** Default Constructor */
+    /** Constructor */
     App();
 
     /** Destructor */
@@ -67,6 +68,9 @@ public:
 
     /** Get application resources */
     Resource& getResources();
+
+    /** Get the Renderer for this App */
+    Renderer& getRenderer();
 
 private:
     /** Load/Build the common resources for the scenes in this application */

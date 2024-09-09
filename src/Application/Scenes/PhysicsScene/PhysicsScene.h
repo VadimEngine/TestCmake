@@ -38,6 +38,11 @@ namespace physics_scene {
          */
         void render(Renderer& renderer) override;
 
+        /**
+         * Render just the gui for this scene
+         */
+        void renderGUI() override;
+
         /** get the entities in this scene*/
         std::vector<std::unique_ptr<Entity>>& getEntities();
 
