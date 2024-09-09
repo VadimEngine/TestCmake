@@ -5,11 +5,11 @@ Texture::Texture(const unsigned char* textureData, int width, int height, int ch
     mWidth_ = width;
     mHeight_ = height;
     mChannels_ = channels;
-    mTextureId_ = genGLTexture(textureData, width, height, channels);
+    mTextureId_ = genGLTexture(textureData, width, height, channels, gammaCorrect);
 }
 
 Texture::Texture(const std::filesystem::path& path, bool gammaCorrect) {
-    mTextureId_ = loadTexture(path, &mWidth_, &mHeight_, &mChannels_);
+    mTextureId_ = loadTexture(path, &mWidth_, &mHeight_, &mChannels_, gammaCorrect);
 }
 
 Texture::~Texture() {
@@ -29,7 +29,7 @@ unsigned int Texture::loadTexture(const std::filesystem::path& texturePath, int*
         throw std::runtime_error("Texture load failed");
     }
 
-    unsigned textureId = genGLTexture(textureData, *width, *height, *channels);
+    unsigned textureId = genGLTexture(textureData, *width, *height, *channels, gammaCorrect);
 
     SOIL_free_image_data(textureData);
     return textureId;

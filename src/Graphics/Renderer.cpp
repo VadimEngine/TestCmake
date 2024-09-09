@@ -11,7 +11,7 @@ Renderer::Renderer(const glm::vec2& screenDim, Shader& spriteShader, Shader& tex
     mRectPlane_(rectPlane),
     mBlurShader_(frameBufferShader),
     mBloomFinalShader_(bloomFinalShader) {
-    defaultProjection = glm::ortho(0.0f, screenDim.x, 0.0f, screenDim.y);
+    mDefaultProjection_ = glm::ortho(0.0f, screenDim.x, 0.0f, screenDim.y);
     // Rect
     float verticesRect[] = {
         -0.5f, -0.5f, 0.0f,
@@ -172,7 +172,7 @@ void Renderer::setCamera(const Camera* camera) {
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(camera->getProjectionMatrix()));
     } else {
         glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(glm::mat4(1)));
-        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(glm::mat4(1)));
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(mDefaultProjection_));
     }
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
@@ -279,6 +279,7 @@ void Renderer::renderSprite(SpriteSheet::Sprite& theSprite, const glm::mat4& mod
 void Renderer::renderText(const std::string& text, const glm::vec2& position, const Font& font, float scale, const glm::vec3& color) {
     float xPos = position.x;	
     mTextShader_.bind();
+    // TODO alpha color
     mTextShader_.setVec3("textColor", color);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(font.getVAO());
@@ -479,10 +480,10 @@ void Renderer::renderHDR() {
 
     // blur with ping pong
     bool horizontal = true, first_iteration = true;
-    const int amount = 10;
+    const int blurAmount = 10;
     glActiveTexture(GL_TEXTURE0);
 
-    for (int i = 0; i < amount; ++i) {
+    for (int i = 0; i < blurAmount; ++i) {
         glBindFramebuffer(GL_FRAMEBUFFER, pingpongFBO_[horizontal]);
         mBlurShader_.setInt("horizontal", horizontal);
         glBindTexture(
@@ -496,6 +497,7 @@ void Renderer::renderHDR() {
             first_iteration = false;
     }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // clear the default buffer
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     bool bloom = true;
@@ -513,11 +515,6 @@ void Renderer::renderHDR() {
     mBloomFinalShader_.setFloat("exposure", mExposure_);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    GLenum err;
-    if ((err = glGetError()) != GL_NO_ERROR) {
-        LOG_E("renderHDR ERROR %d", err);
-    }
-
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindVertexArray(0);
 }
@@ -532,7 +529,6 @@ void Renderer::setBloom(bool enable) {
     }
 }
 
-
 void Renderer::setExposure(float newExposure) {
     mExposure_ = newExposure;
 }
@@ -543,4 +539,16 @@ float Renderer::getExposure() const {
 
 void Renderer::enableGammaCorrect(bool enable) {
     mGammaCorrect_ = enable;
+}
+
+void Renderer::clearBuffers(const glm::vec4& color0, const glm::vec4 color1) {
+    glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO_);
+    
+    glDrawBuffer(GL_COLOR_ATTACHMENT0);
+    glClearColor(color0.r, color0.g, color0.b, color0.a);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glDrawBuffer(GL_COLOR_ATTACHMENT1);
+    glClearColor(color1.r, color1.g, color1.b, color1.a);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

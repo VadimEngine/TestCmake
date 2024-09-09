@@ -85,26 +85,26 @@ void App::update() {
 
 void App::render() {
     // Set background color from scene
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    mpRenderer_->setBloom(true);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glBindFramebuffer(GL_FRAMEBUFFER, mpRenderer_->getHDRFBO());
-    mpRenderer_->setBloom(false);
     if (!mScenes_.empty()) {
         glm::vec4 sceneBackgroundColor = mScenes_.front()->getBackgroundColor();
-        //glClearColor(sceneBackgroundColor.r, sceneBackgroundColor.g, sceneBackgroundColor.b, sceneBackgroundColor.a);
+        glClearColor(sceneBackgroundColor.r, sceneBackgroundColor.g, sceneBackgroundColor.b, sceneBackgroundColor.a);
+        mpRenderer_->clearBuffers(
+            {sceneBackgroundColor.r, sceneBackgroundColor.g, sceneBackgroundColor.b, sceneBackgroundColor.a},
+            {0,0,0,1}
+        );
     } else {
-        //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        mpRenderer_->clearBuffers(
+            {0,0,0,1},
+            {0,0,0,1}
+        );
     }
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glBindFramebuffer(GL_FRAMEBUFFER, mpRenderer_->getHDRFBO());
+    mpRenderer_->setBloom(false);
     glEnable(GL_FRAMEBUFFER_SRGB); // for gamma correction
     // Render list in reverse order
     for (auto it = mScenes_.rbegin(); it != mScenes_.rend(); ++it) {
        (*it)->render(*mpRenderer_);
     }
-    mpRenderer_->setBloom(true);
     mpRenderer_->renderHDR();
 
     // render guis on top (avoid gamma correction)

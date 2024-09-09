@@ -132,6 +132,14 @@ public:
      */
     void enableGammaCorrect(bool enable);
 
+    /**
+     * @brief Clear the scene and bloom buffer
+     * 
+     * @param color0 clear color for scene buffer
+     * @param color1 clear color for bloom buffer
+     */
+    void clearBuffers(const glm::vec4& color0, const glm::vec4 color1);
+
 private:
     /** Max number of light that can be rendered with */
     const static int MAX_LIGHTS;
@@ -152,7 +160,7 @@ private:
     unsigned int mLineVAO_;
     unsigned int mLineVBO_;
 
-    glm::mat4 defaultProjection;
+    glm::mat4 mDefaultProjection_;
     /** Uniform buffer object to hold camera uniform variables shared by shaders */
     GLuint mCameraUBO_;
     /** Uniform buffer object to hold light uniform variables shared by shaders */

@@ -9,6 +9,7 @@ namespace utils {
     void saveTextureAsBMP(GLuint textureID, const std::filesystem::path& filepath) {
         // Bind the texture
         glBindTexture(GL_TEXTURE_2D, textureID);
+
         // Get the texture width, height, and internal format
         int width, height, internalFormat;
         glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
@@ -18,12 +19,18 @@ namespace utils {
         // Determine the format and the number of channels
         GLenum format;
         int channels;
+        GLenum type = GL_UNSIGNED_BYTE; // Default to unsigned byte
+
         if (internalFormat == GL_RGB || internalFormat == GL_SRGB) {
             format = GL_RGB;
             channels = 3;
         } else if (internalFormat == GL_RGBA || internalFormat == GL_SRGB_ALPHA) {
             format = GL_RGBA;
             channels = 4;
+        } else if (internalFormat == GL_RGBA16F) {
+            format = GL_RGBA;
+            channels = 4;
+            type = GL_FLOAT; // For floating-point data
         } else {
             // Handle other formats if necessary
             LOG_E("Unsupported texture format: %d", internalFormat);
@@ -32,9 +39,23 @@ namespace utils {
         }
 
         // Allocate memory to hold the texture data
-        std::vector<unsigned char> textureData(width * height * channels);
-        // Download the texture data
-        glGetTexImage(GL_TEXTURE_2D, 0, format, GL_UNSIGNED_BYTE, textureData.data());
+        std::vector<float> textureDataFloat;
+        std::vector<unsigned char> textureData;
+
+        if (type == GL_FLOAT) {
+            textureDataFloat.resize(width * height * channels);
+            glGetTexImage(GL_TEXTURE_2D, 0, format, type, textureDataFloat.data());
+
+            // Convert float data to unsigned byte for BMP
+            textureData.resize(width * height * channels);
+            for (int i = 0; i < width * height * channels; ++i) {
+                textureData[i] = static_cast<unsigned char>(glm::clamp(textureDataFloat[i] * 255.0f, 0.0f, 255.0f));
+            }
+        } else {
+            textureData.resize(width * height * channels);
+            glGetTexImage(GL_TEXTURE_2D, 0, format, type, textureData.data());
+        }
+
         // Unbind the texture
         glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -45,6 +66,10 @@ namespace utils {
             width, height, channels,
             textureData.data()
         );
+
+        if (!saveResult) {
+            LOG_E("Failed to save BMP file: %s", filepath.string().c_str());
+        }
     }
 
 } // namespace utils

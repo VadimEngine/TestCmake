@@ -58,6 +58,12 @@ Windows PowerShell commands (Only works for x64 due to difficulty getting Assimp
 
 - Basic Scene is pre-set with 2 Entities with renderable components. The Entities and their renderable components can be recolored, moved, rotated and scaled.
 
+### Lightning Scene
+
+![alt text](./ScreenShots/LightingScene.png)
+
+- A scene to experiment with OpenGL lighting. Supports multiple light sources and objects to reflect the light off
+
 ### Scene 2d
 
 ![alt text](./ScreenShots/2dScene.png)
@@ -69,6 +75,12 @@ Windows PowerShell commands (Only works for x64 due to difficulty getting Assimp
 ![alt text](./ScreenShots/PhysicsScene.png)
 
 - Physics 2d is testing scene for developing and experimenting with physics properties. It consists of 2d entities that can collide with each other.
+
+### Galaxy Scene
+
+![alt text](./ScreenShots/GalaxyScene.png)
+
+- A simple simulation of a planet and moon orbiting a sun.
 
 ### Games Scene
 
@@ -87,9 +99,3 @@ Windows PowerShell commands (Only works for x64 due to difficulty getting Assimp
 ![alt text](./ScreenShots/TurnStrategyScene.png)
 
 - Turn Based Strategy Game Scene is a small game inspired by Sid Meier's Civilization. The camera can be moved with WASD and zoomed in and out with the mouse wheel. Currently the game only has Settlements and Units. Settlements grow each turn and can produce Units if they have enough population and can buy more tiles if they have enough size. Units can move to tiles other than water with each move taking up moves and can also settle to make a new settlement
-
-### Galaxy Scene
-
-![alt text](./ScreenShots/GalaxyScene.png)
-
-- A simple simulation of a planet and moon orbiting the sum.

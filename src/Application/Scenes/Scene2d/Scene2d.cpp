@@ -46,7 +46,6 @@ namespace scene_2d {
         theEntity4->setPosition({0, 1, 0});
 
         mEntities_.push_back(std::unique_ptr<Entity>(theEntity4));
-        mApp_.getRenderer().enableGammaCorrect(false);
     }
 
     Scene2d::~Scene2d() {}
@@ -56,6 +55,7 @@ namespace scene_2d {
     }
 
     void Scene2d::render(Renderer& renderer) {
+        mApp_.getRenderer().enableGammaCorrect(false);
         renderer.setCamera(getFocusCamera());
         for (int i = 0; i < mEntities_.size(); ++i) {
             mEntities_[i]->render(renderer);

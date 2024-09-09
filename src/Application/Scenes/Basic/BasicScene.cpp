@@ -116,6 +116,7 @@ namespace basic_scene {
     }
 
     void BasicScene::render(Renderer& renderer) {
+        renderer.enableGammaCorrect(false);
         renderer.setCamera(getFocusCamera());
         for (int i = 0; i < mEntities_.size(); ++i) {
             mEntities_[i]->render(renderer);

@@ -7,6 +7,8 @@ set(BUILD_MODE "x64" CACHE STRING "Build mode: x64 or Win32")
 set_property(CACHE BUILD_MODE PROPERTY STRINGS "x64" "Win32")
 # For Google Test
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+# For icon
+set(RESOURCE_FILES ${CMAKE_SOURCE_DIR}/res/icon.rc)
 enable_testing()
 
 # Add the include directories
@@ -73,7 +75,8 @@ target_link_libraries(${PROJECT_NAME}Core
 )
 
 # Main application
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp ${RESOURCE_FILES})
+
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}Core)
 
 # Test directory

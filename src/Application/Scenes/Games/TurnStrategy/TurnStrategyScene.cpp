@@ -10,7 +10,6 @@ namespace turn_strategy {
         assembleResources();
         mBackgroundColor_ = {.5,.5,1,1.f};
         mpGame_ = std::make_unique<TurnStrategyGame>(*this);
-        mApp_.getRenderer().enableGammaCorrect(false);
     }
 
     TurnStrategyScene::~TurnStrategyScene() {}
@@ -33,6 +32,7 @@ namespace turn_strategy {
     }
 
     void TurnStrategyScene::render(Renderer& renderer) {
+        mApp_.getRenderer().enableGammaCorrect(false);
         renderer.setCamera(getFocusCamera());
         mpGame_->render(renderer);
     }

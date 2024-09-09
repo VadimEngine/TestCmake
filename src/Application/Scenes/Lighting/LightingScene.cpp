@@ -40,7 +40,6 @@ namespace lighting_scene {
             assimpEntity->setPosition({-1.f, 0.f, 0.f});
             mEntities_.push_back(std::move(assimpEntity));
         }
-        mApp_.getRenderer().enableGammaCorrect(true);
     }
 
     LightingScene::~LightingScene() {}
@@ -50,6 +49,7 @@ namespace lighting_scene {
      * @param dt Time since last update in seconds
      */
     void LightingScene::update(const float dt) {
+        mApp_.getRenderer().enableGammaCorrect(true);
         mCameraController_.update(dt);
     }
 

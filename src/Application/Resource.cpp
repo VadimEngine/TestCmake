@@ -28,7 +28,7 @@ void Resource::loadResource(const std::vector<std::filesystem::path>& resourcePa
         pModel->loadMesh(resourcePath[0]);
         mModels_[resourceName] = std::move(pModel);
     } else if constexpr(std::is_same_v<T, Texture>) {
-        mTextures_[resourceName] = std::make_unique<Texture>(resourcePath[0]);
+        mTextures_[resourceName] = std::make_unique<Texture>(resourcePath[0], true);
     } else if constexpr (std::is_same_v<T, Shader>) {
         mShaders_[resourceName] = std::make_unique<Shader>(resourcePath[0].c_str(),resourcePath[1].c_str());
     } else if constexpr (std::is_same_v<T, Audio>) {

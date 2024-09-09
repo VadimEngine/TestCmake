@@ -8,7 +8,6 @@ namespace rpg_2d {
     RPG2DScene::RPG2DScene(App& theApp)
         : Scene(theApp), mGui_(*this), mGame_(*this, *getFocusCamera()) {
         getFocusCamera()->setPosition({0,0,10});
-        mApp_.getRenderer().enableGammaCorrect(false);
     }
 
     RPG2DScene::~RPG2DScene() {}
@@ -18,6 +17,7 @@ namespace rpg_2d {
     }
 
     void RPG2DScene::render(Renderer& renderer) {
+        mApp_.getRenderer().enableGammaCorrect(false);
         renderer.setCamera(getFocusCamera());
         mGame_.render(renderer);
     }

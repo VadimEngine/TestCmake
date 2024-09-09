@@ -18,7 +18,6 @@ GalaxyScene::GalaxyScene(App& theApp)
     // moon
     moonEntity_ = new MoonEntity(*this);
     mEntities_.push_back(moonEntity_);
-    mApp_.getRenderer().enableGammaCorrect(true);
 }
 
 GalaxyScene::~GalaxyScene() {
@@ -94,6 +93,7 @@ void GalaxyScene::update(const float dt) {
 }
 
 void GalaxyScene::render(Renderer& renderer) {
+    mApp_.getRenderer().enableGammaCorrect(true);
     renderer.setBloom(true);
     renderer.setLightSources({sunEntity_->getLightSource()});
     renderer.setCamera(getFocusCamera());
