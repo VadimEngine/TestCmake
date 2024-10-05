@@ -1,20 +1,21 @@
 #pragma once
+// standard
+#include <memory>
+// third party
 // project
-#include "RPG2DGame.h"
-#include "RPG2DSceneGUI.h"
 #include "Scene.h"
+#include "VesselsGame.h"
+#include "VesselsSceneGUI.h"
 
-// Forward Declare App
 class App;
 
-namespace rpg_2d {
-    class RPG2DScene : public Scene {
-
+namespace vessels {
+    class VesselsScene : public Scene {
     public:
-        RPG2DScene(App& theApp);
+        VesselsScene(App& theApp);
 
         /** Destructor */
-        ~RPG2DScene();
+        ~VesselsScene();
 
         /**
          * Update the Scene
@@ -37,19 +38,20 @@ namespace rpg_2d {
          * On keyboard key press handler
          * @param newColor key code for pressed key
          */
-        void onKeyPress(unsigned int code) override;
+        void onMousePress(const InputHandler::MouseEvent& mouseEvent) override;
 
         /**
-         * On keyboard key release handler
-         * @param newColor key code for released key
+         * @brief Loads and builds resources that are used for this scene
          */
-        void onKeyRelease(unsigned int code) override;
+        void assembleResources() override;
 
-        void onMousePress(const InputHandler::MouseEvent& mouseEvent);
+        VesselsGame& getGame();
+
+
     private:
-        RPG2DSceneGUI mGui_;
+        VesselsSceneGUI mGui_;
 
-        RPG2DGame mGame_;
+        std::unique_ptr<VesselsGame> mpGame_;
     };
 
-} // namespace rpg_2d 
+} // namespace vessels

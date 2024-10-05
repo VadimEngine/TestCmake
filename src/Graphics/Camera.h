@@ -56,7 +56,7 @@ public:
 
     /**
      * Set the Rotation vector
-     * @param newRotation New Rotation vector
+     * @param newRotation New Rotation vector in radians
      */
     void setRotation(const glm::vec3& newRotation);
 
@@ -104,19 +104,19 @@ public:
 
     /**
      * Set the camera movement speed
-     * @param mode New Camera mode
+     * @param newSpeed move speed
      */
     void setMoveSpeed(float newSpeed);
 
     /**
      * Set the camera rotation speed
-     * @param mode New Camera mode
+     * @param newSpeed rotation speed
      */
     void setRotationSpeed(float newSpeed);
 
     /**
      * Set the camera zoom speed
-     * @param mode New Camera mode
+     * @param newSpeed zoom speed
      */
     void setZoomSpeed(float newSpeed);
 
@@ -153,7 +153,7 @@ private:
     float mFOV_ = 45.0f;
     /** Aspect ratio for perspective matrix */
     float mAspectRatio_ = 1.f;
-    /** Camera rotation vector (TODO try quaternions) */
+    /** Camera rotation vector in radians (TODO try quaternions) */
     glm::vec3 mRotation_ = glm::vec3(0.0, 0.0f, 0.0f);
     /** The camera's mode */
     CameraMode mMode_ = CameraMode::PERSPECTIVE;

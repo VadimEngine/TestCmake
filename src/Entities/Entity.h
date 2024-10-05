@@ -78,6 +78,8 @@ public:
     template<typename T>
     T* addRenderable();
 
+    // TODO addPosition, addRotation, addScale
+
     /**
      * Set this Entity's position
      * @param newPosition New position vector

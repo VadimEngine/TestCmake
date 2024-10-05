@@ -10,7 +10,7 @@
 class App;
 
 namespace rpg_2d {
-    // forward Scene
+    // forward declare Scene
     class RPG2DScene;
 
     class RPG2DGame {
