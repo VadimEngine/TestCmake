@@ -8,7 +8,7 @@ namespace pong {
     const std::string PongGame::kPauseMsg = "Paused. Press Space to Resume";
     const std::string PongGame::kEndMsg = "Game Over! Press Space to Continue";
 
-    PongGame::PongGame(Scene& scene)
+    PongGame::PongGame(PongScene& scene)
     : mScene_(scene),
       mApp_(mScene_.getApp()),
       mInputHandler_(mApp_.getWindow().getInputHandler()) {
@@ -190,7 +190,6 @@ namespace pong {
                                 );
                                 mBall_->setSpeed(mBall_->getSpeed() * 1.1f);
                             }
-
                         }
                     }
                 }

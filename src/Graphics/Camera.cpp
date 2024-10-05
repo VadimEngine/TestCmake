@@ -37,6 +37,7 @@ void Camera::setPosition(const glm::vec3& newPosition) {
 
 void Camera::setRotation(const glm::vec3& newRotation) {
     mRotation_ = newRotation;
+    updateCameraVectors();
 }
 
 void Camera::zoom(const float zoomAdjust) {
@@ -122,15 +123,21 @@ float Camera::getZoomSpeed() const {
 }
 
 void Camera::updateCameraVectors() {
-    // calculate the new forward vector
-    glm::vec4 forward = {0,0,-1,0};
-    glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1), glm::radians(mRotation_.x), glm::vec3(1.0f, 0.0f, 0.0f));
-    rotationMatrix = glm::rotate(rotationMatrix, glm::radians(mRotation_.y), glm::vec3(0.0f, 1.0f, 0.0f));
-    rotationMatrix = glm::rotate(rotationMatrix, glm::radians(mRotation_.z), glm::vec3(0.0f, 0.0f, 1.0f));
-    forward = rotationMatrix * forward;
+    // Start with a default forward vector (looking down the negative Z-axis)
+    glm::vec3 forward = glm::vec3(0.0f, 0.0f, -1.0f);
+
+    // Create the rotation matrix and apply rotations for yaw (Y-axis), pitch (X-axis), and roll (Z-axis)
+    glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(mRotation_.y), glm::vec3(0.0f, 1.0f, 0.0f)); // Yaw
+    rotationMatrix = glm::rotate(rotationMatrix, glm::radians(mRotation_.x), glm::vec3(1.0f, 0.0f, 0.0f)); // Pitch
+    rotationMatrix = glm::rotate(rotationMatrix, glm::radians(mRotation_.z), glm::vec3(0.0f, 0.0f, 1.0f)); // Roll
+
+    // Apply the rotation to the forward vector
+    forward = glm::vec3(rotationMatrix * glm::vec4(forward, 1.0f));
+
+    // Normalize the forward vector
     mForward_ = glm::normalize(forward);
 
-    // also re-calculate the Right and Up vector
+    // Re-calculate Right and Up vectors based on the new forward vector
     mRight_ = glm::normalize(glm::cross(mForward_, mWorldUp_));
     mUp_ = glm::normalize(glm::cross(mRight_, mForward_));
 }

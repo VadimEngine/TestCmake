@@ -26,6 +26,10 @@ void GamesSceneGUI::buildImGui() {
         mScene_.getApp().setScene(new rpg_2d::RPG2DScene(mScene_.getApp()));
         mScene_.setRemove(true);
     }
+    if (ImGui::Button("Vessels")) {
+        mScene_.getApp().setScene(new vessels::VesselsScene(mScene_.getApp()));
+        mScene_.setRemove(true);
+    }
     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.f, 0.f, 0.f, 0.40f));
     if (ImGui::Button("Back")) {
         mScene_.getApp().setScene(new menu_scene::MenuScene(mScene_.getApp()));

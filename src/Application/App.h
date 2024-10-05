@@ -20,6 +20,7 @@
 #include "Resource.h"
 #include "Scene2d/Scene2d.h"
 #include "TurnStrategy/TurnStrategyScene.h"
+#include "Vessels/VesselsScene.h"
 #include "Window.h"
 
 class App {

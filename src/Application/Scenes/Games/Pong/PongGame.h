@@ -18,10 +18,17 @@ class App;
 
 namespace pong {
 
+    // forward declare Scene
+    class PongScene;
+
     class PongGame {
     public:
-        /** Constructor */
-        PongGame(Scene& scene);
+        /**
+         * @brief Constructor
+         * 
+         * @param scene Scene this game is in
+         */
+        PongGame(PongScene& scene);
 
         /** Destructor*/
         ~PongGame();
@@ -40,6 +47,7 @@ namespace pong {
 
         /**
          * Update the game based on key inputs
+         * // TODO SHOULD THIS BE PRIVATE?
          * @param dt Time since last update
         */
         void handleKeyUpdate(float dt);
@@ -97,7 +105,7 @@ namespace pong {
         // Game properties
         Properties mProperties_;
         /** Scene this game is in */
-        Scene& mScene_;
+        PongScene& mScene_;
         /** Parent App running this game*/
         App& mApp_;
         /** Left Paddle */
