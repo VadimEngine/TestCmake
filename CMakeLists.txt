@@ -17,7 +17,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/include # OpenGl windows
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLEW/include # OpenGL api
     ${CMAKE_SOURCE_DIR}/ThirdParty/imgui # GUI components
-    ${CMAKE_SOURCE_DIR}/ThirdParty/GLM # Graphics Mathimatics
+    ${CMAKE_SOURCE_DIR}/ThirdParty/GLM # Graphics Mathematics
     ${CMAKE_SOURCE_DIR}/ThirdParty/SOIL/include # Image file loading
     ${CMAKE_SOURCE_DIR}/ThirdParty/assimp/include # 3d model file loading
     ${CMAKE_SOURCE_DIR}/ThirdParty/assimp/contrib # 3d model file loading
@@ -62,7 +62,6 @@ add_library( ${PROJECT_NAME}Core ${SRC_FILES})
 target_link_libraries(${PROJECT_NAME}Core
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLEW/lib/${BUILD_MODE}/glew32s.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/lib/${BUILD_MODE}/glfw3.lib
-    ${CMAKE_SOURCE_DIR}/ThirdParty/GLFW/lib/${BUILD_MODE}/glfw3dll.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/SOIL/lib/${BUILD_MODE}/SOIL.lib
     opengl32.lib
     ${CMAKE_SOURCE_DIR}/ThirdParty/assimp/lib/assimp-vc142-mtd.lib

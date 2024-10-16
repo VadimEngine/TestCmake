@@ -1,5 +1,13 @@
 # OpenGL CMake
 
+# ⚠️ This Repository is Deprecated
+
+This repository has been refactored and split into a reusable static library and a Demo application.
+
+1. **[Static Library Repository](https://github.com/VadimEngine/ClayEngine)**: Contains the core functionality as a static library.
+2. **[Demo Application Repository](https://github.com/VadimEngine/ClayEngineDemo)**: A demonstration application that uses the static library.
+---
+
 Opengl and Imgui application for windows built using CMake. Has multiple scenes that can be chosen through the main menu. Camera can be controlled with WASD, space/Shift, rotated with arrow keys and zoomed with "," and "."
 
 Third party files need to be unzipped to run to work around the 100mb file size limit in github.
